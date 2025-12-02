@@ -1686,7 +1686,24 @@ body {
                         <div class="trend" id="trend-fitimi">+0%</div>
                         <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
                     </div>
-
+                    <div class="summary-card warning clickable" onclick="shfaqDetajeHuamarrje()" style="cursor: pointer;">
+                        <h3>TOTALI I HUAMARRJEVE</h3>
+                        <div class="amount" id="total-huamarrje">0.00 MKD</div>
+                        <small style="font-size: 0.7em; opacity: 0.8;">Informative - nuk ndikon fitimin</small>
+                        <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                    </div>
+                    <div class="summary-card danger clickable" onclick="shfaqDetajeKthimHuase()" style="cursor: pointer;">
+                        <h3>TOTALI I KTHIMIT TË HUASË</h3>
+                        <div class="amount" id="total-kthim-huase">0.00 MKD</div>
+                        <small style="font-size: 0.7em; opacity: 0.8;">Informative - nuk ndikon fitimin</small>
+                        <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                    </div>
+                    <div class="summary-card info clickable" onclick="shfaqDetajeCash()" style="cursor: pointer;">
+                        <h3>CASH NË DORË</h3>
+                        <div class="amount" id="cash-flow">0.00 MKD</div>
+                        <small style="font-size: 0.7em; opacity: 0.8;">Shitje + Investime - Shpenzime - Tërheqje</small>
+                        <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                    </div>
                     <div class="summary-card clickable" onclick="shfaqDetajePjesaNexha()" style="cursor: pointer;">
                         <h3>SA I MBETET NEXHA</h3>
                         <div class="amount" id="pjesa-nexha">0.00 MKD</div>
@@ -3319,7 +3336,7 @@ function editoTransaksionin(id) {
             
             const investimet = transaksionet.filter(t => t.tipi === 'Investim');
             const terheqjet = transaksionet.filter(t => t.tipi === 'Tërheqje');
-            
+
             // TOTALET OPERATIVE
             const totalShitje = shitjet.reduce((s,t)=>s+t.shuma,0);
             const totalShpenzime = Math.abs(shpenzimet.reduce((s,t)=>s+t.shuma,0));
@@ -3328,8 +3345,16 @@ function editoTransaksionin(id) {
             // Fitimi Bruto = Shitje - Shpenzime (pa investime, pa huamarrje)
             const fitimiBruto = totalShitje - totalShpenzime;
             
-            // PJESËT E ORTAKËVE (nga fitimi bruto)
+            // TOTALET FINANCIARE (vetëm informative)
+            const totalHuamarrje = huamarrjet.reduce((s,t)=>s+(t.shumaHuase || Math.abs(t.shuma)),0);
+            const totalKthimHuase = kthimeHuase.reduce((s,t)=>s+(t.shumaKthyer || Math.abs(t.shuma)),0);
+            
+            // CASH NË DORË = Shitje + Investime - Shpenzime - Tërheqje
+            // (Investimet janë para që hyjnë nga jashtë, si huamarrjet por nga ortakët)
             const totalTerheqje = Math.abs(terheqjet.reduce((s,t)=>s+t.shuma,0));
+            const cashNeDore = totalShitje + totalInvestime - totalShpenzime - totalTerheqje;
+            
+            // PJESËT E ORTAKËVE (nga fitimi bruto)
             const terheqjeNexha = Math.abs(terheqjet.filter(t => t.kategoria === 'Nexha').reduce((sum, t) => sum + t.shuma, 0));
             const terheqjeGresa = Math.abs(terheqjet.filter(t => t.kategoria === 'Gresa').reduce((sum, t) => sum + t.shuma, 0));
             const investimeNexha = investimet.filter(t => t.kategoria === 'Nexha').reduce((sum,t)=>sum+t.shuma,0);
@@ -3351,6 +3376,17 @@ function editoTransaksionin(id) {
             }
             if (document.getElementById('terheqjet-gresa')) {
                 document.getElementById('terheqjet-gresa').textContent = `${terheqjeGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            }
+            
+            // Përditëso kartat financiare
+            if (document.getElementById('total-huamarrje')) {
+                document.getElementById('total-huamarrje').textContent = `${totalHuamarrje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            }
+            if (document.getElementById('total-kthim-huase')) {
+                document.getElementById('total-kthim-huase').textContent = `${totalKthimHuase.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            }
+            if (document.getElementById('cash-flow')) {
+                document.getElementById('cash-flow').textContent = `${cashNeDore.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             }
         }
 
@@ -3539,6 +3575,90 @@ function editoTransaksionin(id) {
                     ['Fitimi Bruto', `<span style="color: ${color}; font-weight: 700; font-size: 1.2em;">${fitimi >= 0 ? '+' : ''}${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
                 ],
                 'Fitimi_Bruto'
+            );
+        }
+        
+        // 4. DETAJET E HUAMARRJEVE
+        function shfaqDetajeHuamarrje() {
+            const huamarrjet = transaksionet.filter(t => t.tipi === 'Huamarrje');
+            huamarrjet.sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
+            
+            const total = huamarrjet.reduce((sum, t) => sum + (t.shumaHuase || Math.abs(t.shuma)), 0);
+            const count = huamarrjet.length;
+            
+            shfaqModalUniversal(
+                '🤝 Detajet e Huamarrjeve',
+                '#FF9F0A',
+                [
+                    { label: 'TOTALI I HUAMARRJEVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'NUMRI I HUAMARRJEVE', value: count }
+                ],
+                ['Data', 'Përshkrimi', 'Shuma'],
+                huamarrjet.map(t => [
+                    t.data,
+                    t.pershkrimi,
+                    `<span style="color: #FF9F0A; font-weight: 600;">${(t.shumaHuase || Math.abs(t.shuma)).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`
+                ]),
+                'Huamarrjet'
+            );
+        }
+        
+        // 5. DETAJET E KTHIMIT TË HUASË
+        function shfaqDetajeKthimHuase() {
+            const kthimeHuase = transaksionet.filter(t => t.tipi === 'Kthim i Huasë');
+            kthimeHuase.sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
+            
+            const total = kthimeHuase.reduce((sum, t) => sum + (t.shumaKthyer || Math.abs(t.shuma)), 0);
+            const count = kthimeHuase.length;
+            
+            shfaqModalUniversal(
+                '💳 Detajet e Kthimit të Huasë',
+                '#FF3B30',
+                [
+                    { label: 'TOTALI I KTHYER', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'NUMRI I KTHIMEVE', value: count }
+                ],
+                ['Data', 'Përshkrimi', 'Shuma'],
+                kthimeHuase.map(t => [
+                    t.data,
+                    t.pershkrimi,
+                    `<span style="color: #FF3B30; font-weight: 600;">${(t.shumaKthyer || Math.abs(t.shuma)).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`
+                ]),
+                'Kthimet_Huase'
+            );
+        }
+        
+        // 6. DETAJET E CASH NË DORË
+        function shfaqDetajeCash() {
+            const shitjet = transaksionet.filter(t => t.tipi === 'Shitje');
+            const shpenzimet = transaksionet.filter(t => t.tipi === 'Shpenzim');
+            const investimet = transaksionet.filter(t => t.tipi === 'Investim');
+            const terheqjet = transaksionet.filter(t => t.tipi === 'Tërheqje');
+            
+            const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
+            const totalShpenzime = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
+            const totalInvestime = investimet.reduce((sum, t) => sum + t.shuma, 0);
+            const totalTerheqje = terheqjet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
+            const cashNeDore = totalShitje + totalInvestime - totalShpenzime - totalTerheqje;
+            
+            const color = cashNeDore >= 0 ? '#007AFF' : '#FF3B30';
+            
+            shfaqModalUniversal(
+                '💵 Analiza e Cash në Dorë',
+                color,
+                [
+                    { label: 'CASH NË DORË', value: `${cashNeDore.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'STATUS', value: cashNeDore >= 0 ? '✅ Pozitiv' : '⚠️ Negativ' }
+                ],
+                ['Përshkrimi', 'Shuma'],
+                [
+                    ['Totali i Shitjeve', `<span style="color: #34C759; font-weight: 600;">+${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['Totali i Investimeve', `<span style="color: #007AFF; font-weight: 600;">+${totalInvestime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['Totali i Shpenzimeve', `<span style="color: #FF3B30; font-weight: 600;">-${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['Totali i Tërheqjeve', `<span style="color: #9333EA; font-weight: 600;">-${totalTerheqje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['<strong>CASH NË DORË</strong>', `<span style="color: ${color}; font-weight: 700; font-size: 1.2em;">${cashNeDore.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
+                ],
+                'Cash_Ne_Dore'
             );
         }
         
