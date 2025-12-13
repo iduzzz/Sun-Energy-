@@ -1005,6 +1005,94 @@
             font-size: 1em;
         }
         
+        /* ========== TOAST NOTIFICATIONS ========== */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+        }
+        
+        .toast {
+            background: #1d1d1f;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 400px;
+            pointer-events: auto;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        
+        .toast.success {
+            background: linear-gradient(135deg, #34C759, #27ae60);
+        }
+        
+        .toast.error {
+            background: linear-gradient(135deg, #FF3B30, #c0392b);
+        }
+        
+        .toast.warning {
+            background: linear-gradient(135deg, #FF9F0A, #e67e22);
+        }
+        
+        .toast.info {
+            background: linear-gradient(135deg, #007AFF, #0051D5);
+        }
+        
+        .toast-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .toast-message {
+            flex: 1;
+            line-height: 1.4;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(400px);
+            }
+        }
+        
+        /* Mobile toast adjustments */
+        @media (max-width: 768px) {
+            .toast-container {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+            }
+            
+            .toast {
+                min-width: auto;
+                width: 100%;
+                max-width: none;
+            }
+        }
+        
         /* Responsive - Mobile First Approach */
         @media (max-width: 1400px) {
             .container {
@@ -1692,6 +1780,9 @@ body {
 </style>
 </head>
 <body>
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+    
     <!-- Storage Indicator -->
     <div id="storage-indicator" class="storage-indicator hidden">
         💾 Data e ruajtur
@@ -2426,6 +2517,33 @@ body {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script>
+        // ========== TOAST NOTIFICATION SYSTEM ==========
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️',
+                info: 'ℹ️'
+            };
+            
+            toast.innerHTML = `
+                <span class="toast-icon">${icons[type] || icons.success}</span>
+                <span class="toast-message">${message}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Remove toast after 3 seconds
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
+        }
+        
         // Authentication System
         const validUsers = {
             'admin': 'Zudienuz2025'
@@ -2682,11 +2800,11 @@ body {
                 document.body.removeChild(link);
                 
                 showStorageIndicator('success', '📥 Backup i krijuar');
-                alert('✅ Backup-i u krijua me sukses!\nFajli u shkarkua në kompjuterin tuaj.');
+                showToast('Backup-i u krijua me sukses!', 'success');
             } catch (error) {
                 console.error('Error creating backup:', error);
                 showStorageIndicator('error', '⚠ Gabim në backup');
-                alert('⚠ Gabim në krijimin e backup-it!');
+                showToast('Gabim në krijimin e backup-it!', 'error');
             }
         }
 
@@ -2704,7 +2822,7 @@ body {
                     const importedData = JSON.parse(e.target.result);
                     
                     if (!importedData.data || !Array.isArray(importedData.data)) {
-                        alert('⚠ Format i gabuar i fajlit!');
+                        showToast('Format i gabuar i fajlit!', 'error');
                         return;
                     }
 
@@ -2748,12 +2866,12 @@ body {
                         updateCharts();
                         
                         showStorageIndicator('success', '✅ Import i kryer!');
-                        alert(`✅ Import-i u krye me sukses!\n${transaksionet.length} transaksione u ngarkuan dhe u ruajtën.`);
+                        showToast(`Import-i u krye me sukses! ${transaksionet.length} transaksione u ngarkuan.`, 'success');
                     }
                 } catch (error) {
                     console.error('Error importing data:', error);
                     showStorageIndicator('error', '⚠ Gabim në import');
-                    alert('⚠ Gabim në leximin e fajlit!\nSigurohuni që fajli është backup i vlefshëm.');
+                    showToast('Gabim në leximin e fajlit! Sigurohuni që fajli është backup i vlefshëm.', 'error');
                 }
             };
             
@@ -2972,7 +3090,7 @@ body {
             const shuma = parseFloat(document.getElementById('shitje-shuma').value);
 
             if (!data || !pershkrimi || !shuma || isNaN(shuma)) {
-                alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
+                showToast('Ju lutem plotësoni të gjitha fushat me vlera të sakta!', 'warning');
                 return;
             }
 
@@ -2988,14 +3106,16 @@ body {
 
             transaksionet.push(transaksioni);
             
-            // Save to Google Sheets (async)
-            await saveDataToGoogleSheets();
-                updateAutocompleteSuggestions(); // Përditëso suggestions
-                ngarkoTabelen();
-                llogaritPermbledhjen();
-                updateCharts();
-                mbyllModal('shitje');
-                alert('Shitja u shtua me sukses!');
+            // Update UI immediately
+            updateAutocompleteSuggestions();
+            ngarkoTabelen();
+            llogaritPermbledhjen();
+            updateCharts();
+            mbyllModal('shitje');
+            showToast('Shitja u shtua me sukses!', 'success');
+            
+            // Save to Google Sheets in background (no await)
+            saveDataToGoogleSheets();
         }
 
         // Add expense
@@ -3006,7 +3126,7 @@ body {
             const shuma = parseFloat(document.getElementById('shpenzim-shuma').value);
 
             if (!data || !kategoria || !pershkrimi || !shuma || isNaN(shuma)) {
-                alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
+                showToast('Ju lutem plotësoni të gjitha fushat me vlera të sakta!', 'warning');
                 return;
             }
 
@@ -3021,14 +3141,17 @@ body {
             };
 
             transaksionet.push(transaksioni);
-            saveDataToGoogleSheets();
-            updateAutocompleteSuggestions(); // Përditëso suggestions
+            
+            // Update UI immediately
+            updateAutocompleteSuggestions();
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('shpenzim');
+            showToast('Shpenzimi u shtua me sukses!', 'success');
             
-            alert('Shpenzimi u shtua me sukses!');
+            // Save to Google Sheets in background
+            saveDataToGoogleSheets();
         }
 
         // Add withdrawal
@@ -3039,7 +3162,7 @@ body {
             const arsyeja = document.getElementById('terheqje-arsyeja').value;
 
             if (!data || !ortaku || !shuma || !arsyeja || isNaN(shuma)) {
-                alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
+                showToast('Ju lutem plotësoni të gjitha fushat me vlera të sakta!', 'warning');
                 return;
             }
 
@@ -3054,14 +3177,17 @@ body {
             };
 
             transaksionet.push(transaksioni);
-            saveDataToGoogleSheets();
-            updateAutocompleteSuggestions(); // Përditëso suggestions
+            
+            // Update UI immediately
+            updateAutocompleteSuggestions();
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('terheqje');
+            showToast('Tërheqja u shtua me sukses!', 'success');
             
-            alert('Tërheqja u shtua me sukses!');
+            // Save to Google Sheets in background
+            saveDataToGoogleSheets();
         }
 
         // Edit transaction
@@ -3074,7 +3200,7 @@ body {
             const arsyeja = document.getElementById('investim-arsyeja').value || '';
 
             if (!data || !ortaku || !shuma || isNaN(shuma)) {
-                alert('Ju lutem plotësoni fushat: Data, Ortaku dhe Shuma me vlera të sakta!');
+                showToast('Ju lutem plotësoni fushat: Data, Ortaku dhe Shuma me vlera të sakta!', 'warning');
                 return;
             }
 
@@ -3089,13 +3215,17 @@ body {
             };
 
             transaksionet.push(transaksioni);
-            saveDataToGoogleSheets();
-            updateAutocompleteSuggestions(); // Përditëso suggestions
+            
+            // Update UI immediately
+            updateAutocompleteSuggestions();
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('investim');
-            alert('Investimi u shtua me sukses!');
+            showToast('Investimi u shtua me sukses!', 'success');
+            
+            // Save to Google Sheets in background
+            saveDataToGoogleSheets();
         }
 
         // Shto Huamarrje (hyrje pozitive - para që hyjnë)
@@ -3111,17 +3241,17 @@ body {
 
             // Validim bazik
             if (!data) {
-                alert('Ju lutem zgjidhni datën!');
+                showToast('Ju lutem zgjidhni datën!', 'warning');
                 return;
             }
             
             if (!burimi) {
-                alert('Ju lutem vendosni burimin e huasë!');
+                showToast('Ju lutem vendosni burimin e huasë!', 'warning');
                 return;
             }
             
             if (!shuma || isNaN(shuma) || shuma <= 0) {
-                alert('Ju lutem vendosni një shumë të vlefshme!');
+                showToast('Ju lutem vendosni një shumë të vlefshme!', 'warning');
                 return;
             }
 
@@ -3144,7 +3274,7 @@ body {
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('huamarrje');
-            alert('✅ Huamarrja u shtua me sukses!');
+            showToast('Huamarrja u shtua me sukses!', 'success');
         }
 
         // Shto Kthim i Huasë (dalje negative - para që dalin)
@@ -3160,17 +3290,17 @@ body {
 
             // Validim bazik
             if (!data) {
-                alert('Ju lutem zgjidhni datën!');
+                showToast('Ju lutem zgjidhni datën!', 'warning');
                 return;
             }
             
             if (!kreditori) {
-                alert('Ju lutem vendosni kreditorin!');
+                showToast('Ju lutem vendosni kreditorin!', 'warning');
                 return;
             }
             
             if (!shuma || isNaN(shuma) || shuma <= 0) {
-                alert('Ju lutem vendosni një shumë të vlefshme!');
+                showToast('Ju lutem vendosni një shumë të vlefshme!', 'warning');
                 return;
             }
 
@@ -3193,13 +3323,13 @@ body {
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('kthim-huase');
-            alert('✅ Kthimi i huasë u shtua me sukses!');
+            showToast('Kthimi i huasë u shtua me sukses!', 'success');
         }
 
 function editoTransaksionin(id) {
             const transaksioni = transaksionet.find(t => t.id === id);
             if (!transaksioni) {
-                alert('Transaksioni nuk u gjet!');
+                showToast('Transaksioni nuk u gjet!', 'error');
                 return;
             }
 
@@ -3326,14 +3456,14 @@ function editoTransaksionin(id) {
             const shuma = parseFloat(document.getElementById('edito-shuma').value);
 
             if (!data || !pershkrimi || !shuma || isNaN(shuma)) {
-                alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
+                showToast('Ju lutem plotësoni të gjitha fushat me vlera të sakta!', 'warning');
                 return;
             }
 
             // Gjej transaksionin
             const transaksioni = transaksionet.find(t => t.id === id);
             if (!transaksioni) {
-                alert('Transaksioni nuk u gjet!');
+                showToast('Transaksioni nuk u gjet!', 'error');
                 return;
             }
 
@@ -3361,16 +3491,15 @@ function editoTransaksionin(id) {
                 transaksioni.shuma = -shuma;
             }
 
-            // Ruaj në Google Sheets
-            await saveDataToGoogleSheets();
-            console.log('✅ Transaksioni u përditësua dhe u ruajt në Google Sheets');
-            
-            // Përditëso UI
+            // Update UI immediately
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('edito');
-            alert('Transaksioni u përditësua me sukses!');
+            showToast('Transaksioni u përditësua me sukses!', 'success');
+            
+            // Save to Google Sheets in background
+            saveDataToGoogleSheets();
 
 }
 
@@ -3644,7 +3773,7 @@ function editoTransaksionin(id) {
             );
             
             if (terheqjet.length === 0) {
-                alert('⚠️ Nuk ka tërheqje për të eksportuar!');
+                showToast('Nuk ka tërheqje për të eksportuar!', 'warning');
                 return;
             }
             
@@ -3673,7 +3802,7 @@ function editoTransaksionin(id) {
             link.click();
             document.body.removeChild(link);
             
-            alert(`✅ Tërheqjet e ${ortaku} u eksportuan me sukses!`);
+            showToast(`Tërheqjet e ${ortaku} u eksportuan me sukses!`, 'success');
         }
 
         // === FUNKSIONET PËR TË GJITHA KARTELAT CLICKABLE ===
@@ -3872,7 +4001,7 @@ function editoTransaksionin(id) {
             const { title, headers, rows, exportName } = window.currentCardData;
             
             if (rows.length === 0) {
-                alert('⚠️ Nuk ka të dhëna për të eksportuar!');
+                showToast('Nuk ka të dhëna për të eksportuar!', 'warning');
                 return;
             }
             
@@ -3900,7 +4029,7 @@ function editoTransaksionin(id) {
             link.click();
             document.body.removeChild(link);
             
-            alert(`✅ ${title} u eksportuan me sukses!`);
+            showToast(`${title} u eksportuan me sukses!`, 'success');
         }
 
         // === FUNKSIONET PËR RAPORTET MUJORE ===
@@ -4112,7 +4241,7 @@ function editoTransaksionin(id) {
             const { month, year, transactions, stats } = window.currentMonthData;
             
             if (transactions.length === 0) {
-                alert('⚠️ Nuk ka transaksione për të eksportuar!');
+                showToast('Nuk ka transaksione për të eksportuar!', 'warning');
                 return;
             }
             
@@ -4149,7 +4278,7 @@ function editoTransaksionin(id) {
             link.click();
             document.body.removeChild(link);
             
-            alert(`✅ Raporti për ${month} ${year} u eksportua me sukses!`);
+            showToast(`Raporti për ${month} ${year} u eksportua me sukses!`, 'success');
         }
         
         // Funksioni për printim
@@ -4515,10 +4644,10 @@ function editoTransaksionin(id) {
                 link.click();
                 document.body.removeChild(link);
                 
-                alert('✅ Export-i u krijua me sukses!\nFajli CSV u shkarkua.');
+                showToast('Export-i u krijua me sukses!', 'success');
             } catch (error) {
                 console.error('Error exporting:', error);
-                alert('⚠ Gabim në krijimin e export-it!');
+                showToast('Gabim në krijimin e export-it!', 'error');
             }
         }
 
@@ -4825,10 +4954,10 @@ body {
                 link.click();
                 document.body.removeChild(link);
                 
-                alert('✅ Raporti mujor u eksportua me sukses!');
+                showToast('Raporti mujor u eksportua me sukses!', 'success');
             } catch (error) {
                 console.error('Error exporting monthly report:', error);
-                alert('⚠ Gabim në krijimin e raportit mujor!');
+                showToast('Gabim në krijimin e raportit mujor!', 'error');
             }
         }
 
@@ -5128,10 +5257,10 @@ body {
                 link.click();
                 document.body.removeChild(link);
                 
-                alert('✅ Raporti vjetor u eksportua me sukses!');
+                showToast('Raporti vjetor u eksportua me sukses!', 'success');
             } catch (error) {
                 console.error('Error exporting yearly report:', error);
-                alert('⚠ Gabim në krijimin e raportit vjetor!');
+                showToast('Gabim në krijimin e raportit vjetor!', 'error');
             }
         }
 
