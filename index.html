@@ -1702,6 +1702,13 @@ body {
                             <option value="11">Nëntor</option>
                             <option value="12">Dhjetor</option>
                         </select>
+                        <select id="filter-viti" onchange="filtroTabelen()">
+                            <option value="">Të gjitha vitet</option>
+                            <option value="2026">2026</option>
+                            <option value="2025">2025</option>
+                            <option value="2024">2024</option>
+                            <option value="2023">2023</option>
+                        </select>
                         <select id="filter-type" onchange="filtroTabelen()">
                             <option value="">Të gjitha tipet</option>
                             <option value="Shitje">Shitjet</option>
@@ -1713,23 +1720,7 @@ body {
 </select>
                         <input type="text" id="filter-pershkrimi" placeholder="Filtro sipas përshkrimit..." onkeyup="filtroTabelen()" style="padding: 8px 12px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 8px; background: rgba(255, 255, 255, 0.9); font-size: 14px;">
                         <select id="filter-kategoria" onchange="filtroTabelen()">
-                            <option value="">Të gjitha kategoritë</option>
-                            <option value="Shitje">Shitje</option>
-                            <option value="Material">Material</option>
-                            <option value="Transport">Transport</option>
-                            <option value="Paga Zudi">Paga Zudi</option>
-                            <option value="Qira">Qira</option>
-                            <option value="Rrymë">Rrymë</option>
-                            <option value="Telekom internet">Telekom internet</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Tatim TVSH">Tatim TVSH</option>
-                            <option value="Kesti për kredi">Kesti për kredi</option>
-                            <option value="Akontacion">Akontacion</option>
-                            <option value="Mirëmbajtja e llogarisë bankare">Mirëmbajtja e llogarisë bankare</option>
-                            <option value="Kontabilitet">Kontabilitet</option>
-                            <option value="Nexha">Nexha</option>
-                            <option value="Gresa">Gresa</option>
-                            <option value="Të tjera">Të tjera</option>
+                            <!-- Do të plotësohet me JavaScript -->
                         </select>
                         <button class="btn btn-primary" onclick="pastroFiltrat()" style="padding: 8px 16px; font-size: 14px;">
                             🔄 Pastro Filtrat
@@ -1805,7 +1796,7 @@ body {
                     </div>
                     
                     <!-- KARTELA E RE: PASQYRA FINANCIARE -->
-                    <div class="summary-card info clickable" onclick="shfaqPasqyrenFinanciare()" style="cursor: pointer; grid-column: span 2;">
+                    <div class="summary-card info clickable" onclick="hapModal('pasqyra-financiare')" style="cursor: pointer; grid-column: span 2;">
                         <h3>📊 PASQYRA FINANCIARE</h3>
                         <div style="font-size: 1.2em; font-weight: 600; margin: 15px 0;">Raporti i plotë vjetor/mujor</div>
                         <small style="font-size: 0.8em; opacity: 0.9;">Kliko për të parë hyrjet, daljet dhe fitimin</small>
@@ -1890,21 +1881,14 @@ body {
             </div>
             <div class="form-group">
                 <label>Kategoria:</label>
-                <select id="shpenzim-kategoria">
-<option value="Mirembajtja e Llogarise">Mirembajtja e Llogarise</option>
-<option value="Harxhim per rryme">Harxhim per rryme</option>
-<option value="Akontacion">Akontacion</option>
-<option value="Tatim TVSH">Tatim TVSH</option>
-<option value="Provizion per kredi">Provizion per kredi</option>
-<option value="Kesti per kredi">Kesti per kredi</option>
-<option value="Rroga per puntore">Rroga per puntore</option>
-<option value="Rroga Zudi">Rroga Zudi</option>
-<option value="Kontabilitet">Kontabilitet</option>
-<option value="Sigurimi i objektit">Sigurimi i objektit</option>
-<option value="Telekom internet">Telekom internet</option>
-<option value="Tatim mbi pronen">Tatim mbi pronen</option>
-<option value="Te tjera">Te tjera</option>
-</select>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <select id="shpenzim-kategoria" style="flex: 1;">
+                        <!-- Do të plotësohet me JavaScript -->
+                    </select>
+                    <button type="button" class="btn btn-secondary" onclick="hapModalMenaxhoKategorite()" style="padding: 10px 15px; white-space: nowrap;">
+                        ⚙️ Menaxho
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 <label>Përshkrimi:</label>
@@ -2079,20 +2063,8 @@ body {
             <div class="form-group" id="edito-kategoria-group" style="display: none;">
                 <label>Kategoria:</label>
                 <select id="edito-kategoria">
-<option value="Mirembajtja e Llogarise">Mirembajtja e Llogarise</option>
-<option value="Harxhim per rryme">Harxhim per rryme</option>
-<option value="Akontacion">Akontacion</option>
-<option value="Tatim TVSH">Tatim TVSH</option>
-<option value="Provizion per kredi">Provizion per kredi</option>
-<option value="Kesti per kredi">Kesti per kredi</option>
-<option value="Rroga per puntore">Rroga per puntore</option>
-<option value="Rroga Zudi">Rroga Zudi</option>
-<option value="Kontabilitet">Kontabilitet</option>
-<option value="Sigurimi i objektit">Sigurimi i objektit</option>
-<option value="Telekom internet">Telekom internet</option>
-<option value="Tatim mbi pronen">Tatim mbi pronen</option>
-<option value="Te tjera">Te tjera</option>
-</select>
+                    <!-- Do të plotësohet me JavaScript -->
+                </select>
             </div>
             <div class="form-group" id="edito-ortaku-group" style="display: none;">
                 <label>Ortaku:</label>
@@ -2421,6 +2393,41 @@ body {
         </div>
     </div>
 
+    <!-- ============================================ -->
+    <!-- MODAL PËR MENAXHIMIN E KATEGORIVE -->
+    <!-- ============================================ -->
+    <div id="modal-menaxho-kategorite" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2>⚙️ Menaxho Kategoritë e Shpenzimeve</h2>
+                <button class="close" onclick="mbyllModal('menaxho-kategorite')">×</button>
+            </div>
+            
+            <!-- Shto Kategori të Re -->
+            <div style="background: #f9fafb; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <h3 style="margin-bottom: 15px; color: #1f2937; font-size: 1.1em;">➕ Shto Kategori të Re</h3>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="kategori-e-re-input" placeholder="Emri i kategorisë së re..." style="flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 15px;">
+                    <button class="btn btn-primary" onclick="shtoKategoriTeRe()" style="white-space: nowrap;">
+                        ✅ Shto
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Lista e Kategorive -->
+            <div>
+                <h3 style="margin-bottom: 15px; color: #1f2937; font-size: 1.1em;">📋 Kategoritë Ekzistuese</h3>
+                <div id="kategorite-lista" style="max-height: 400px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; background: white;">
+                    <!-- Do të plotësohet me JavaScript -->
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: right;">
+                <button class="btn btn-secondary" onclick="mbyllModal('menaxho-kategorite')">Mbyll</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Hidden file input for import -->
     <input type="file" id="import-file-input" accept=".json" style="display: none;" onchange="handleFileImport(event)">
 
@@ -2436,6 +2443,23 @@ body {
         let transaksionet = [];
         let showAllTransactions = false; // Kontroll për shfaqjen e transaksioneve
         const INITIAL_ROWS_TO_SHOW = 10; // Numri i rreshtave fillestare
+        
+        // Kategoritë e shpenzimeve (manageable)
+        let shpenzimKategorite = [
+            'Mirembajtja e Llogarise',
+            'Harxhim per rryme',
+            'Akontacion',
+            'Tatim TVSH',
+            'Provizion per kredi',
+            'Kesti per kredi',
+            'Rroga per puntore',
+            'Rroga Zudi',
+            'Kontabilitet',
+            'Sigurimi i objektit',
+            'Telekom internet',
+            'Tatim mbi pronen',
+            'Te tjera'
+        ];
         
         // Variabla për të ruajtur filtrat aktuale
         let currentFilters = {
@@ -2453,6 +2477,7 @@ body {
 
         // Local Storage Management (Backup fallback)
         const STORAGE_KEY = 'sunenergy_transactions';
+        const CATEGORIES_STORAGE_KEY = 'sunenergy_kategorite';
         const STORAGE_VERSION = '1.0';
 
         // === GOOGLE SHEETS FUNCTIONS ===
@@ -2499,6 +2524,12 @@ body {
                         dataValue = `${day}-${month}-${year}`;
                         console.log(`🔧 Fixed timestamp: ${row[1]} -> ${dataValue}`);
                     }
+                    // Check if it's in YYYY-MM-DD format and convert to DD-MM-YYYY
+                    else if (dataValue && dataValue.match(/^\d{4}-\d{2}-\d{2}$/)) {
+                        const parts = dataValue.split('-');
+                        dataValue = `${parts[2]}-${parts[1]}-${parts[0]}`; // Convert YYYY-MM-DD to DD-MM-YYYY
+                        console.log(`🔧 Converted YYYY-MM-DD to DD-MM-YYYY: ${row[1]} -> ${dataValue}`);
+                    }
                     // Fix dates ONLY if second part > 12 (clearly MM-DD-YYYY)
                     else if (dataValue && dataValue.match(/^\d{2}-\d{2}-\d{4}$/)) {
                         const parts = dataValue.split('-');
@@ -2531,6 +2562,10 @@ body {
                 
                 // Also save to localStorage as backup
                 saveDataToStorage();
+                
+                // Ngarko kategoritë
+                ngarkoKategorite();
+                perdiEsoKategoriteDropdowns();
                 
                 return true;
             } catch (error) {
@@ -2684,6 +2719,10 @@ body {
                         // Save the converted data back to storage
                         saveDataToGoogleSheets();
                         
+                        // Ngarko kategoritë
+                        ngarkoKategorite();
+                        perdiEsoKategoriteDropdowns();
+                        
                         console.log('Data loaded and converted to DD-MM-YYYY format:', transaksionet.length, 'transactions');
                         showStorageIndicator('success', '✅ Data e konvertuar në DD-MM-YYYY');
                         return true;
@@ -2691,10 +2730,19 @@ body {
                 }
                 console.log('No valid data found in localStorage');
                 transaksionet = [];
+                
+                // Ngarko kategoritë edhe nëse nuk ka transaksione
+                ngarkoKategorite();
+                perdiEsoKategoriteDropdowns();
+                
                 return false;
             } catch (error) {
                 console.error('Error loading from localStorage:', error);
                 transaksionet = [];
+                
+                // Ngarko kategoritë edhe nëse ka gabim
+                ngarkoKategorite();
+                perdiEsoKategoriteDropdowns();
                 showStorageIndicator('error', '⚠️ Gabim në ngarkim');
                 return false;
             }
@@ -3362,13 +3410,10 @@ function editoTransaksionin(id) {
 
         // Helper function to check if date belongs to specific year
         function isDateInYear(dateStr, year) {
-            // Support both formats: YYYY-MM-DD and DD-MM-YYYY
+            // dateStr is in DD-MM-YYYY format
             const parts = dateStr.split('-');
             if (parts.length === 3) {
-                // Check YYYY-MM-DD format (parts[0] is year)
-                if (parts[0] === year) return true;
-                // Check DD-MM-YYYY format (parts[2] is year)
-                if (parts[2] === year) return true;
+                return parts[2] === year;
             }
             return false;
         }
@@ -3451,10 +3496,17 @@ function editoTransaksionin(id) {
             }
 
             // Sort by date (newest first) - make sure we parse DD-MM-YYYY correctly
+            // Kur datat janë të njëjta, renditi sipas kohës së krijimit (ID timestamp) - i fundit i regjistruar del i pari
             const transaksionetRenditura = [...transaksionet].sort((a, b) => {
                 const dateA = parseDisplayDate(a.data);
                 const dateB = parseDisplayDate(b.data);
-                return dateB.getTime() - dateA.getTime(); // Newest first
+                const dateDiff = dateB.getTime() - dateA.getTime();
+                if (dateDiff !== 0) return dateDiff; // Newest date first
+                
+                // Kur data është e njëjtë, përdor timestamp nga ID (txn_TIMESTAMP_random)
+                const tsA = a.id && a.id.startsWith('txn_') ? parseInt(a.id.split('_')[1]) || 0 : 0;
+                const tsB = b.id && b.id.startsWith('txn_') ? parseInt(b.id.split('_')[1]) || 0 : 0;
+                return tsB - tsA; // Newest registered first
             });
             
             console.log('Rendering transactions in order:', transaksionetRenditura.map(t => t.data));
@@ -3543,6 +3595,9 @@ function editoTransaksionin(id) {
             });
             
             // Shto butonin "Shfaq më shumë" nëse ka më shumë se 10 transaksione
+            // Kontrollo nëse ka filtër aktiv
+            const hasActiveFilter = currentFilters.muaji || currentFilters.viti || currentFilters.type || currentFilters.pershkrimi || currentFilters.kategoria;
+            
             if (transaksionetRenditura.length > INITIAL_ROWS_TO_SHOW && !showAllTransactions) {
                 const expandRow = document.createElement('tr');
                 expandRow.id = 'expand-row';
@@ -3554,8 +3609,8 @@ function editoTransaksionin(id) {
                     </td>
                 `;
                 tabela.appendChild(expandRow);
-            } else if (showAllTransactions && transaksionetRenditura.length > INITIAL_ROWS_TO_SHOW) {
-                // Shto butonin "Fshih" kur janë shfaqur të gjitha
+            } else if (showAllTransactions && transaksionetRenditura.length > INITIAL_ROWS_TO_SHOW && !hasActiveFilter) {
+                // Shto butonin "Fshih" vetëm nëse NUK ka filtër aktiv
                 const collapseRow = document.createElement('tr');
                 collapseRow.id = 'collapse-row';
                 collapseRow.innerHTML = `
@@ -3579,6 +3634,28 @@ function editoTransaksionin(id) {
                 document.querySelector('.table-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         }
+        
+        // Funksion për të shfaqur të gjitha transaksionet e filtruara
+        function shfaqTeGjithaTeFiltruar() {
+            // Hiq klasën filtered-hidden nga të gjitha rreshtat
+            const rows = document.querySelectorAll('#tabela-kryesore tr.filtered-hidden');
+            rows.forEach(row => {
+                row.style.display = '';
+                row.classList.remove('filtered-hidden');
+            });
+            
+            // Hiq butonin expand
+            const expandRow = document.querySelector('#expand-row');
+            if (expandRow) {
+                expandRow.remove();
+            }
+            
+            // Vendos flag që tregon se po shfaqen të gjitha të filtruat
+            window.showingAllFiltered = true;
+            
+            // Riapliko filtrat për të përditësuar totalin
+            filtroTabelen();
+        }
 
         // Delete transaction
         async function fshijTransaksionin(id) {
@@ -3598,13 +3675,26 @@ function editoTransaksionin(id) {
 
         // Calculate summary
         function llogaritPermbledhjen() {
-            const shitjet = transaksionet.filter(t => t.tipi === 'Shitje');
-            const shpenzimet = transaksionet.filter(t => t.tipi === 'Shpenzim');
-            const huamarrjet = transaksionet.filter(t => t.tipi === 'Huamarrje');
-            const kthimeHuase = transaksionet.filter(t => t.tipi === 'Kthim i Huasë');
+            // Merr filtrin e vitit nëse ekziston
+            const filterVitiElement = document.getElementById('filter-viti');
+            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
             
-            const investimet = transaksionet.filter(t => t.tipi === 'Investim');
-            const terheqjet = transaksionet.filter(t => t.tipi === 'Tërheqje');
+            // Filtro transaksionet sipas vitit nëse është zgjedhur
+            let transaksionetPerdorur = transaksionet;
+            if (vitiFilter) {
+                transaksionetPerdorur = transaksionet.filter(t => {
+                    const dateParts = t.data.split('-');
+                    return dateParts.length === 3 && dateParts[2] === vitiFilter;
+                });
+            }
+            
+            const shitjet = transaksionetPerdorur.filter(t => t.tipi === 'Shitje');
+            const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim');
+            const huamarrjet = transaksionetPerdorur.filter(t => t.tipi === 'Huamarrje');
+            const kthimeHuase = transaksionetPerdorur.filter(t => t.tipi === 'Kthim i Huasë');
+            
+            const investimet = transaksionetPerdorur.filter(t => t.tipi === 'Investim');
+            const terheqjet = transaksionetPerdorur.filter(t => t.tipi === 'Tërheqje');
             
             // TOTALET OPERATIVE
             const totalShitje = shitjet.reduce((s,t)=>s+t.shuma,0);
@@ -3642,7 +3732,24 @@ function editoTransaksionin(id) {
 
         // Funksioni për të shfaqur detajet e tërheqjeve
         function shfaqDetajeTerheqje(ortaku) {
-            const terheqjet = transaksionet.filter(t => 
+            // Merr filtrin e vitit nëse ekziston
+            const filterVitiElement = document.getElementById('filter-viti');
+            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            
+            // Filtro transaksionet sipas vitit nëse është zgjedhur
+            let transaksionetPerdorur = transaksionet;
+            if (vitiFilter) {
+                transaksionetPerdorur = transaksionet.filter(t => {
+                    const dateParts = t.data.split('-');
+                    if (dateParts.length === 3) {
+                        const year = dateParts[2]; // DD-MM-YYYY format
+                        return year === vitiFilter;
+                    }
+                    return false;
+                });
+            }
+            
+            const terheqjet = transaksionetPerdorur.filter(t => 
                 t.tipi === 'Tërheqje' && t.kategoria === ortaku
             );
             
@@ -3655,7 +3762,7 @@ function editoTransaksionin(id) {
             const average = count > 0 ? total / count : 0;
             
             // Përditëso titullin
-            document.getElementById('detaje-terheqje-title').textContent = `💸 Tërheqjet e ${ortaku}`;
+            document.getElementById('detaje-terheqje-title').textContent = `💸 Tërheqjet e ${ortaku}` + (vitiFilter ? ` - ${vitiFilter}` : '');
             
             // Përditëso statistikat
             document.getElementById('detaje-total').textContent = `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
@@ -3671,7 +3778,7 @@ function editoTransaksionin(id) {
                     <tr>
                         <td colspan="3" style="text-align: center; padding: 40px; color: #86868b;">
                             <div style="font-size: 3em; margin-bottom: 10px;">📭</div>
-                            <div style="font-size: 1.2em;">Nuk ka tërheqje të regjistruara për ${ortaku}</div>
+                            <div style="font-size: 1.2em;">Nuk ka tërheqje të regjistruara për ${ortaku}${vitiFilter ? ' në vitin ' + vitiFilter : ''}</div>
                         </td>
                     </tr>
                 `;
@@ -3743,7 +3850,20 @@ function editoTransaksionin(id) {
         
         // 1. DETAJET E SHITJEVE
         function shfaqDetajeShitje() {
-            const shitjet = transaksionet.filter(t => t.tipi === 'Shitje');
+            // Merr filtrin e vitit nëse ekziston
+            const filterVitiElement = document.getElementById('filter-viti');
+            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            
+            // Filtro transaksionet sipas vitit nëse është zgjedhur
+            let transaksionetPerdorur = transaksionet;
+            if (vitiFilter) {
+                transaksionetPerdorur = transaksionet.filter(t => {
+                    const dateParts = t.data.split('-');
+                    return dateParts.length === 3 && dateParts[2] === vitiFilter;
+                });
+            }
+            
+            const shitjet = transaksionetPerdorur.filter(t => t.tipi === 'Shitje');
             shitjet.sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
             
             const total = shitjet.reduce((sum, t) => sum + t.shuma, 0);
@@ -3751,7 +3871,7 @@ function editoTransaksionin(id) {
             const average = count > 0 ? total / count : 0;
             
             shfaqModalUniversal(
-                '💰 Detajet e Shitjeve',
+                '💰 Detajet e Shitjeve' + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 '#34C759',
                 [
                     { label: 'TOTALI I SHITJEVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
@@ -3770,7 +3890,24 @@ function editoTransaksionin(id) {
         
         // 2. DETAJET E SHPENZIMEVE
         function shfaqDetajeShpenzime() {
-            const shpenzimet = transaksionet.filter(t => t.tipi === 'Shpenzim');
+            // Merr filtrin e vitit nëse ekziston
+            const filterVitiElement = document.getElementById('filter-viti');
+            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            
+            // Filtro transaksionet sipas vitit nëse është zgjedhur
+            let transaksionetPerdorur = transaksionet;
+            if (vitiFilter) {
+                transaksionetPerdorur = transaksionet.filter(t => {
+                    const dateParts = t.data.split('-');
+                    if (dateParts.length === 3) {
+                        const year = dateParts[2]; // DD-MM-YYYY format
+                        return year === vitiFilter;
+                    }
+                    return false;
+                });
+            }
+            
+            const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim');
             shpenzimet.sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
             
             const total = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
@@ -3778,7 +3915,7 @@ function editoTransaksionin(id) {
             const average = count > 0 ? total / count : 0;
             
             shfaqModalUniversal(
-                '🔋 Detajet e Shpenzimeve',
+                '🔋 Detajet e Shpenzimeve' + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 '#FF3B30',
                 [
                     { label: 'TOTALI I SHPENZIMEVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
@@ -3798,8 +3935,25 @@ function editoTransaksionin(id) {
         
         // 3. DETAJET E FITIMIT
         function shfaqDetajeFitimi() {
-            const shitjet = transaksionet.filter(t => t.tipi === 'Shitje');
-            const shpenzimet = transaksionet.filter(t => t.tipi === 'Shpenzim');
+            // Merr filtrin e vitit nëse ekziston
+            const filterVitiElement = document.getElementById('filter-viti');
+            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            
+            // Filtro transaksionet sipas vitit nëse është zgjedhur
+            let transaksionetPerdorur = transaksionet;
+            if (vitiFilter) {
+                transaksionetPerdorur = transaksionet.filter(t => {
+                    const dateParts = t.data.split('-');
+                    if (dateParts.length === 3) {
+                        const year = dateParts[2]; // DD-MM-YYYY format
+                        return year === vitiFilter;
+                    }
+                    return false;
+                });
+            }
+            
+            const shitjet = transaksionetPerdorur.filter(t => t.tipi === 'Shitje');
+            const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim');
             
             const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
             const totalShpenzime = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
@@ -3810,7 +3964,7 @@ function editoTransaksionin(id) {
             const color = fitimi >= 0 ? '#3B82F6' : '#FF3B30';
             
             shfaqModalUniversal(
-                '📊 Analiza e Fitimit Bruto',
+                '📊 Analiza e Fitimit Bruto' + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 color,
                 [
                     { label: 'FITIMI BRUTO', value: `${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
@@ -3839,10 +3993,27 @@ function editoTransaksionin(id) {
         }
         
         function shfaqDetajePjesaOrtaku(ortaku) {
-            const shitjet = transaksionet.filter(t => t.tipi === 'Shitje');
-            const shpenzimet = transaksionet.filter(t => t.tipi === 'Shpenzim');
-            const terheqjet = transaksionet.filter(t => t.tipi === 'Tërheqje' && t.kategoria === ortaku);
-            const investimet = transaksionet.filter(t => t.tipi === 'Investim' && t.kategoria === ortaku);
+            // Merr filtrin e vitit nëse ekziston
+            const filterVitiElement = document.getElementById('filter-viti');
+            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            
+            // Filtro transaksionet sipas vitit nëse është zgjedhur
+            let transaksionetPerdorur = transaksionet;
+            if (vitiFilter) {
+                transaksionetPerdorur = transaksionet.filter(t => {
+                    const dateParts = t.data.split('-');
+                    if (dateParts.length === 3) {
+                        const year = dateParts[2]; // DD-MM-YYYY format
+                        return year === vitiFilter;
+                    }
+                    return false;
+                });
+            }
+            
+            const shitjet = transaksionetPerdorur.filter(t => t.tipi === 'Shitje');
+            const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim');
+            const terheqjet = transaksionetPerdorur.filter(t => t.tipi === 'Tërheqje' && t.kategoria === ortaku);
+            const investimet = transaksionetPerdorur.filter(t => t.tipi === 'Investim' && t.kategoria === ortaku);
             
             const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
             const totalShpenzime = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
@@ -3855,7 +4026,7 @@ function editoTransaksionin(id) {
             const color = pjesaFinale >= 0 ? '#3B82F6' : '#FF3B30';
             
             shfaqModalUniversal(
-                `💼 Sa i Mbetet ${ortaku}`,
+                `💼 Sa i Mbetet ${ortaku}` + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 color,
                 [
                     { label: `SA I MBETET ${ortaku.toUpperCase()}`, value: `${pjesaFinale.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
@@ -4310,23 +4481,47 @@ function editoTransaksionin(id) {
         // Filter table
         function filtroTabelen() {
             const filterMuaji = document.getElementById('filter-muaji').value;
+            const filterViti = document.getElementById('filter-viti').value;
             const filterType = document.getElementById('filter-type').value;
             const filterPershkrimi = document.getElementById('filter-pershkrimi').value.toLowerCase().trim();
             const filterKategoria = document.getElementById('filter-kategoria').value;
             
+            // Hiq total-filtered-row nëse ekziston (do të krijohet i ri)
+            const existingTotal = document.querySelector('#total-filtered-row');
+            if (existingTotal) {
+                existingTotal.remove();
+            }
+            
             // Ruaj filtrat aktuale
             currentFilters = {
                 muaji: filterMuaji,
+                viti: filterViti,
                 type: filterType,
                 pershkrimi: filterPershkrimi,
                 kategoria: filterKategoria
             };
             
-            // Nëse ka ndonjë filtër aktiv, shfaq të gjitha transaksionet
-            const hasActiveFilter = filterMuaji || filterType || filterPershkrimi || filterKategoria;
-            if (hasActiveFilter && !showAllTransactions) {
-                showAllTransactions = true;
-                ngarkoTabelen();
+            // Nëse ka ndonjë filtër aktiv dhe nuk ka të gjitha transaksionet në DOM
+            const hasActiveFilter = filterMuaji || filterViti || filterType || filterPershkrimi || filterKategoria;
+            
+            if (hasActiveFilter) {
+                // Kontrolloj sa rreshta ka në tabelë
+                const currentRowCount = document.querySelectorAll('#tabela-kryesore tr').length;
+                const totalTransactions = transaksionet.length;
+                
+                // Nëse nuk janë të gjitha, ngarkoji të gjitha (por mos ndrysho showAllTransactions)
+                if (currentRowCount < totalTransactions) {
+                    const previousShowAll = showAllTransactions;
+                    showAllTransactions = true;
+                    ngarkoTabelen();
+                    showAllTransactions = previousShowAll; // Riktheje në vlerën origjinale
+                    
+                    // Prit që DOM të përditësohet, pastaj apliko filtrat
+                    setTimeout(() => {
+                        filtroTabelen();
+                    }, 0);
+                    return;
+                }
             }
             
             const rows = document.querySelectorAll('#tabela-kryesore tr');
@@ -4353,6 +4548,17 @@ function editoTransaksionin(id) {
                         if (dateParts.length === 3) {
                             const transactionMonth = dateParts[1]; // MM part from DD-MM-YYYY
                             if (transactionMonth !== filterMuaji) {
+                                showRow = false;
+                            }
+                        }
+                    }
+                    
+                    // Filter by year
+                    if (filterViti) {
+                        const dateParts = cellData.split('-');
+                        if (dateParts.length === 3) {
+                            const transactionYear = dateParts[2]; // YYYY part from DD-MM-YYYY
+                            if (transactionYear !== filterViti) {
                                 showRow = false;
                             }
                         }
@@ -4415,12 +4621,98 @@ function editoTransaksionin(id) {
                 if (noResultsRow) {
                     noResultsRow.remove();
                 }
+                
+                // Llogarit totalin e TË GJITHA transaksioneve të filtruara (jo vetëm të dukshmet)
+                // Duhet të llogaritet nga array-i transaksionet, jo nga DOM
+                let totalFiltered = 0;
+                
+                // Merr filtrat aktuale
+                const filterMuaji = document.getElementById('filter-muaji').value;
+                const filterViti = document.getElementById('filter-viti').value;
+                const filterType = document.getElementById('filter-type').value;
+                const filterPershkrimi = document.getElementById('filter-pershkrimi').value.toLowerCase().trim();
+                const filterKategoria = document.getElementById('filter-kategoria').value;
+                
+                // Filtro transaksionet duke përdorur të njëjtën logjikë si në DOM
+                transaksionet.forEach(t => {
+                    let matches = true;
+                    
+                    // Check muaji
+                    if (filterMuaji) {
+                        const dateParts = t.data.split('-');
+                        if (dateParts.length === 3 && dateParts[1] !== filterMuaji) {
+                            matches = false;
+                        }
+                    }
+                    
+                    // Check viti
+                    if (filterViti && matches) {
+                        const dateParts = t.data.split('-');
+                        if (dateParts.length === 3 && dateParts[2] !== filterViti) {
+                            matches = false;
+                        }
+                    }
+                    
+                    // Check type
+                    if (filterType && matches && t.tipi !== filterType) {
+                        matches = false;
+                    }
+                    
+                    // Check pershkrimi - kërko në përshkrim, kategori DHE tipi (njëjtë si DOM filtri)
+                    if (filterPershkrimi && matches) {
+                        const searchableText = (t.pershkrimi || '').toLowerCase() + ' ' + (t.kategoria || '').toLowerCase() + ' ' + (t.tipi || '').toLowerCase();
+                        if (!searchableText.includes(filterPershkrimi)) {
+                            matches = false;
+                        }
+                    }
+                    
+                    // Check kategoria
+                    if (filterKategoria && matches) {
+                        const transactionCategory = t.kategoria || 'Të tjera';
+                        if (transactionCategory !== filterKategoria) {
+                            matches = false;
+                        }
+                    }
+                    
+                    if (matches) {
+                        totalFiltered += t.shuma;
+                    }
+                });
+                
+                // Kur ka filtër aktiv, shfaq TË GJITHA rezultatet (pa limit 10)
+                if (hasActiveFilter) {
+                    // Sigurohu që të gjitha rreshtat e filtruara janë të dukshme
+                    rows.forEach(row => {
+                        if (row.classList.contains('filtered-hidden')) {
+                            row.style.display = '';
+                            row.classList.remove('filtered-hidden');
+                        }
+                    });
+                    
+                    // Shto totalin e filtruar
+                    const existingTotal = tabela.querySelector('#total-filtered-row');
+                    if (!existingTotal) {
+                        const totalRow = document.createElement('tr');
+                        totalRow.id = 'total-filtered-row';
+                        totalRow.innerHTML = `
+                            <td colspan="6" style="text-align: right; padding: 20px 40px; background: rgba(52, 199, 89, 0.08); border-top: 3px solid #34C759;">
+                                <span style="font-size: 18px; font-weight: 700; color: #1d1d1f;">💰 Totali i filtruar (${visibleRows} transaksione):</span>
+                                <span style="font-size: 20px; font-weight: 900; color: ${totalFiltered >= 0 ? '#34C759' : '#FF3B30'}; margin-left: 10px;">${totalFiltered.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>
+                            </td>
+                        `;
+                        tabela.appendChild(totalRow);
+                    }
+                }
             }
+            
+            // Përditëso statistikat kur ndryshon filtri i vitit
+            llogaritPermbledhjen();
         }
 
         // Clear all filters
         function pastroFiltrat() {
             document.getElementById('filter-muaji').value = '';
+            document.getElementById('filter-viti').value = '';
             document.getElementById('filter-type').value = '';
             document.getElementById('filter-pershkrimi').value = '';
             document.getElementById('filter-kategoria').value = '';
@@ -4428,10 +4720,14 @@ function editoTransaksionin(id) {
             // Reseto filtrat globalë
             currentFilters = {
                 muaji: '',
+                viti: '',
                 type: '',
                 pershkrimi: '',
                 kategoria: ''
             };
+            
+            // Reseto flag për shfaqjen e të gjithave të filtruar
+            window.showingAllFiltered = false;
             
             // Remove no results row if exists
             const noResultsRow = document.querySelector('.no-results-row');
@@ -4439,9 +4735,24 @@ function editoTransaksionin(id) {
                 noResultsRow.remove();
             }
             
+            // Remove total filtered row if exists
+            const totalRow = document.querySelector('#total-filtered-row');
+            if (totalRow) {
+                totalRow.remove();
+            }
+            
+            // Remove expand row if exists
+            const expandRow = document.querySelector('#expand-row');
+            if (expandRow) {
+                expandRow.remove();
+            }
+            
             // Reseto shfaqjen në 10 transaksione
             showAllTransactions = false;
             ngarkoTabelen();
+            
+            // Përditëso statistikat pas pastrimit të filtrave
+            llogaritPermbledhjen();
         }
         
         // Riapliko filtrat pas editimit
@@ -5395,60 +5706,15 @@ function ngarkoRaportin() {
 }
 
 function ngarkoRaportinVjetor(year) {
-    // Debug: Shiko sa transaksione ka
-    console.log('=== DEBUGGING PASQYRA FINANCIARE ===');
-    console.log('Totali i transaksioneve:', transaksionet.length);
-    console.log('Viti i zgjedhur:', year);
-    
-    // Shiko disa shembuj të formatit të datës
-    if (transaksionet.length > 0) {
-        console.log('Shembuj të formatit të datës:');
-        for (let i = 0; i < Math.min(5, transaksionet.length); i++) {
-            console.log(`  Transaksioni ${i+1}: data="${transaksionet[i].data}", parts=[${transaksionet[i].data.split('-').join(', ')}]`);
-        }
-    }
-    
-    // Filtro transaksionet për vitin e zgjedhur
+    // Filtro transaksionet për vitin e zgjedhur (DD-MM-YYYY format)
     const yearlyTransactions = transaksionet.filter(t => {
         const parts = t.data.split('-');
-        if (parts.length !== 3) return false;
-        
-        // Kontrollo nëse është format YYYY-MM-DD (parts[0] është viti)
-        if (parts[0] === year) return true;
-        
-        // Kontrollo nëse është format DD-MM-YYYY (parts[2] është viti)
-        if (parts[2] === year) return true;
-        
-        return false;
+        return parts.length === 3 && parts[2] === year;
     });
     
-    console.log('Transaksione për vitin', year, ':', yearlyTransactions.length);
-    
-    // Debug: Kontrollo nëse ka transaksionin "testt"
-    const testtTransaction = transaksionet.find(t => t.pershkrimi && t.pershkrimi.toLowerCase().includes('testt'));
-    if (testtTransaction) {
-        console.log('GJETUR TRANSAKSIONI "testt":', testtTransaction);
-        console.log('  - Data:', testtTransaction.data);
-        console.log('  - Tipi:', testtTransaction.tipi);
-        console.log('  - Shuma:', testtTransaction.shuma);
-        console.log('  - A është në yearlyTransactions?', yearlyTransactions.some(t => t.pershkrimi && t.pershkrimi.toLowerCase().includes('testt')));
-    } else {
-        console.log('NUK U GJEND transaksioni "testt" në të gjitha transaksionet!');
-    }
-    
-    if (yearlyTransactions.length > 0) {
-        console.log('Shembull transaksion:', yearlyTransactions[0]);
-    }
-    
-    // Debug shitjet
-    console.log('--- ANALIZË E SHITJEVE ---');
+    // 1. TOTALI I SHITJEVE
     const shitjet = yearlyTransactions.filter(t => t.tipi === 'Shitje');
-    console.log('Numri i shitjeve:', shitjet.length);
-    shitjet.forEach((s, i) => {
-        console.log(`  Shitje ${i+1}: ${s.pershkrimi} = ${s.shuma} MKD (data: ${s.data})`);
-    });
     const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
-    console.log('TOTALI I SHITJEVE:', totalShitje);
     
     // 2. TOTALI I HARXHIMEVE
     const shpenzimet = yearlyTransactions.filter(t => t.tipi === 'Shpenzim');
@@ -5466,6 +5732,15 @@ function ngarkoRaportinVjetor(year) {
     
     // 3. FITIMI
     const fitimi = totalShitje - totalHarxhime;
+    
+    // 4. TËRHEQJET E NEXHA DHE GRESA
+    const terheqjetNexha = yearlyTransactions.filter(t => t.tipi === "Tërheqje" && t.kategoria === "Nexha");
+    const totalTerheqjeNexha = Math.abs(terheqjetNexha.reduce((sum, t) => sum + t.shuma, 0));
+    
+    const terheqjetGresa = yearlyTransactions.filter(t => t.tipi === "Tërheqje" && t.kategoria === "Gresa");
+    const totalTerheqjeGresa = Math.abs(terheqjetGresa.reduce((sum, t) => sum + t.shuma, 0));
+    
+    const totalTerheqje = totalTerheqjeNexha + totalTerheqjeGresa;
     
     // Krijo HTML për breakdown-in e harxhimeve
     let harxhimeHTML = '';
@@ -5495,7 +5770,6 @@ function ngarkoRaportinVjetor(year) {
         const monthStr = month.toString().padStart(2, '0');
         const monthlyTransactions = yearlyTransactions.filter(t => {
             const parts = t.data.split('-');
-            // parts[1] është gjithmonë muaji në të dy formatet (YYYY-MM-DD dhe DD-MM-YYYY)
             return parts.length === 3 && parts[1] === monthStr;
         });
         
@@ -5529,30 +5803,46 @@ function ngarkoRaportinVjetor(year) {
             </h3>
             
             <!-- SUMMARY CARDS -->
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px;">
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 15px; margin-bottom: 30px;">
                 
                 <!-- HYRJET -->
-                <div style="background: linear-gradient(135deg, #34C759, #30D158); padding: 25px; border-radius: 12px; color: white; text-align: center;">
-                    <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 10px;">💰 TOTALI I SHITJEVE</div>
-                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
-                    <div style="font-size: 0.85em; opacity: 0.85;">MKD</div>
-                    <div style="font-size: 0.8em; opacity: 0.8; margin-top: 10px;">${shitjet.length} shitje</div>
+                <div style="background: linear-gradient(135deg, #34C759, #30D158); padding: 20px; border-radius: 12px; color: white; text-align: center;">
+                    <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">💰 SHITJET</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
+                    <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
+                    <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${shitjet.length} shitje</div>
                 </div>
                 
                 <!-- HARXHIMET -->
-                <div style="background: linear-gradient(135deg, #FF3B30, #FF6961); padding: 25px; border-radius: 12px; color: white; text-align: center;">
-                    <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 10px;">💸 TOTALI I HARXHIMEVE</div>
-                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
-                    <div style="font-size: 0.85em; opacity: 0.85;">MKD</div>
-                    <div style="font-size: 0.8em; opacity: 0.8; margin-top: 10px;">${shpenzimet.length} harxhime</div>
+                <div style="background: linear-gradient(135deg, #FF3B30, #FF6961); padding: 20px; border-radius: 12px; color: white; text-align: center;">
+                    <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">💸 HARXHIMET</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
+                    <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
+                    <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${shpenzimet.length} harxhime</div>
                 </div>
                 
                 <!-- FITIMI -->
-                <div style="background: linear-gradient(135deg, ${fitimi >= 0 ? '#3B82F6, #60A5FA' : '#EF4444, #F87171'}); padding: 25px; border-radius: 12px; color: white; text-align: center;">
-                    <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 10px;">📈 FITIMI</div>
-                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
-                    <div style="font-size: 0.85em; opacity: 0.85;">MKD</div>
-                    <div style="font-size: 0.8em; opacity: 0.8; margin-top: 10px;">${fitimi >= 0 ? '✅ Fitim pozitiv' : '⚠️ Fitim negativ'}</div>
+                <div style="background: linear-gradient(135deg, ${fitimi >= 0 ? '#3B82F6, #60A5FA' : '#EF4444, #F87171'}); padding: 20px; border-radius: 12px; color: white; text-align: center;">
+                    <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">📈 FITIMI</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
+                    <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
+                    <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${fitimi >= 0 ? '✅ Pozitiv' : '⚠️ Negativ'}</div>
+                </div>
+                
+                <!-- TËRHEQJET NEXHA -->
+                <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; border-radius: 12px; color: white; text-align: center;">
+                    <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">💼 NEXHA</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalTerheqjeNexha.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
+                    <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
+                    <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${terheqjetNexha.length} tërheqje</div>
+                </div>
+                
+                <!-- TËRHEQJET GRESA -->
+                <div style="background: linear-gradient(135deg, #f093fb, #f5576c); padding: 20px; border-radius: 12px; color: white; text-align: center;">
+                    <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">💼 GRESA</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalTerheqjeGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
+                    <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
+                    <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${terheqjetGresa.length} tërheqje</div>
                 </div>
                 
             </div>
@@ -5624,18 +5914,10 @@ function ngarkoRaportinMujor(year, month) {
     const monthNames = ['Janar', 'Shkurt', 'Mars', 'Prill', 'Maj', 'Qershor', 'Korrik', 'Gusht', 'Shtator', 'Tetor', 'Nëntor', 'Dhjetor'];
     const monthName = monthNames[parseInt(month) - 1];
     
-    // Filtro transaksionet për muajin e zgjedhur
+    // Filtro transaksionet për muajin e zgjedhur (DD-MM-YYYY format)
     const monthlyTransactions = transaksionet.filter(t => {
         const parts = t.data.split('-');
-        if (parts.length !== 3) return false;
-        
-        // Format YYYY-MM-DD: parts[0]=year, parts[1]=month
-        if (parts[0] === year && parts[1] === month) return true;
-        
-        // Format DD-MM-YYYY: parts[2]=year, parts[1]=month
-        if (parts[2] === year && parts[1] === month) return true;
-        
-        return false;
+        return parts.length === 3 && parts[1] === month && parts[2] === year;
     });
     
     // 1. TOTALI I SHITJEVE
@@ -5754,7 +6036,7 @@ function eksportoPasqyren() {
     if (lloji === 'vjetor') {
         csvContent += `RAPORTI FINANCIAR VJETOR ${viti}\n\n`;
         
-        // Filtro transaksionet për vitin e zgjedhur
+        // Filtro transaksionet për vitin e zgjedhur (DD-MM-YYYY format)
         const yearlyTransactions = transaksionet.filter(t => {
             const parts = t.data.split('-');
             return parts.length === 3 && parts[2] === viti;
@@ -5849,21 +6131,19 @@ function shfaqDetajetKategorise(kategoria, year, lloji = 'vjetor', month = '') {
     if (lloji === 'vjetor') {
         filteredTransactions = transaksionet.filter(t => {
             const parts = t.data.split('-');
-            if (parts.length !== 3) return false;
-            
-            const isYearMatch = (parts[0] === year || parts[2] === year);
-            return isYearMatch && t.tipi === 'Shpenzim' && 
+            return parts.length === 3 && 
+                   parts[2] === year && 
+                   t.tipi === 'Shpenzim' && 
                    (t.kategoria === kategoria || (!t.kategoria && kategoria === 'Të tjera'));
         });
     } else {
         // Mujor
         filteredTransactions = transaksionet.filter(t => {
             const parts = t.data.split('-');
-            if (parts.length !== 3) return false;
-            
-            const isYearMatch = (parts[0] === year || parts[2] === year);
-            const isMonthMatch = parts[1] === month;
-            return isYearMatch && isMonthMatch && t.tipi === 'Shpenzim' && 
+            return parts.length === 3 && 
+                   parts[1] === month && 
+                   parts[2] === year && 
+                   t.tipi === 'Shpenzim' && 
                    (t.kategoria === kategoria || (!t.kategoria && kategoria === 'Të tjera'));
         });
     }
@@ -5933,20 +6213,18 @@ function eksportoKategorine() {
     if (lloji === 'vjetor') {
         filteredTransactions = transaksionet.filter(t => {
             const parts = t.data.split('-');
-            if (parts.length !== 3) return false;
-            
-            const isYearMatch = (parts[0] === year || parts[2] === year);
-            return isYearMatch && t.tipi === 'Shpenzim' && 
+            return parts.length === 3 && 
+                   parts[2] === year && 
+                   t.tipi === 'Shpenzim' && 
                    (t.kategoria === kategoria || (!t.kategoria && kategoria === 'Të tjera'));
         });
     } else {
         filteredTransactions = transaksionet.filter(t => {
             const parts = t.data.split('-');
-            if (parts.length !== 3) return false;
-            
-            const isYearMatch = (parts[0] === year || parts[2] === year);
-            const isMonthMatch = parts[1] === month;
-            return isYearMatch && isMonthMatch && t.tipi === 'Shpenzim' && 
+            return parts.length === 3 && 
+                   parts[1] === month && 
+                   parts[2] === year && 
+                   t.tipi === 'Shpenzim' && 
                    (t.kategoria === kategoria || (!t.kategoria && kategoria === 'Të tjera'));
         });
     }
@@ -5995,23 +6273,6 @@ function kthehuNePasqyreFinanciare() {
     document.getElementById('modal-pasqyra-financiare').style.display = 'block';
 }
 
-// Funksioni për të hapur Pasqyrën Financiare
-function shfaqPasqyrenFinanciare() {
-    // Hap modalin
-    document.getElementById('modal-pasqyra-financiare').style.display = 'block';
-    
-    // Reset përmbajtjen në mesazhin fillestar
-    document.getElementById('pasqyra-raporti').innerHTML = `
-        <div style="text-align: center; padding: 60px 20px; color: #86868b;">
-            <div style="font-size: 3em; margin-bottom: 15px;">📊</div>
-            <p style="font-size: 1.1em;">Zgjedh vitin dhe kliko "Ngarko Raportin" për të parë pasqyrën financiare</p>
-        </div>
-    `;
-    
-    // Fsheh butonin e eksportit
-    document.getElementById('btn-eksporto-pasqyra').style.display = 'none';
-}
-
 // Toggle Submenu
 function toggleSubmenu(menuId) {
     const submenu = document.getElementById('submenu-' + menuId);
@@ -6029,6 +6290,202 @@ function toggleSubmenu(menuId) {
         arrow.classList.add('rotated');
         parentButton.classList.add('active');
     }
+}
+
+// ============================================
+// MENAXHIMI I KATEGORIVE
+// ============================================
+
+// Ngarko kategoritë nga localStorage
+function ngarkoKategorite() {
+    const saved = localStorage.getItem(CATEGORIES_STORAGE_KEY);
+    if (saved) {
+        try {
+            shpenzimKategorite = JSON.parse(saved);
+        } catch (e) {
+            console.error('Error loading categories:', e);
+        }
+    }
+}
+
+// Ruaj kategoritë në localStorage
+function ruajKategorite() {
+    localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(shpenzimKategorite));
+    console.log('✅ Kategoritë u ruajtën');
+}
+
+// Përditëso dropdown-et me kategoritë
+function perdiEsoKategoriteDropdowns() {
+    // Dropdown-et për Regjistro dhe Edito
+    const dropdowns = [
+        document.getElementById('shpenzim-kategoria'),
+        document.getElementById('edito-kategoria')
+    ];
+    
+    dropdowns.forEach(dropdown => {
+        if (!dropdown) return;
+        
+        const currentValue = dropdown.value;
+        dropdown.innerHTML = '';
+        
+        shpenzimKategorite.forEach(kat => {
+            const option = document.createElement('option');
+            option.value = kat;
+            option.textContent = kat;
+            dropdown.appendChild(option);
+        });
+        
+        // Ruaj vlerën e zgjedhur
+        if (currentValue && shpenzimKategorite.includes(currentValue)) {
+            dropdown.value = currentValue;
+        }
+    });
+    
+    // Përditëso edhe dropdown-in e filtrit
+    const filterDropdown = document.getElementById('filter-kategoria');
+    if (filterDropdown) {
+        const currentFilterValue = filterDropdown.value;
+        filterDropdown.innerHTML = '<option value="">Të gjitha kategoritë</option>';
+        
+        shpenzimKategorite.forEach(kat => {
+            const option = document.createElement('option');
+            option.value = kat;
+            option.textContent = kat;
+            filterDropdown.appendChild(option);
+        });
+        
+        // Ruaj vlerën e filtrit nëse është valid
+        if (currentFilterValue && shpenzimKategorite.includes(currentFilterValue)) {
+            filterDropdown.value = currentFilterValue;
+        }
+    }
+}
+
+// Hap modalin e menaxhimit
+function hapModalMenaxhoKategorite() {
+    shfaqListenEKategorive();
+    document.getElementById('modal-menaxho-kategorite').style.display = 'block';
+}
+
+// Shfaq listën e kategorive për menaxhim
+function shfaqListenEKategorive() {
+    const lista = document.getElementById('kategorite-lista');
+    let html = '';
+    
+    shpenzimKategorite.forEach((kat, index) => {
+        const isLastCategory = shpenzimKategorite.length === 1;
+        html += `
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #f3f4f6;">
+                <div style="flex: 1; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 1.2em;">📁</span>
+                    <input type="text" value="${kat}" onchange="editoKategorine(${index}, this.value)" 
+                           style="flex: 1; padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 14px;">
+                </div>
+                <button onclick="fshiKategorine(${index})" 
+                        ${isLastCategory ? 'disabled title="Nuk mund të fshish kategorinë e fundit"' : ''}
+                        class="btn btn-danger" 
+                        style="padding: 8px 12px; margin-left: 10px; ${isLastCategory ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                    🗑️ Fshi
+                </button>
+            </div>
+        `;
+    });
+    
+    lista.innerHTML = html;
+}
+
+// Shto kategori të re
+function shtoKategoriTeRe() {
+    const input = document.getElementById('kategori-e-re-input');
+    const kategoria = input.value.trim();
+    
+    if (!kategoria) {
+        alert('⚠️ Ju lutem shkruani emrin e kategorisë!');
+        return;
+    }
+    
+    if (shpenzimKategorite.includes(kategoria)) {
+        alert('⚠️ Kjo kategori ekziston tashmë!');
+        return;
+    }
+    
+    shpenzimKategorite.push(kategoria);
+    ruajKategorite();
+    perdiEsoKategoriteDropdowns();
+    shfaqListenEKategorive();
+    input.value = '';
+    
+    showSyncIndicator('success');
+    console.log('✅ Kategoria "' + kategoria + '" u shtua');
+}
+
+// Edito kategorinë
+function editoKategorine(index, vlereERe) {
+    const kategoria = vlereERe.trim();
+    
+    if (!kategoria) {
+        alert('⚠️ Emri i kategorisë nuk mund të jetë bosh!');
+        shfaqListenEKategorive();
+        return;
+    }
+    
+    if (shpenzimKategorite.includes(kategoria) && shpenzimKategorite[index] !== kategoria) {
+        alert('⚠️ Kjo kategori ekziston tashmë!');
+        shfaqListenEKategorive();
+        return;
+    }
+    
+    const emriIVjeter = shpenzimKategorite[index];
+    shpenzimKategorite[index] = kategoria;
+    
+    // Përditëso të gjitha transaksionet që përdorin këtë kategori
+    let numriIPerditesuar = 0;
+    transaksionet.forEach(t => {
+        if (t.kategoria === emriIVjeter) {
+            t.kategoria = kategoria;
+            numriIPerditesuar++;
+        }
+    });
+    
+    ruajKategorite();
+    perdiEsoKategoriteDropdowns();
+    
+    if (numriIPerditesuar > 0) {
+        saveDataToGoogleSheets();
+        console.log(`✅ ${numriIPerditesuar} transaksione u përditësuan me kategorinë e re`);
+    }
+    
+    showSyncIndicator('success');
+}
+
+// Fshi kategorinë
+function fshiKategorine(index) {
+    if (shpenzimKategorite.length === 1) {
+        alert('⚠️ Nuk mund të fshish kategorinë e fundit!');
+        return;
+    }
+    
+    const kategoria = shpenzimKategorite[index];
+    
+    // Kontrollo nëse ka transaksione me këtë kategori
+    const numriTransaksioneve = transaksionet.filter(t => t.kategoria === kategoria).length;
+    
+    let konfirmo = true;
+    if (numriTransaksioneve > 0) {
+        konfirmo = confirm(`⚠️ Ka ${numriTransaksioneve} transaksione me kategorinë "${kategoria}".\n\nNëse e fshin, këto transaksione do të mbeten pa kategori.\n\nJe i sigurt?`);
+    } else {
+        konfirmo = confirm(`Je i sigurt që dëshiron të fshish kategorinë "${kategoria}"?`);
+    }
+    
+    if (!konfirmo) return;
+    
+    shpenzimKategorite.splice(index, 1);
+    ruajKategorite();
+    perdiEsoKategoriteDropdowns();
+    shfaqListenEKategorive();
+    
+    showSyncIndicator('success');
+    console.log('✅ Kategoria "' + kategoria + '" u fshi');
 }
 
 </script>
