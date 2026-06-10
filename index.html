@@ -2637,6 +2637,37 @@ body {
             }
         }
         
+        // FAST SINGLE OPERATION SYNC
+        async function syncSingleOperation(action, transaksion) {
+            try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+                const response = await fetch(GOOGLE_SHEETS_CONFIG.webAppUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify({ action: action, transaksion: transaksion }),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.success) {
+                        console.log(`✅ Single op [${action}] sukses:`, transaksion.id);
+                        saveDataToStorage();
+                        showSyncIndicator('success');
+                        return true;
+                    }
+                }
+                throw new Error('Single op failed');
+            } catch(err) {
+                console.warn(`⚠️ Single op [${action}] dështoi, fallback full sync:`, err.message);
+                return await saveDataToGoogleSheets();
+            }
+        }
+
         // Indikatori i vogël për sync (pa popup)
         function showSyncIndicator(status) {
             let indicator = document.getElementById('sync-indicator');
@@ -3090,16 +3121,14 @@ body {
             };
 
             transaksionet.push(transaksioni);
-            
-            // Save to Google Sheets (async)
-            await saveDataToGoogleSheets();
-                updateAutocompleteSuggestions(); // Përditëso suggestions
-                ngarkoTabelen();
-                reapplyFilters(); // Riapliko filtrat
-                llogaritPermbledhjen();
-                updateCharts();
-                mbyllModal('shitje');
-                // Sync në background - pa alert
+            showSyncIndicator('syncing');
+            syncSingleOperation('add', transaksioni);
+            updateAutocompleteSuggestions();
+            ngarkoTabelen();
+            reapplyFilters();
+            llogaritPermbledhjen();
+            updateCharts();
+            mbyllModal('shitje');
         }
 
         // Add expense
@@ -3125,13 +3154,13 @@ body {
             };
 
             transaksionet.push(transaksioni);
-            saveDataToGoogleSheets();
-            updateAutocompleteSuggestions(); // Përditëso suggestions
+            showSyncIndicator('syncing');
+            syncSingleOperation('add', transaksioni);
+            updateAutocompleteSuggestions();
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('shpenzim');
-            // Sync në background - pa alert
         }
 
         // Add withdrawal
@@ -3157,13 +3186,13 @@ body {
             };
 
             transaksionet.push(transaksioni);
-            saveDataToGoogleSheets();
-            updateAutocompleteSuggestions(); // Përditëso suggestions
+            showSyncIndicator('syncing');
+            syncSingleOperation('add', transaksioni);
+            updateAutocompleteSuggestions();
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('terheqje');
-            // Sync në background - pa alert
         }
 
         // Edit transaction
@@ -3191,13 +3220,13 @@ body {
             };
 
             transaksionet.push(transaksioni);
-            saveDataToGoogleSheets();
-            updateAutocompleteSuggestions(); // Përditëso suggestions
+            showSyncIndicator('syncing');
+            syncSingleOperation('add', transaksioni);
+            updateAutocompleteSuggestions();
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('investim');
-            // Sync në background - pa alert
         }
 
         // Shto Huamarrje (hyrje pozitive - para që hyjnë)
@@ -3240,13 +3269,13 @@ body {
             console.log('Transaksioni i krijuar:', transaksioni);
 
             transaksionet.push(transaksioni);
-            saveDataToGoogleSheets();
-            updateAutocompleteSuggestions(); // Përditëso suggestions
+            showSyncIndicator('syncing');
+            syncSingleOperation('add', transaksioni);
+            updateAutocompleteSuggestions();
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('huamarrje');
-            // Sync në background - pa alert
         }
 
         // Shto Kthim i Huasë (dalje negative - para që dalin)
@@ -3289,13 +3318,13 @@ body {
             console.log('Transaksioni i krijuar:', transaksioni);
 
             transaksionet.push(transaksioni);
-            saveDataToGoogleSheets();
-            updateAutocompleteSuggestions(); // Përditëso suggestions
+            showSyncIndicator('syncing');
+            syncSingleOperation('add', transaksioni);
+            updateAutocompleteSuggestions();
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
             mbyllModal('kthim-huase');
-            // Sync në background - pa alert
         }
 
 function editoTransaksionin(id) {
@@ -3463,8 +3492,9 @@ function editoTransaksionin(id) {
                 transaksioni.shuma = -shuma;
             }
 
-            // Ruaj në Google Sheets
-            await saveDataToGoogleSheets();
+            // Ruaj në Google Sheets - single update
+            showSyncIndicator('syncing');
+            syncSingleOperation('update', transaksioni);
             console.log('✅ Transaksioni u përditësua dhe u ruajt në Google Sheets');
             
             // Përditëso UI
@@ -3660,13 +3690,17 @@ function editoTransaksionin(id) {
         // Delete transaction
         async function fshijTransaksionin(id) {
             if (confirm('Jeni të sigurt që dëshironi të fshini këtë transaksion?')) {
+                const transaksioni = transaksionet.find(t => t.id === id);
                 transaksionet = transaksionet.filter(t => t.id !== id);
                 
-                // Ruaj në Google Sheets (async në background)
-                await saveDataToGoogleSheets();
-                console.log('✅ Transaksioni u fshi dhe u ruajt në Google Sheets');
+                showSyncIndicator('syncing');
+                if (transaksioni) {
+                    syncSingleOperation('delete', transaksioni);
+                } else {
+                    saveDataToGoogleSheets();
+                }
+                console.log('✅ Transaksioni u fshi');
                 
-                // Përditëso UI menjëherë
                 ngarkoTabelen();
                 llogaritPermbledhjen();
                 updateCharts();
