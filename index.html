@@ -1704,7 +1704,7 @@ body {
                         </select>
                         <select id="filter-viti" onchange="filtroTabelen()">
                             <option value="">Të gjitha vitet</option>
-                            <option value="2026" selected>2026</option>
+                            <option value="2026">2026</option>
                             <option value="2025">2025</option>
                             <option value="2024">2024</option>
                             <option value="2023">2023</option>
@@ -2978,9 +2978,6 @@ body {
             initializeCharts();
             
             // Load data and update UI
-            showAllTransactions = true;
-            ngarkoTabelen();
-            showAllTransactions = false;
             llogaritPermbledhjen();
             updateCharts();
             
@@ -3663,9 +3660,7 @@ function editoTransaksionin(id) {
         // Toggle për shfaqjen e të gjitha transaksioneve
         function toggleShowAllTransactions() {
             showAllTransactions = !showAllTransactions;
-            ngarkoTabelen();
-            
-            // Scroll tek tabela nëse po fsheh
+            filtroTabelen();
             if (!showAllTransactions) {
                 document.querySelector('.table-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
@@ -4525,13 +4520,7 @@ function editoTransaksionin(id) {
             const filterType = document.getElementById('filter-type').value;
             const filterPershkrimi = document.getElementById('filter-pershkrimi').value.toLowerCase().trim();
             const filterKategoria = document.getElementById('filter-kategoria').value;
-            
-            // Hiq total-filtered-row nëse ekziston (do të krijohet i ri)
-            const existingTotal = document.querySelector('#total-filtered-row');
-            if (existingTotal) {
-                existingTotal.remove();
-            }
-            
+
             // Ruaj filtrat aktuale
             currentFilters = {
                 muaji: filterMuaji,
@@ -4540,211 +4529,125 @@ function editoTransaksionin(id) {
                 pershkrimi: filterPershkrimi,
                 kategoria: filterKategoria
             };
-            
-            // Nëse ka ndonjë filtër aktiv dhe nuk ka të gjitha transaksionet në DOM
+
             const hasActiveFilter = filterMuaji || filterViti || filterType || filterPershkrimi || filterKategoria;
-            
-            if (hasActiveFilter) {
-                // Kontrolloj sa rreshta ka në tabelë
-                const currentRowCount = document.querySelectorAll('#tabela-kryesore tr').length;
-                const totalTransactions = transaksionet.length;
-                
-                // Nëse nuk janë të gjitha, ngarkoji të gjitha (por mos ndrysho showAllTransactions)
-                if (currentRowCount < totalTransactions) {
-                    const previousShowAll = showAllTransactions;
-                    showAllTransactions = true;
-                    ngarkoTabelen();
-                    showAllTransactions = previousShowAll; // Riktheje në vlerën origjinale
-                    
-                    // Prit që DOM të përditësohet, pastaj apliko filtrat
-                    setTimeout(() => {
-                        filtroTabelen();
-                    }, 0);
-                    return;
-                }
-            }
-            
-            const rows = document.querySelectorAll('#tabela-kryesore tr');
-            let visibleRows = 0;
-            
-            rows.forEach(row => {
-                // Skip expand/collapse button rows
-                if (row.id === 'expand-row' || row.id === 'collapse-row') {
-                    row.style.display = hasActiveFilter ? 'none' : '';
-                    return;
-                }
-                
-                if (row.cells.length > 1) {
-                    const cellData = row.cells[0].textContent.trim(); // Data (DD-MM-YYYY)
-                    const cellType = row.cells[1].textContent.trim(); // Tipi (mund të përmbajë emoji)
-                    const cellPershkrimi = row.cells[2].textContent.toLowerCase().trim(); // Përshkrimi
-                    const cellKategoria = row.cells[3].textContent.toLowerCase().trim(); // Kategoria
-                    
-                    let showRow = true;
-                    
-                    // Filter by month
-                    if (filterMuaji) {
-                        const dateParts = cellData.split('-');
-                        if (dateParts.length === 3) {
-                            const transactionMonth = dateParts[1]; // MM part from DD-MM-YYYY
-                            if (transactionMonth !== filterMuaji) {
-                                showRow = false;
-                            }
-                        }
-                    }
-                    
-                    // Filter by year
-                    if (filterViti) {
-                        const dateParts = cellData.split('-');
-                        if (dateParts.length === 3) {
-                            const transactionYear = dateParts[2]; // YYYY part from DD-MM-YYYY
-                            if (transactionYear !== filterViti) {
-                                showRow = false;
-                            }
-                        }
-                    }
-                    
-                    // Filter by type - pastro emoji-të dhe normalizoni karakteret shqipe
-                    if (filterType) {
-                        // Hiq emoji-të dhe normalizoni karakteret shqipe për krahasim
-                        const cleanCellType = cellType.replace(/[^\w\sëËçÇ]/gi, '').trim().toLowerCase();
-                        const normalizedFilter = filterType.toLowerCase();
-                        
-                        // Kontrollo nëse përputhet (duke normalizuar edhe ë/e)
-                        const normalizedCellType = cleanCellType.replace(/ë/g, 'e');
-                        const normalizedFilterType = normalizedFilter.replace(/ë/g, 'e');
-                        
-                        if (!normalizedCellType.includes(normalizedFilterType)) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    // Filter by description - kërko në përshkrim, kategori DHE tipi
-                    if (filterPershkrimi) {
-                        const searchableText = cellPershkrimi + ' ' + cellKategoria + ' ' + cellType;
-                        if (!searchableText.includes(filterPershkrimi)) {
-                            showRow = false;
-                        }
-                    }
-                    
-                    // Filter by category (dropdown filter - exact match)
-                    if (filterKategoria && !cellKategoria.includes(filterKategoria.toLowerCase())) {
-                        showRow = false;
-                    }
-                    
-                    if (showRow) {
-                        row.style.display = '';
-                        visibleRows++;
-                    } else {
-                        row.style.display = 'none';
-                    }
-                }
+
+            // Filtro nga array-i direkt
+            const sortedAll = [...transaksionet].sort((a, b) => {
+                const dateA = parseDisplayDate(a.data);
+                const dateB = parseDisplayDate(b.data);
+                const dateDiff = dateB.getTime() - dateA.getTime();
+                if (dateDiff !== 0) return dateDiff;
+                const tsA = a.id && a.id.startsWith('txn_') ? parseInt(a.id.split('_')[1]) || 0 : 0;
+                const tsB = b.id && b.id.startsWith('txn_') ? parseInt(b.id.split('_')[1]) || 0 : 0;
+                return tsB - tsA;
             });
-            
-            // Show message if no results
-            const tabela = document.getElementById('tabela-kryesore');
-            const emptyStateRow = tabela.querySelector('.empty-state');
-            
-            if (visibleRows === 0 && !emptyStateRow && transaksionet.length > 0) {
-                const noResultsRow = document.createElement('tr');
-                noResultsRow.className = 'no-results-row';
-                noResultsRow.innerHTML = `
-                    <td colspan="6" class="empty-state">
-                        <h3>🔍 Nuk u gjetën rezultate</h3>
-                        <p>Ndryshoni filtrat për të parë transaksione të tjera.</p>
-                    </td>
-                `;
-                tabela.appendChild(noResultsRow);
-            } else if (visibleRows > 0) {
-                // Remove no results row if exists
-                const noResultsRow = tabela.querySelector('.no-results-row');
-                if (noResultsRow) {
-                    noResultsRow.remove();
+
+            const filtered = hasActiveFilter ? sortedAll.filter(t => {
+                const dateParts = (t.data || '').split('-');
+                if (filterMuaji && dateParts.length === 3 && dateParts[1] !== filterMuaji) return false;
+                if (filterViti && dateParts.length === 3 && dateParts[2] !== filterViti) return false;
+                if (filterType && t.tipi !== filterType) return false;
+                if (filterPershkrimi) {
+                    const searchable = (t.pershkrimi || '').toLowerCase() + ' ' + (t.kategoria || '').toLowerCase() + ' ' + (t.tipi || '').toLowerCase();
+                    if (!searchable.includes(filterPershkrimi)) return false;
                 }
-                
-                // Llogarit totalin e TË GJITHA transaksioneve të filtruara (jo vetëm të dukshmet)
-                // Duhet të llogaritet nga array-i transaksionet, jo nga DOM
-                let totalFiltered = 0;
-                
-                // Merr filtrat aktuale
-                const filterMuaji = document.getElementById('filter-muaji').value;
-                const filterViti = document.getElementById('filter-viti').value;
-                const filterType = document.getElementById('filter-type').value;
-                const filterPershkrimi = document.getElementById('filter-pershkrimi').value.toLowerCase().trim();
-                const filterKategoria = document.getElementById('filter-kategoria').value;
-                
-                // Filtro transaksionet duke përdorur të njëjtën logjikë si në DOM
-                transaksionet.forEach(t => {
-                    let matches = true;
-                    
-                    // Check muaji
-                    if (filterMuaji) {
-                        const dateParts = t.data.split('-');
-                        if (dateParts.length === 3 && dateParts[1] !== filterMuaji) {
-                            matches = false;
-                        }
+                if (filterKategoria && (t.kategoria || '') !== filterKategoria) return false;
+                return true;
+            }) : sortedAll;
+
+            // Përcakto sa të shfaqen
+            const toShow = showAllTransactions ? filtered : filtered.slice(0, INITIAL_ROWS_TO_SHOW);
+
+            // Ringarko tabelën me transaksionet e filtruara
+            const tabela = document.getElementById('tabela-kryesore');
+            tabela.innerHTML = '';
+
+            if (filtered.length === 0) {
+                if (transaksionet.length > 0) {
+                    tabela.innerHTML = `<tr><td colspan="6" class="empty-state"><h3>🔍 Nuk u gjetën rezultate</h3><p>Ndryshoni filtrat për të parë transaksione të tjera.</p></td></tr>`;
+                }
+            } else {
+                toShow.forEach(t => {
+                    const rreshti = document.createElement('tr');
+                    let klasa = '';
+                    if (t.tipi === 'Shitje') klasa = 'tip-shitje';
+                    else if (t.tipi === 'Shpenzim') klasa = 'tip-shpenzim';
+                    else if (t.tipi === 'Tërheqje') klasa = 'tip-terheqje';
+                    else if (t.tipi === 'Huamarrje') klasa = 'tip-huamarrje';
+                    else if (t.tipi === 'Kthim i Huasë') klasa = 'tip-kthim-huase';
+                    rreshti.className = klasa;
+
+                    const shumaText = t.shuma >= 0 ?
+                        `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` :
+                        `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+                    const emoji = t.tipi === 'Shitje' ? '💰' : t.tipi === 'Shpenzim' ? '🔋' : t.tipi === 'Investim' ? '💼' : t.tipi === 'Huamarrje' ? '🤝' : t.tipi === 'Kthim i Huasë' ? '💳' : '💸';
+                    const shumaColor = t.shuma >= 0 ? '#34C759' : '#FF3B30';
+
+                    let displayDate = t.data;
+                    if (displayDate && displayDate.includes('T')) {
+                        const dateObj = new Date(displayDate);
+                        displayDate = `${String(dateObj.getDate()).padStart(2,'0')}-${String(dateObj.getMonth()+1).padStart(2,'0')}-${dateObj.getFullYear()}`;
                     }
-                    
-                    // Check viti
-                    if (filterViti && matches) {
-                        const dateParts = t.data.split('-');
-                        if (dateParts.length === 3 && dateParts[2] !== filterViti) {
-                            matches = false;
-                        }
-                    }
-                    
-                    // Check type
-                    if (filterType && matches && t.tipi !== filterType) {
-                        matches = false;
-                    }
-                    
-                    // Check pershkrimi - kërko në përshkrim, kategori DHE tipi (njëjtë si DOM filtri)
-                    if (filterPershkrimi && matches) {
-                        const searchableText = (t.pershkrimi || '').toLowerCase() + ' ' + (t.kategoria || '').toLowerCase() + ' ' + (t.tipi || '').toLowerCase();
-                        if (!searchableText.includes(filterPershkrimi)) {
-                            matches = false;
-                        }
-                    }
-                    
-                    // Check kategoria
-                    if (filterKategoria && matches) {
-                        const transactionCategory = t.kategoria || 'Të tjera';
-                        if (transactionCategory !== filterKategoria) {
-                            matches = false;
-                        }
-                    }
-                    
-                    if (matches) {
-                        totalFiltered += t.shuma;
-                    }
+
+                    rreshti.innerHTML = `
+                        <td>${displayDate}</td>
+                        <td>${emoji} ${t.tipi}</td>
+                        <td>${t.pershkrimi}</td>
+                        <td>${t.kategoria}</td>
+                        <td style="font-weight: 600; color: ${shumaColor}">${shumaText}</td>
+                        <td style="position: relative; z-index: 10;">
+                            <div style="display: flex; gap: 6px; justify-content: center;">
+                                <button onclick="editoTransaksionin('${t.id}')" style="background: #007AFF; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(0, 122, 255, 0.2);" onmouseover="this.style.background='#0051D5'" onmouseout="this.style.background='#007AFF'">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                    Edito
+                                </button>
+                                <button onclick="fshijTransaksionin('${t.id}')" style="background: #FF3B30; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 1px 3px rgba(255, 59, 48, 0.2);" onmouseover="this.style.background='#D92A1F'" onmouseout="this.style.background='#FF3B30'">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                    Fshij
+                                </button>
+                            </div>
+                        </td>`;
+                    tabela.appendChild(rreshti);
                 });
-                
-                // Kur ka filtër aktiv, shfaq TË GJITHA rezultatet (pa limit 10)
+
+                // Shto totalin e filtruar nëse ka filtër aktiv
                 if (hasActiveFilter) {
-                    // Sigurohu që të gjitha rreshtat e filtruara janë të dukshme
-                    rows.forEach(row => {
-                        if (row.classList.contains('filtered-hidden')) {
-                            row.style.display = '';
-                            row.classList.remove('filtered-hidden');
-                        }
-                    });
-                    
-                    // Shto totalin e filtruar
-                    const existingTotal = tabela.querySelector('#total-filtered-row');
-                    if (!existingTotal) {
-                        const totalRow = document.createElement('tr');
-                        totalRow.id = 'total-filtered-row';
-                        totalRow.innerHTML = `
-                            <td colspan="6" style="text-align: right; padding: 20px 40px; background: rgba(52, 199, 89, 0.08); border-top: 3px solid #34C759;">
-                                <span style="font-size: 18px; font-weight: 700; color: #1d1d1f;">💰 Totali i filtruar (${visibleRows} transaksione):</span>
-                                <span style="font-size: 20px; font-weight: 900; color: ${totalFiltered >= 0 ? '#34C759' : '#FF3B30'}; margin-left: 10px;">${totalFiltered.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>
-                            </td>
-                        `;
-                        tabela.appendChild(totalRow);
-                    }
+                    const totalFiltered = filtered.reduce((sum, t) => sum + t.shuma, 0);
+                    const totalRow = document.createElement('tr');
+                    totalRow.id = 'total-filtered-row';
+                    totalRow.innerHTML = `
+                        <td colspan="6" style="text-align: right; padding: 20px 40px; background: rgba(52, 199, 89, 0.08); border-top: 3px solid #34C759;">
+                            <span style="font-size: 18px; font-weight: 700; color: #1d1d1f;">💰 Totali i filtruar (${filtered.length} transaksione):</span>
+                            <span style="font-size: 20px; font-weight: 900; color: ${totalFiltered >= 0 ? '#34C759' : '#FF3B30'}; margin-left: 10px;">${totalFiltered.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>
+                        </td>`;
+                    tabela.appendChild(totalRow);
+                }
+
+                // Expand / Collapse butoni
+                if (filtered.length > INITIAL_ROWS_TO_SHOW && !showAllTransactions) {
+                    const expandRow = document.createElement('tr');
+                    expandRow.id = 'expand-row';
+                    expandRow.innerHTML = `
+                        <td colspan="6" style="text-align: center; padding: 20px; background: rgba(102, 126, 234, 0.05);">
+                            <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer;">
+                                📊 Shfaq të gjitha transaksionet (${filtered.length - INITIAL_ROWS_TO_SHOW} të tjera)
+                            </button>
+                        </td>`;
+                    tabela.appendChild(expandRow);
+                } else if (filtered.length > INITIAL_ROWS_TO_SHOW && showAllTransactions) {
+                    const collapseRow = document.createElement('tr');
+                    collapseRow.id = 'collapse-row';
+                    collapseRow.innerHTML = `
+                        <td colspan="6" style="text-align: center; padding: 20px; background: rgba(102, 126, 234, 0.05);">
+                            <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer;">
+                                🔼 Fshih transaksionet e vjetra (shfaq vetëm ${INITIAL_ROWS_TO_SHOW})
+                            </button>
+                        </td>`;
+                    tabela.appendChild(collapseRow);
                 }
             }
-            
+
             // Përditëso statistikat kur ndryshon filtri i vitit
             llogaritPermbledhjen();
         }
