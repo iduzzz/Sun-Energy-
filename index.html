@@ -4521,7 +4521,6 @@ function editoTransaksionin(id) {
             const filterPershkrimi = document.getElementById('filter-pershkrimi').value.toLowerCase().trim();
             const filterKategoria = document.getElementById('filter-kategoria').value;
 
-            // Ruaj filtrat aktuale
             currentFilters = {
                 muaji: filterMuaji,
                 viti: filterViti,
@@ -4532,7 +4531,6 @@ function editoTransaksionin(id) {
 
             const hasActiveFilter = filterMuaji || filterViti || filterType || filterPershkrimi || filterKategoria;
 
-            // Filtro nga array-i direkt
             const sortedAll = [...transaksionet].sort((a, b) => {
                 const dateA = parseDisplayDate(a.data);
                 const dateB = parseDisplayDate(b.data);
@@ -4556,10 +4554,8 @@ function editoTransaksionin(id) {
                 return true;
             }) : sortedAll;
 
-            // Përcakto sa të shfaqen
             const toShow = showAllTransactions ? filtered : filtered.slice(0, INITIAL_ROWS_TO_SHOW);
 
-            // Ringarko tabelën me transaksionet e filtruara
             const tabela = document.getElementById('tabela-kryesore');
             tabela.innerHTML = '';
 
@@ -4611,19 +4607,6 @@ function editoTransaksionin(id) {
                     tabela.appendChild(rreshti);
                 });
 
-                // Shto totalin e filtruar nëse ka filtër aktiv
-                if (hasActiveFilter) {
-                    const totalFiltered = filtered.reduce((sum, t) => sum + t.shuma, 0);
-                    const totalRow = document.createElement('tr');
-                    totalRow.id = 'total-filtered-row';
-                    totalRow.innerHTML = `
-                        <td colspan="6" style="text-align: right; padding: 20px 40px; background: rgba(52, 199, 89, 0.08); border-top: 3px solid #34C759;">
-                            <span style="font-size: 18px; font-weight: 700; color: #1d1d1f;">💰 Totali i filtruar (${filtered.length} transaksione):</span>
-                            <span style="font-size: 20px; font-weight: 900; color: ${totalFiltered >= 0 ? '#34C759' : '#FF3B30'}; margin-left: 10px;">${totalFiltered.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>
-                        </td>`;
-                    tabela.appendChild(totalRow);
-                }
-
                 // Expand / Collapse butoni
                 if (filtered.length > INITIAL_ROWS_TO_SHOW && !showAllTransactions) {
                     const expandRow = document.createElement('tr');
@@ -4648,10 +4631,9 @@ function editoTransaksionin(id) {
                 }
             }
 
-            // Përditëso statistikat kur ndryshon filtri i vitit
             llogaritPermbledhjen();
         }
-
+            
         // Clear all filters
         function pastroFiltrat() {
             document.getElementById('filter-muaji').value = '';
