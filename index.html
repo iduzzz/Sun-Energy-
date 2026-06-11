@@ -3564,8 +3564,8 @@ function editoTransaksionin(id) {
                 
                 // Shfaq shumën me emoji dhe ngjyrë
                 const shumaText = t.shuma >= 0 ? 
-                    `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` : 
-                    `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
+                    `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` : 
+                    `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
                 
                 const emoji = t.tipi === 'Shitje' ? '💰' : 
                             t.tipi === 'Shpenzim' ? '🔋' : 
@@ -3750,18 +3750,18 @@ function editoTransaksionin(id) {
             const pjesaGresa = (fitimiBruto/2) - terheqjeGresa + investimeGresa;
 
             // Përditëso kartat
-            document.getElementById('total-shitje').textContent = `${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
-            document.getElementById('total-shpenzime').textContent = `${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
-            document.getElementById('fitimi-bruto').textContent = `${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
-            document.getElementById('pjesa-nexha').textContent = `${pjesaNexha.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
-            document.getElementById('pjesa-gresa').textContent = `${pjesaGresa.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
+            document.getElementById('total-shitje').textContent = `${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            document.getElementById('total-shpenzime').textContent = `${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            document.getElementById('fitimi-bruto').textContent = `${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            document.getElementById('pjesa-nexha').textContent = `${pjesaNexha.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            document.getElementById('pjesa-gresa').textContent = `${pjesaGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             
             // Përditëso kartat e tërheqjeve
             if (document.getElementById('terheqjet-nexha')) {
-                document.getElementById('terheqjet-nexha').textContent = `${terheqjeNexha.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
+                document.getElementById('terheqjet-nexha').textContent = `${terheqjeNexha.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             }
             if (document.getElementById('terheqjet-gresa')) {
-                document.getElementById('terheqjet-gresa').textContent = `${terheqjeGresa.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
+                document.getElementById('terheqjet-gresa').textContent = `${terheqjeGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             }
         }
 
@@ -3800,9 +3800,9 @@ function editoTransaksionin(id) {
             document.getElementById('detaje-terheqje-title').textContent = `💸 Tërheqjet e ${ortaku}` + (vitiFilter ? ` - ${vitiFilter}` : '');
             
             // Përditëso statistikat
-            document.getElementById('detaje-total').textContent = `${total.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
+            document.getElementById('detaje-total').textContent = `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             document.getElementById('detaje-count').textContent = count;
-            document.getElementById('detaje-average').textContent = `${average.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
+            document.getElementById('detaje-average').textContent = `${average.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             
             // Krijo tabelën
             const tbody = document.getElementById('detaje-terheqje-tbody');
@@ -3824,7 +3824,7 @@ function editoTransaksionin(id) {
                         <td>${t.data}</td>
                         <td>${t.pershkrimi}</td>
                         <td style="color: #9333EA; font-weight: 600;">
-                            ${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD
+                            ${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -3858,12 +3858,12 @@ function editoTransaksionin(id) {
             csvContent += 'Data,Përshkrimi,Shuma (MKD)\n';
             
             terheqjet.forEach(t => {
-                csvContent += `${t.data},"${t.pershkrimi}","${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 0})}"\n`;
+                csvContent += `${t.data},"${t.pershkrimi}","${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})}"\n`;
             });
             
             // Shto totalin
             const total = terheqjet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
-            csvContent += `\nTOTALI,"","${total.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD"\n`;
+            csvContent += `\nTOTALI,"","${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD"\n`;
             
             // Shkarko
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -3909,15 +3909,15 @@ function editoTransaksionin(id) {
                 '💰 Detajet e Shitjeve' + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 '#34C759',
                 [
-                    { label: 'TOTALI I SHITJEVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` },
+                    { label: 'TOTALI I SHITJEVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
                     { label: 'NUMRI I SHITJEVE', value: count },
-                    { label: 'MESATARJA PËR SHITJE', value: `${average.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` }
+                    { label: 'MESATARJA PËR SHITJE', value: `${average.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` }
                 ],
                 ['Data', 'Përshkrimi', 'Shuma'],
                 shitjet.map(t => [
                     t.data,
                     t.pershkrimi,
-                    `<span style="color: #34C759; font-weight: 600;">${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`
+                    `<span style="color: #34C759; font-weight: 600;">${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`
                 ]),
                 'Shitjet'
             );
@@ -3953,16 +3953,16 @@ function editoTransaksionin(id) {
                 '🔋 Detajet e Shpenzimeve' + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 '#FF3B30',
                 [
-                    { label: 'TOTALI I SHPENZIMEVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` },
+                    { label: 'TOTALI I SHPENZIMEVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
                     { label: 'NUMRI I SHPENZIMEVE', value: count },
-                    { label: 'MESATARJA PËR SHPENZIM', value: `${average.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` }
+                    { label: 'MESATARJA PËR SHPENZIM', value: `${average.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` }
                 ],
                 ['Data', 'Kategoria', 'Përshkrimi', 'Shuma'],
                 shpenzimet.map(t => [
                     t.data,
                     t.kategoria,
                     t.pershkrimi,
-                    `<span style="color: #FF3B30; font-weight: 600;">${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`
+                    `<span style="color: #FF3B30; font-weight: 600;">${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`
                 ]),
                 'Shpenzimet'
             );
@@ -4002,16 +4002,16 @@ function editoTransaksionin(id) {
                 '📊 Analiza e Fitimit Bruto' + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 color,
                 [
-                    { label: 'FITIMI BRUTO', value: `${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` },
-                    { label: 'TOTALI I SHITJEVE', value: `${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` },
-                    { label: 'TOTALI I SHPENZIMEVE', value: `${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` },
+                    { label: 'FITIMI BRUTO', value: `${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'TOTALI I SHITJEVE', value: `${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'TOTALI I SHPENZIMEVE', value: `${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
                     { label: 'PROFIT MARGIN', value: `${profitMargin.toFixed(2)}%` }
                 ],
                 ['Përshkrimi', 'Shuma'],
                 [
-                    ['Totali i Shitjeve', `<span style="color: #34C759; font-weight: 600;">+${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`],
-                    ['Totali i Shpenzimeve', `<span style="color: #FF3B30; font-weight: 600;">-${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`],
-                    ['Fitimi Bruto', `<span style="color: ${color}; font-weight: 700; font-size: 1.2em;">${fitimi >= 0 ? '+' : ''}${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`]
+                    ['Totali i Shitjeve', `<span style="color: #34C759; font-weight: 600;">+${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['Totali i Shpenzimeve', `<span style="color: #FF3B30; font-weight: 600;">-${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['Fitimi Bruto', `<span style="color: ${color}; font-weight: 700; font-size: 1.2em;">${fitimi >= 0 ? '+' : ''}${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
                 ],
                 'Fitimi_Bruto'
             );
@@ -4064,16 +4064,16 @@ function editoTransaksionin(id) {
                 `💼 Sa i Mbetet ${ortaku}` + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 color,
                 [
-                    { label: `SA I MBETET ${ortaku.toUpperCase()}`, value: `${pjesaFinale.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` },
+                    { label: `SA I MBETET ${ortaku.toUpperCase()}`, value: `${pjesaFinale.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
                     { label: 'STATUS', value: pjesaFinale >= 0 ? '✅ Ka për të marrë' : '⚠️ Ka marrë më shumë' }
                 ],
                 ['Përshkrimi', 'Shuma'],
                 [
-                    ['Fitimi Bruto (Total)', `${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`],
-                    [`Pjesa e ${ortaku} (50%)`, `<span style="color: #34C759; font-weight: 600;">+${pjesaFitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`],
-                    [`Investimet e ${ortaku}`, `<span style="color: #007AFF; font-weight: 600;">+${totalInvestime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`],
-                    [`Tërheqjet e ${ortaku}`, `<span style="color: #FF3B30; font-weight: 600;">-${totalTerheqje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`],
-                    [`<strong>SA I MBETET ${ortaku.toUpperCase()}</strong>`, `<span style="color: ${color}; font-weight: 700; font-size: 1.2em;">${pjesaFinale.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>`]
+                    ['Fitimi Bruto (Total)', `${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`],
+                    [`Pjesa e ${ortaku} (50%)`, `<span style="color: #34C759; font-weight: 600;">+${pjesaFitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    [`Investimet e ${ortaku}`, `<span style="color: #007AFF; font-weight: 600;">+${totalInvestime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    [`Tërheqjet e ${ortaku}`, `<span style="color: #FF3B30; font-weight: 600;">-${totalTerheqje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    [`<strong>SA I MBETET ${ortaku.toUpperCase()}</strong>`, `<span style="color: ${color}; font-weight: 700; font-size: 1.2em;">${pjesaFinale.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
                 ],
                 `Pjesa_${ortaku}`
             );
@@ -4222,15 +4222,15 @@ function editoTransaksionin(id) {
                     <div class="month-stats">
                         <div class="stat-item">
                             <span class="stat-label">Shitje:</span>
-                            <span class="stat-value positive">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>
+                            <span class="stat-value positive">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">Shpenzime:</span>
-                            <span class="stat-value negative">${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>
+                            <span class="stat-value negative">${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>
                         </div>
                         <div class="stat-item">
                             <span class="stat-label">Fitimi:</span>
-                            <span class="stat-value ${fitimi >= 0 ? 'positive' : 'negative'}">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</span>
+                            <span class="stat-value ${fitimi >= 0 ? 'positive' : 'negative'}">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>
                         </div>
                     </div>
                     <div class="month-footer">
@@ -4298,19 +4298,19 @@ function editoTransaksionin(id) {
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
                     <div>
                         <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">TOTALI I SHITJEVE</div>
-                        <div style="font-size: 1.6em; font-weight: 700; color: #34C759;">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</div>
+                        <div style="font-size: 1.6em; font-weight: 700; color: #34C759;">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</div>
                     </div>
                     <div>
                         <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">TOTALI I SHPENZIMEVE</div>
-                        <div style="font-size: 1.6em; font-weight: 700; color: #FF3B30;">${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</div>
+                        <div style="font-size: 1.6em; font-weight: 700; color: #FF3B30;">${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</div>
                     </div>
                     <div>
                         <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">FITIMI BRUTO</div>
-                        <div style="font-size: 1.6em; font-weight: 700; color: ${fitimi >= 0 ? '#34C759' : '#FF3B30'};">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</div>
+                        <div style="font-size: 1.6em; font-weight: 700; color: ${fitimi >= 0 ? '#34C759' : '#FF3B30'};">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</div>
                     </div>
                     <div>
                         <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">CASH FLOW</div>
-                        <div style="font-size: 1.6em; font-weight: 700; color: ${cashFlow >= 0 ? '#007AFF' : '#FF3B30'};">${cashFlow.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</div>
+                        <div style="font-size: 1.6em; font-weight: 700; color: ${cashFlow >= 0 ? '#007AFF' : '#FF3B30'};">${cashFlow.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</div>
                     </div>
                     <div>
                         <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">TRANSAKSIONE</div>
@@ -4362,7 +4362,7 @@ function editoTransaksionin(id) {
                         <td>${t.pershkrimi}</td>
                         <td>${t.kategoria || '-'}</td>
                         <td style="color: ${amountColor}; font-weight: 600; text-align: right;">
-                            ${sign}${amount.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD
+                            ${sign}${amount.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
                         </td>
                     `;
                     tbody.appendChild(row);
@@ -4389,10 +4389,10 @@ function editoTransaksionin(id) {
             
             // Statistikat
             csvContent += `PËRMBLEDHJE\n`;
-            csvContent += `Totali i Shitjeve,"${stats.totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD"\n`;
-            csvContent += `Totali i Shpenzimeve,"${stats.totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD"\n`;
-            csvContent += `Fitimi Bruto,"${stats.fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD"\n`;
-            csvContent += `Cash Flow,"${stats.cashFlow.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD"\n`;
+            csvContent += `Totali i Shitjeve,"${stats.totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD"\n`;
+            csvContent += `Totali i Shpenzimeve,"${stats.totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD"\n`;
+            csvContent += `Fitimi Bruto,"${stats.fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD"\n`;
+            csvContent += `Cash Flow,"${stats.cashFlow.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD"\n`;
             csvContent += `Numri i Transaksioneve,${transactions.length}\n\n`;
             
             // Transaksionet
@@ -4402,7 +4402,7 @@ function editoTransaksionin(id) {
             transactions.forEach(t => {
                 const amount = t.shuma >= 0 ? t.shuma : Math.abs(t.shuma);
                 const sign = t.shuma >= 0 ? '+' : '-';
-                csvContent += `${t.data},"${t.tipi}","${t.pershkrimi}","${t.kategoria || '-'}","${sign}${amount.toLocaleString('mk-MK', {minimumFractionDigits: 0})}"\n`;
+                csvContent += `${t.data},"${t.tipi}","${t.pershkrimi}","${t.kategoria || '-'}","${sign}${amount.toLocaleString('mk-MK', {minimumFractionDigits: 2})}"\n`;
             });
             
             // Shkarko
@@ -4453,19 +4453,19 @@ function editoTransaksionin(id) {
                         <div class="summary-grid">
                             <div class="summary-item">
                                 <div class="summary-label">Totali i Shitjeve</div>
-                                <div class="summary-value positive">${stats.totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</div>
+                                <div class="summary-value positive">${stats.totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</div>
                             </div>
                             <div class="summary-item">
                                 <div class="summary-label">Totali i Shpenzimeve</div>
-                                <div class="summary-value negative">${stats.totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</div>
+                                <div class="summary-value negative">${stats.totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</div>
                             </div>
                             <div class="summary-item">
                                 <div class="summary-label">Fitimi Bruto</div>
-                                <div class="summary-value ${stats.fitimi >= 0 ? 'positive' : 'negative'}">${stats.fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</div>
+                                <div class="summary-value ${stats.fitimi >= 0 ? 'positive' : 'negative'}">${stats.fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</div>
                             </div>
                             <div class="summary-item">
                                 <div class="summary-label">Cash Flow</div>
-                                <div class="summary-value ${stats.cashFlow >= 0 ? 'positive' : 'negative'}">${stats.cashFlow.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</div>
+                                <div class="summary-value ${stats.cashFlow >= 0 ? 'positive' : 'negative'}">${stats.cashFlow.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</div>
                             </div>
                         </div>
                         <p style="margin-top: 15px;"><strong>Numri i Transaksioneve:</strong> ${transactions.length}</p>
@@ -4493,7 +4493,7 @@ function editoTransaksionin(id) {
                                         <td>${t.tipi}</td>
                                         <td>${t.pershkrimi}</td>
                                         <td>${t.kategoria || '-'}</td>
-                                        <td class="${colorClass}">${sign}${amount.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</td>
+                                        <td class="${colorClass}">${sign}${amount.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
                                     </tr>
                                 `;
                             }).join('')}
@@ -4575,8 +4575,8 @@ function editoTransaksionin(id) {
                     rreshti.className = klasa;
 
                     const shumaText = t.shuma >= 0 ?
-                        `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` :
-                        `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
+                        `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` :
+                        `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
                     const emoji = t.tipi === 'Shitje' ? '💰' : t.tipi === 'Shpenzim' ? '🔋' : t.tipi === 'Investim' ? '💼' : t.tipi === 'Huamarrje' ? '🤝' : t.tipi === 'Kthim i Huasë' ? '💳' : '💸';
                     const shumaColor = t.shuma >= 0 ? '#34C759' : '#FF3B30';
 
@@ -5068,8 +5068,8 @@ body {
                 
                 transactions.forEach(t => {
                     const amount = t.shuma >= 0 ? 
-                        `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD` : 
-                        `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD`;
+                        `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` : 
+                        `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
                     
                     content += `
                         <tr>
@@ -5181,11 +5181,11 @@ body {
                     <h4>📊 Përmbledhja e Vitit ${year}</h4>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px;">
                         <div>
-                            <p><strong>Totali i Shitjeve:</strong> ${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</p>
-                            <p><strong>Totali i Shpenzimeve:</strong> ${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</p>
+                            <p><strong>Totali i Shitjeve:</strong> ${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</p>
+                            <p><strong>Totali i Shpenzimeve:</strong> ${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</p>
                         </div>
                         <div>
-                            <p><strong>Fitimi Bruto:</strong> ${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</p>
+                            <p><strong>Fitimi Bruto:</strong> ${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</p>
                             <p><strong>Gjithsej Transaksione:</strong> ${yearlyTransactions.length}</p>
                         </div>
                     </div>
@@ -5212,9 +5212,9 @@ body {
                 monthlyBreakdown += `
                     <tr>
                         <td style="padding: 8px; border: 1px solid #ddd;">${monthNames[month-1]}</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">${monthShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</td>
-                        <td style="padding: 8px; border: 1px solid #ddd;">${monthShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</td>
-                        <td style="padding: 8px; border: 1px solid #ddd; color: ${monthFitimi >= 0 ? '#34C759' : '#FF3B30'}">${monthFitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">${monthShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
+                        <td style="padding: 8px; border: 1px solid #ddd;">${monthShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
+                        <td style="padding: 8px; border: 1px solid #ddd; color: ${monthFitimi >= 0 ? '#34C759' : '#FF3B30'}">${monthFitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
                     </tr>
                 `;
             }
@@ -5415,9 +5415,9 @@ body {
                     <h1>⚡ SUNENERGY - Raport Vjetor ${year}</h1>
                     <div class="summary">
                         <h3>Përmbledhje Vjetore:</h3>
-                        <p><strong>Totali i Shitjeve:</strong> ${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</p>
-                        <p><strong>Totali i Shpenzimeve:</strong> ${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</p>
-                        <p><strong>Fitimi Bruto:</strong> ${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</p>
+                        <p><strong>Totali i Shitjeve:</strong> ${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</p>
+                        <p><strong>Totali i Shpenzimeve:</strong> ${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</p>
+                        <p><strong>Fitimi Bruto:</strong> ${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</p>
                         <p><strong>Gjithsej Transaksione:</strong> ${transactions.length}</p>
                     </div>
                     <p style="text-align: center; margin-top: 40px; color: #666;">
@@ -5681,7 +5681,7 @@ function ngarkoRaportinVjetor(year) {
                 <td style="padding: 10px 12px; border: 1px solid #ddd;">
                     <span style="color: #667eea;">📂</span> ${kategoria}
                 </td>
-                <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; font-weight: 600;">${shuma.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</td>
+                <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; font-weight: 600;">${shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
                 <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; color: #666; font-size: 0.95em;">${perqindja}%</td>
             </tr>
         `;
@@ -5708,13 +5708,13 @@ function ngarkoRaportinVjetor(year) {
             <tr style="background: ${rowColor};">
                 <td style="padding: 12px 14px; border: 1px solid #ddd; font-weight: 600;">${monthNames[month-1]} ${year}</td>
                 <td style="padding: 12px 14px; border: 1px solid #ddd; text-align: right; color: #34C759; font-weight: 600;">
-                    ${monthShitje > 0 ? monthShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0}) : '0.00'} MKD
+                    ${monthShitje > 0 ? monthShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2}) : '0.00'} MKD
                 </td>
                 <td style="padding: 12px 14px; border: 1px solid #ddd; text-align: right; color: #FF3B30; font-weight: 600;">
-                    ${monthHarxhime > 0 ? monthHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 0}) : '0.00'} MKD
+                    ${monthHarxhime > 0 ? monthHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 2}) : '0.00'} MKD
                 </td>
                 <td style="padding: 12px 14px; border: 1px solid #ddd; text-align: right; font-weight: 700; color: ${monthFitimi >= 0 ? '#3B82F6' : '#FF3B30'}; font-size: 1.05em;">
-                    ${monthFitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD
+                    ${monthFitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
                 </td>
             </tr>
         `;
@@ -5733,7 +5733,7 @@ function ngarkoRaportinVjetor(year) {
                 <!-- HYRJET -->
                 <div style="background: linear-gradient(135deg, #34C759, #30D158); padding: 20px; border-radius: 12px; color: white; text-align: center;">
                     <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">💰 SHITJET</div>
-                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})}</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
                     <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
                     <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${shitjet.length} shitje</div>
                 </div>
@@ -5741,7 +5741,7 @@ function ngarkoRaportinVjetor(year) {
                 <!-- HARXHIMET -->
                 <div style="background: linear-gradient(135deg, #FF3B30, #FF6961); padding: 20px; border-radius: 12px; color: white; text-align: center;">
                     <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">💸 HARXHIMET</div>
-                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 0})}</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
                     <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
                     <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${shpenzimet.length} harxhime</div>
                 </div>
@@ -5749,7 +5749,7 @@ function ngarkoRaportinVjetor(year) {
                 <!-- FITIMI -->
                 <div style="background: linear-gradient(135deg, ${fitimi >= 0 ? '#3B82F6, #60A5FA' : '#EF4444, #F87171'}); padding: 20px; border-radius: 12px; color: white; text-align: center;">
                     <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">📈 FITIMI</div>
-                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})}</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
                     <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
                     <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${fitimi >= 0 ? '✅ Pozitiv' : '⚠️ Negativ'}</div>
                 </div>
@@ -5757,7 +5757,7 @@ function ngarkoRaportinVjetor(year) {
                 <!-- TËRHEQJET NEXHA -->
                 <div style="background: linear-gradient(135deg, #667eea, #764ba2); padding: 20px; border-radius: 12px; color: white; text-align: center;">
                     <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">💼 NEXHA</div>
-                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalTerheqjeNexha.toLocaleString('mk-MK', {minimumFractionDigits: 0})}</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalTerheqjeNexha.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
                     <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
                     <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${terheqjetNexha.length} tërheqje</div>
                 </div>
@@ -5765,7 +5765,7 @@ function ngarkoRaportinVjetor(year) {
                 <!-- TËRHEQJET GRESA -->
                 <div style="background: linear-gradient(135deg, #f093fb, #f5576c); padding: 20px; border-radius: 12px; color: white; text-align: center;">
                     <div style="font-size: 0.85em; opacity: 0.9; margin-bottom: 8px;">💼 GRESA</div>
-                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalTerheqjeGresa.toLocaleString('mk-MK', {minimumFractionDigits: 0})}</div>
+                    <div style="font-size: 1.8em; font-weight: 700; margin: 8px 0;">${totalTerheqjeGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
                     <div style="font-size: 0.8em; opacity: 0.85;">MKD</div>
                     <div style="font-size: 0.75em; opacity: 0.8; margin-top: 8px;">${terheqjetGresa.length} tërheqje</div>
                 </div>
@@ -5790,7 +5790,7 @@ function ngarkoRaportinVjetor(year) {
                         <tfoot>
                             <tr style="background: #f3f4f6; font-weight: 700;">
                                 <td style="padding: 12px; border: 1px solid #ddd;">TOTALI</td>
-                                <td style="padding: 12px; border: 1px solid #ddd; text-align: right; color: #FF3B30;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</td>
+                                <td style="padding: 12px; border: 1px solid #ddd; text-align: right; color: #FF3B30;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
                                 <td style="padding: 12px; border: 1px solid #ddd; text-align: right;">100%</td>
                             </tr>
                         </tfoot>
@@ -5818,13 +5818,13 @@ function ngarkoRaportinVjetor(year) {
                             <tr style="background: linear-gradient(135deg, rgba(102,126,234,0.15), rgba(118,75,162,0.15)); font-weight: 700;">
                                 <td style="padding: 14px; border: 1px solid #ddd; font-size: 1.05em;">TOTALI ${year}</td>
                                 <td style="padding: 14px; border: 1px solid #ddd; text-align: right; color: #34C759; font-size: 1.05em;">
-                                    ${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD
+                                    ${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
                                 </td>
                                 <td style="padding: 14px; border: 1px solid #ddd; text-align: right; color: #FF3B30; font-size: 1.05em;">
-                                    ${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD
+                                    ${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
                                 </td>
                                 <td style="padding: 14px; border: 1px solid #ddd; text-align: right; color: ${fitimi >= 0 ? '#3B82F6' : '#FF3B30'}; font-size: 1.15em;">
-                                    ${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD
+                                    ${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
                                 </td>
                             </tr>
                         </tfoot>
@@ -5880,7 +5880,7 @@ function ngarkoRaportinMujor(year, month) {
                 <td style="padding: 10px 12px; border: 1px solid #ddd;">
                     <span style="color: #667eea;">📂</span> ${kategoria}
                 </td>
-                <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; font-weight: 600;">${shuma.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</td>
+                <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; font-weight: 600;">${shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
                 <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; color: #666; font-size: 0.95em;">${perqindja}%</td>
             </tr>
         `;
@@ -5899,7 +5899,7 @@ function ngarkoRaportinMujor(year, month) {
                 <!-- HYRJET -->
                 <div style="background: linear-gradient(135deg, #34C759, #30D158); padding: 25px; border-radius: 12px; color: white; text-align: center;">
                     <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 10px;">💰 TOTALI I SHITJEVE</div>
-                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 0})}</div>
+                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
                     <div style="font-size: 0.85em; opacity: 0.85;">MKD</div>
                     <div style="font-size: 0.8em; opacity: 0.8; margin-top: 10px;">${shitjet.length} shitje</div>
                 </div>
@@ -5907,7 +5907,7 @@ function ngarkoRaportinMujor(year, month) {
                 <!-- HARXHIMET -->
                 <div style="background: linear-gradient(135deg, #FF3B30, #FF6961); padding: 25px; border-radius: 12px; color: white; text-align: center;">
                     <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 10px;">💸 TOTALI I HARXHIMEVE</div>
-                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 0})}</div>
+                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
                     <div style="font-size: 0.85em; opacity: 0.85;">MKD</div>
                     <div style="font-size: 0.8em; opacity: 0.8; margin-top: 10px;">${shpenzimet.length} harxhime</div>
                 </div>
@@ -5915,7 +5915,7 @@ function ngarkoRaportinMujor(year, month) {
                 <!-- FITIMI -->
                 <div style="background: linear-gradient(135deg, ${fitimi >= 0 ? '#3B82F6, #60A5FA' : '#EF4444, #F87171'}); padding: 25px; border-radius: 12px; color: white; text-align: center;">
                     <div style="font-size: 0.9em; opacity: 0.9; margin-bottom: 10px;">📈 FITIMI</div>
-                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 0})}</div>
+                    <div style="font-size: 2.2em; font-weight: 700; margin: 10px 0;">${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})}</div>
                     <div style="font-size: 0.85em; opacity: 0.85;">MKD</div>
                     <div style="font-size: 0.8em; opacity: 0.8; margin-top: 10px;">${fitimi >= 0 ? '✅ Fitim pozitiv' : '⚠️ Fitim negativ'}</div>
                 </div>
@@ -5940,7 +5940,7 @@ function ngarkoRaportinMujor(year, month) {
                         <tfoot>
                             <tr style="background: #f3f4f6; font-weight: 700;">
                                 <td style="padding: 12px; border: 1px solid #ddd;">TOTALI</td>
-                                <td style="padding: 12px; border: 1px solid #ddd; text-align: right; color: #FF3B30;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD</td>
+                                <td style="padding: 12px; border: 1px solid #ddd; text-align: right; color: #FF3B30;">${totalHarxhime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
                                 <td style="padding: 12px; border: 1px solid #ddd; text-align: right;">100%</td>
                             </tr>
                         </tfoot>
@@ -6084,9 +6084,9 @@ function shfaqDetajetKategorise(kategoria, year, lloji = 'vjetor', month = '') {
     document.getElementById('detaje-kategoria-title').textContent = `📂 ${kategoria} - ${perioda}`;
     
     // Përditëso përmbledhjen
-    document.getElementById('detaje-kategoria-total').textContent = total.toLocaleString('mk-MK', {minimumFractionDigits: 0}) + ' MKD';
+    document.getElementById('detaje-kategoria-total').textContent = total.toLocaleString('mk-MK', {minimumFractionDigits: 2}) + ' MKD';
     document.getElementById('detaje-kategoria-count').textContent = count;
-    document.getElementById('detaje-kategoria-average').textContent = average.toLocaleString('mk-MK', {minimumFractionDigits: 0}) + ' MKD';
+    document.getElementById('detaje-kategoria-average').textContent = average.toLocaleString('mk-MK', {minimumFractionDigits: 2}) + ' MKD';
     
     // Rendis transaksionet sipas datës (më të rejat para)
     filteredTransactions.sort((a, b) => {
@@ -6104,7 +6104,7 @@ function shfaqDetajetKategorise(kategoria, year, lloji = 'vjetor', month = '') {
                 <td style="padding: 12px; border: 1px solid #e5e7eb;">${t.data}</td>
                 <td style="padding: 12px; border: 1px solid #e5e7eb;">${t.pershkrimi}</td>
                 <td style="padding: 12px; border: 1px solid #e5e7eb; text-align: right; font-weight: 600; color: #FF3B30;">
-                    ${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 0})} MKD
+                    ${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
                 </td>
             </tr>
         `;
@@ -6123,7 +6123,7 @@ function shfaqDetajetKategorise(kategoria, year, lloji = 'vjetor', month = '') {
     document.getElementById('detaje-kategoria-tbody').innerHTML = tableHTML;
     
     // Përditëso totalin në footer të tabelës
-    document.getElementById('detaje-kategoria-footer-total').textContent = total.toLocaleString('mk-MK', {minimumFractionDigits: 0}) + ' MKD';
+    document.getElementById('detaje-kategoria-footer-total').textContent = total.toLocaleString('mk-MK', {minimumFractionDigits: 2}) + ' MKD';
     
     // Hap modalin
     document.getElementById('modal-detaje-kategoria').style.display = 'block';
