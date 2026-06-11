@@ -1704,7 +1704,7 @@ body {
                         </select>
                         <select id="filter-viti" onchange="filtroTabelen()">
                             <option value="">Të gjitha vitet</option>
-                            <option value="2026">2026</option>
+                            <option value="2026" selected>2026</option>
                             <option value="2025">2025</option>
                             <option value="2024">2024</option>
                             <option value="2023">2023</option>
@@ -2978,16 +2978,15 @@ body {
             initializeCharts();
             
             // Load data and update UI
+            showAllTransactions = true;
             ngarkoTabelen();
+            showAllTransactions = false;
             llogaritPermbledhjen();
             updateCharts();
             
-            // Vendos 2026 si vit default dhe apliko filtrin
-            const filterVitiEl = document.getElementById('filter-viti');
-            if (filterVitiEl) {
-                filterVitiEl.value = '2026';
-                filtroTabelen();
-            }
+            // Default filtri: viti 2026
+            document.getElementById('filter-viti').value = '2026';
+            filtroTabelen();
             
             console.log('Dashboard-i u inicializua me sukses!');
         }
