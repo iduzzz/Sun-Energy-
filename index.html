@@ -1704,7 +1704,7 @@ body {
                         </select>
                         <select id="filter-viti" onchange="filtroTabelen()">
                             <option value="">Të gjitha vitet</option>
-                            <option value="2026">2026</option>
+                            <option value="2026" selected>2026</option>
                             <option value="2025">2025</option>
                             <option value="2024">2024</option>
                             <option value="2023">2023</option>
@@ -2464,6 +2464,7 @@ body {
         // Variabla për të ruajtur filtrat aktuale
         let currentFilters = {
             muaji: '',
+            viti: '2026',
             type: '',
             pershkrimi: '',
             kategoria: ''
@@ -2981,6 +2982,7 @@ body {
             ngarkoTabelen();
             llogaritPermbledhjen();
             updateCharts();
+            filtroTabelen();
             
             console.log('Dashboard-i u inicializua me sukses!');
         }
