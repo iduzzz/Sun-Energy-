@@ -2515,8 +2515,23 @@ body {
                 transaksionet = result.data.map(row => {
                     let dataValue = row[1] || '';
                     
-                    // Fix date if it's a timestamp
-                    if (dataValue && dataValue.includes('T')) {
+                    // Fix date if it's a full date string from Sheets (e.g. "Sat Jun 02 2026 00:00:00 GMT+0100...")
+                    if (dataValue && dataValue.includes('GMT')) {
+                        // Parse duke marrë datën direkt nga stringu pa u ndikuar nga timezone
+                        const parts = dataValue.split(' ');
+                        // parts[0]=DayName, parts[1]=MonthName, parts[2]=Day, parts[3]=Year
+                        const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                        const monthIndex = monthNames.indexOf(parts[1]);
+                        if (monthIndex !== -1) {
+                            const day = String(parseInt(parts[2])).padStart(2, '0');
+                            const month = String(monthIndex + 1).padStart(2, '0');
+                            const year = parts[3];
+                            dataValue = `${day}-${month}-${year}`;
+                            console.log(`🔧 Fixed GMT date: ${row[1].substring(0,30)} -> ${dataValue}`);
+                        }
+                    }
+                    // Fix date if it's a ISO timestamp
+                    else if (dataValue && dataValue.includes('T')) {
                         const dateObj = new Date(dataValue);
                         const day = String(dateObj.getDate()).padStart(2, '0');
                         const month = String(dateObj.getMonth() + 1).padStart(2, '0');
@@ -2527,7 +2542,7 @@ body {
                     // Check if it's in YYYY-MM-DD format and convert to DD-MM-YYYY
                     else if (dataValue && dataValue.match(/^\d{4}-\d{2}-\d{2}$/)) {
                         const parts = dataValue.split('-');
-                        dataValue = `${parts[2]}-${parts[1]}-${parts[0]}`; // Convert YYYY-MM-DD to DD-MM-YYYY
+                        dataValue = `${parts[2]}-${parts[1]}-${parts[0]}`;
                         console.log(`🔧 Converted YYYY-MM-DD to DD-MM-YYYY: ${row[1]} -> ${dataValue}`);
                     }
                     // Fix dates ONLY if second part > 12 (clearly MM-DD-YYYY)
@@ -2535,13 +2550,10 @@ body {
                         const parts = dataValue.split('-');
                         const first = parseInt(parts[0]);
                         const second = parseInt(parts[1]);
-                        
-                        // Only fix if second part > 12 (clearly a month in MM-DD-YYYY format)
                         if (second > 12) {
                             dataValue = `${parts[1]}-${parts[0]}-${parts[2]}`;
                             console.log(`🔧 Fixed MM-DD (month>12): ${row[1]} -> ${dataValue}`);
                         } else {
-                            // Assume DD-MM-YYYY format (correct format)
                             console.log(`✅ Already DD-MM-YYYY: ${dataValue}`);
                         }
                     }
