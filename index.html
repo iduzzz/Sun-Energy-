@@ -1661,6 +1661,12 @@ body {
                     </button>
                 </li>
                 <li class="menu-item">
+                    <button class="menu-button" onclick="forcFullSync()" style="color: #FF9500;">
+                        <span class="icon">🔄</span>
+                        Rifresko Sheets
+                    </button>
+                </li>
+                <li class="menu-item">
                     <button class="menu-button" onclick="importData()">
                         <span class="icon">📥</span>
                         Importo të Dhëna
@@ -2800,6 +2806,19 @@ body {
             setTimeout(() => {
                 indicator.classList.add('hidden');
             }, 3000);
+        }
+
+        async function forcFullSync() {
+            if (!confirm('Ky veprim do të rishkruajë të gjitha ' + transaksionet.length + ' transaksionet në Google Sheets me format të ri. Vazhdo?')) return;
+            showStorageIndicator('info', '🔄 Duke bërë full sync...');
+            const result = await saveDataToGoogleSheets();
+            if (result) {
+                showStorageIndicator('success', '✅ Full sync u krye me sukses!');
+                alert('✅ Të gjitha ' + transaksionet.length + ' transaksionet u sinkronizuan me format të ri!');
+            } else {
+                showStorageIndicator('error', '⚠️ Full sync dështoi');
+                alert('⚠️ Gabim gjatë sync. Provo përsëri.');
+            }
         }
 
         function backupData() {
