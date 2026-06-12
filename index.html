@@ -2621,7 +2621,7 @@ body {
                 
                 // PRIT për response (me timeout)
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 sekonda timeout
+                const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 sekonda timeout
                 
                 const response = await fetch(GOOGLE_SHEETS_CONFIG.webAppUrl, {
                     method: 'POST',
