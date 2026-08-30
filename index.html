@@ -22,7 +22,7 @@
             width: 100%;
             height: 100vh;
             height: -webkit-fill-available; /* Safari iOS fix */
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -63,7 +63,7 @@
         .login-logo h1 {
             font-size: 2.2em;
             font-weight: 700;
-            color: #667eea;
+            color: #2d6a9f;
             margin-bottom: 8px;
             -webkit-font-smoothing: antialiased;
         }
@@ -100,7 +100,7 @@
         
         .login-input:focus {
             outline: none !important;
-            border-color: #667eea;
+            border-color: #2d6a9f;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
             transform: scale(1);
             -webkit-transform: scale(1);
@@ -124,7 +124,7 @@
         .login-btn {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
             color: white;
             border: none;
             border-radius: 16px;
@@ -204,7 +204,7 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            background: linear-gradient(135deg, #f0f4f8 0%, #e8eef5 50%, #f4f7fb 100%);
             min-height: 100vh;
             color: #1d1d1f;
         }
@@ -242,7 +242,7 @@
         .logo h1 {
             font-size: 2em;
             font-weight: 700;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 5px;
@@ -284,7 +284,7 @@
         }
         
         .menu-button.active {
-            background: linear-gradient(135deg, #007AFF, #5856D6);
+            background: linear-gradient(135deg, #1e3a5f, #2d6a9f);
             color: white;
             box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3);
         }
@@ -395,7 +395,7 @@
             font-size: 2.5em;
             font-weight: 700;
             margin-bottom: 10px;
-            background: linear-gradient(135deg, #1d1d1f 0%, #86868b 100%);
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5f8a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -426,7 +426,7 @@
         }
         
         .main-table th {
-            background: linear-gradient(135deg, #007AFF, #5856D6);
+            background: linear-gradient(135deg, #1e3a5f, #2d6a9f);
             color: white;
             padding: 20px;
             text-align: left;
@@ -474,62 +474,91 @@
             background: rgba(255, 59, 48, 0.05);
         }
         
+        .tip-te-ardhura {
+            border-left: 4px solid #00C7BE;
+            background: rgba(0, 199, 190, 0.05);
+        }
+        
+        .tip-kapital {
+            border-left: 4px solid #8E8E93;
+            background: rgba(142, 142, 147, 0.05);
+        }
+        
         /* Cards - Kompakte */
         .summary {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 10px;
         }
         
         .summary-card {
             background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(20px);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding: 12px 14px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.2);
             text-align: center;
             transition: all 0.2s ease;
         }
         
         .summary-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
         }
         
         .summary-card h3 {
-            font-size: 0.9em;
+            font-size: 0.72em;
             font-weight: 600;
             color: #86868b;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            letter-spacing: 0.3px;
         }
         
         .summary-card .amount {
-            font-size: 1.6em;
+            font-size: 1.15em;
             font-weight: 700;
             color: #1d1d1f;
         }
         
+        .summary-card.positive {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.08), rgba(22, 163, 74, 0.05));
+            border-left: 4px solid #22c55e;
+        }
+        
         .summary-card.positive .amount {
-            color: #34C759;
+            color: #16a34a;
+        }
+        
+        .summary-card.negative {
+            background: linear-gradient(135deg, rgba(255, 59, 48, 0.08), rgba(220, 38, 38, 0.05));
+            border-left: 4px solid #FF3B30;
         }
         
         .summary-card.negative .amount {
             color: #FF3B30;
         }
         
+        .summary-card.primary {
+            background: linear-gradient(135deg, rgba(30, 58, 95, 0.08), rgba(45, 106, 159, 0.05));
+            border-left: 4px solid #2d6a9f;
+        }
+        
+        .summary-card.primary .amount {
+            color: #1e3a5f;
+        }
+        
         .summary-card.warning {
-            background: linear-gradient(135deg, rgba(255, 159, 10, 0.1), rgba(255, 204, 0, 0.1));
-            border-left: 4px solid #FF9F0A;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(217, 119, 6, 0.07));
+            border-left: 4px solid #f59e0b;
         }
         
         .summary-card.warning .amount {
-            color: #FF9F0A;
+            color: #d97706;
         }
         
         .summary-card.danger {
-            background: linear-gradient(135deg, rgba(255, 59, 48, 0.1), rgba(255, 105, 97, 0.1));
+            background: linear-gradient(135deg, rgba(255, 59, 48, 0.1), rgba(220, 38, 38, 0.07));
             border-left: 4px solid #FF3B30;
         }
         
@@ -538,21 +567,21 @@
         }
         
         .summary-card.info {
-            background: linear-gradient(135deg, rgba(0, 122, 255, 0.1), rgba(88, 86, 214, 0.1));
-            border-left: 4px solid #007AFF;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.10), rgba(8, 145, 178, 0.07));
+            border-left: 4px solid #06b6d4;
         }
         
         .summary-card.info .amount {
-            color: #007AFF;
+            color: #0891b2;
         }
         
         .summary-card.purple {
-            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(168, 85, 247, 0.1));
-            border-left: 4px solid #9333EA;
+            background: linear-gradient(135deg, rgba(109, 40, 217, 0.08), rgba(139, 92, 246, 0.06));
+            border-left: 4px solid #7c3aed;
         }
         
         .summary-card.purple .amount {
-            color: #9333EA;
+            color: #6d28d9;
         }
         
         /* Kartela Mujore */
@@ -805,7 +834,7 @@
         }
         
         .progress-fill.sales {
-            background: linear-gradient(90deg, #34C759, #30D158);
+            background: linear-gradient(90deg, #22c55e, #16a34a);
         }
         
         .progress-fill.profit {
@@ -813,7 +842,7 @@
         }
         
         .progress-fill.efficiency {
-            background: linear-gradient(90deg, #FF9F0A, #FFCC02);
+            background: linear-gradient(90deg, #f59e0b, #d97706);
         }
         
         .activity-list {
@@ -937,7 +966,7 @@
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #007AFF, #5856D6);
+            background: linear-gradient(135deg, #1e3a5f, #2d6a9f);
             color: white;
             box-shadow: 0 4px 20px rgba(0, 122, 255, 0.3);
         }
@@ -1602,6 +1631,12 @@ body {
                                 </button>
                             </li>
                             <li class="submenu-item">
+                                <button class="submenu-button" onclick="hapModal('te-ardhura')">
+                                    <span class="icon">🏦</span>
+                                    Regjistro Të Ardhura
+                                </button>
+                            </li>
+                            <li class="submenu-item">
                                 <button class="submenu-button" onclick="hapModal('shpenzim')">
                                     <span class="icon">🔋</span>
                                     Regjistro Shpenzim
@@ -1649,6 +1684,12 @@ body {
                     </button>
                 </li>
                 <li class="menu-item">
+                    <button class="menu-button" onclick="hapModal('pasqyra-financiare')">
+                        <span class="icon">📊</span>
+                        Pasqyra Financiare
+                    </button>
+                </li>
+                <li class="menu-item">
                     <button class="menu-button" onclick="eksportoNeExcel()">
                         <span class="icon">📄</span>
                         Eksporto Excel
@@ -1658,6 +1699,12 @@ body {
                     <button class="menu-button" onclick="backupData()">
                         <span class="icon">💾</span>
                         Backup të Dhënave
+                    </button>
+                </li>
+                <li class="menu-item">
+                    <button class="menu-button" onclick="shfaqLogun()">
+                        <span class="icon">📋</span>
+                        Historiku i Ndryshimeve
                     </button>
                 </li>
                 <li class="menu-item">
@@ -1712,17 +1759,17 @@ body {
                             <option value="">Të gjitha vitet</option>
                             <option value="2026">2026</option>
                             <option value="2025">2025</option>
-                            <option value="2024">2024</option>
-                            <option value="2023">2023</option>
                         </select>
                         <select id="filter-type" onchange="filtroTabelen()">
                             <option value="">Të gjitha tipet</option>
                             <option value="Shitje">Shitjet</option>
+                            <option value="Të Ardhura">Të Ardhurat</option>
                             <option value="Shpenzim">Shpenzimet</option>
                             <option value="Tërheqje">Tërheqjet</option>
                             <option value="Investim">Investimet</option>
                             <option value="Huamarrje">Huamarrjet</option>
                             <option value="Kthim i Huasë">Kthim i Huasë</option>
+                            <option value="Kapital">Kapital (Neutral)</option>
 </select>
                         <input type="text" id="filter-pershkrimi" placeholder="Filtro sipas përshkrimit..." onkeyup="filtroTabelen()" style="padding: 8px 12px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 8px; background: rgba(255, 255, 255, 0.9); font-size: 14px;">
                         <select id="filter-kategoria" onchange="filtroTabelen()">
@@ -1759,53 +1806,71 @@ body {
 
             <!-- Dashboard Analytics - Në fund -->
             <div class="dashboard-analytics">
-                <!-- Summary Cards - Lart -->
-                <div class="summary">
-                    <div class="summary-card positive clickable" onclick="shfaqDetajeShitje()" style="cursor: pointer;">
-                        <h3>TOTALI I SHITJEVE</h3>
-                        <div class="amount" id="total-shitje">0.00 MKD</div>
-                        <div class="trend" id="trend-shitje">+0%</div>
-                        <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
-                    </div>
-                    <div class="summary-card negative clickable" onclick="shfaqDetajeShpenzime()" style="cursor: pointer;">
-                        <h3>TOTALI I SHPENZIMEVE</h3>
-                        <div class="amount" id="total-shpenzime">0.00 MKD</div>
-                        <div class="trend" id="trend-shpenzime">+0%</div>
-                        <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
-                    </div>
-                    <div class="summary-card primary clickable" onclick="shfaqDetajeFitimi()" style="cursor: pointer;">
-                        <h3>FITIMI BRUTO</h3>
-                        <div class="amount" id="fitimi-bruto">0.00 MKD</div>
-                        <div class="trend" id="trend-fitimi">+0%</div>
-                        <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
-                    </div>
+                <!-- SELECTOR VITI - GLOBAL -->
+                <div style="background: rgba(255,255,255,0.9); border-radius: 16px; padding: 10px 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);">
+                    <span style="font-size: 14px; font-weight: 600; color: #1d1d1f;">📅 Viti:</span>
+                    <select id="selector-viti-global" onchange="ndryshoVitin(this.value)" style="padding: 6px 12px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); font-size: 14px; font-weight: 600; background: white; cursor: pointer;">
+                        <option value="2026" selected>2026</option>
+                        <option value="2025">2025</option>
+                        <option value="">Të gjitha vitet</option>
+                    </select>
+                    <span id="label-viti-aktual" style="font-size: 13px; color: #86868b; margin-left: 4px;">Duke shfaqur vitin 2026</span>
+                </div>
 
-                    <div class="summary-card clickable" onclick="shfaqDetajePjesaNexha()" style="cursor: pointer;">
-                        <h3>SA I MBETET NEXHA</h3>
-                        <div class="amount" id="pjesa-nexha">0.00 MKD</div>
-                        <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                <!-- ZONA 1: PASQYRA E VITIT -->
+                <div style="background: rgba(255,255,255,0.9); border-radius: 12px; padding: 10px 14px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <h4 style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; color: #86868b; letter-spacing: 0.5px; text-transform: uppercase;">💰 PASQYRA FINANCIARE</h4>
+                    <div class="summary">
+                        <div class="summary-card positive clickable" onclick="shfaqDetajeShitje()" style="cursor: pointer;">
+                            <h3>SHITJET</h3>
+                            <div class="amount" id="total-shitje">0.00 MKD</div>
+                            <div class="trend" id="trend-shitje">+0%</div>
+                            <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                        </div>
+                        <div class="summary-card info clickable" onclick="shfaqDetajeTeArdhura()" style="cursor: pointer;">
+                            <h3>🏦 TË ARDHURA TJERA</h3>
+                            <div class="amount" id="total-te-ardhura">0.00 MKD</div>
+                            <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                        </div>
+                        <div class="summary-card negative clickable" onclick="shfaqDetajeShpenzime()" style="cursor: pointer;">
+                            <h3>SHPENZIMET</h3>
+                            <div class="amount" id="total-shpenzime">0.00 MKD</div>
+                            <div class="trend" id="trend-shpenzime">+0%</div>
+                            <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                        </div>
+                        <div class="summary-card primary clickable" onclick="shfaqDetajeFitimi()" style="cursor: pointer;">
+                            <h3>FITIMI BRUTO</h3>
+                            <div class="amount" id="fitimi-bruto">0.00 MKD</div>
+                            <div class="trend" id="trend-fitimi">+0%</div>
+                            <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                        </div>
                     </div>
-                    <div class="summary-card clickable" onclick="shfaqDetajePjesaGresa()" style="cursor: pointer;">
-                        <h3>SA I MBETET GRESA</h3>
-                        <div class="amount" id="pjesa-gresa">0.00 MKD</div>
-                        <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
-                    </div>
-                    <div class="summary-card purple clickable" onclick="shfaqDetajeTerheqje('Nexha')" style="cursor: pointer;">
-                        <h3>💸 TËRHEQJET NEXHA</h3>
-                        <div class="amount" id="terheqjet-nexha">0.00 MKD</div>
-                        <small style="font-size: 0.7em; opacity: 0.8;">Kliko për detaje</small>
-                    </div>
-                    <div class="summary-card purple clickable" onclick="shfaqDetajeTerheqje('Gresa')" style="cursor: pointer;">
-                        <h3>💸 TËRHEQJET GRESA</h3>
-                        <div class="amount" id="terheqjet-gresa">0.00 MKD</div>
-                        <small style="font-size: 0.7em; opacity: 0.8;">Kliko për detaje</small>
-                    </div>
-                    
-                    <!-- KARTELA E RE: PASQYRA FINANCIARE -->
-                    <div class="summary-card info clickable" onclick="hapModal('pasqyra-financiare')" style="cursor: pointer; grid-column: span 2;">
-                        <h3>📊 PASQYRA FINANCIARE</h3>
-                        <div style="font-size: 1.2em; font-weight: 600; margin: 15px 0;">Raporti i plotë vjetor/mujor</div>
-                        <small style="font-size: 0.8em; opacity: 0.9;">Kliko për të parë hyrjet, daljet dhe fitimin</small>
+                </div>
+
+                <!-- ZONA 2: GJENDJA E ORTAKËVE -->
+                <div style="background: rgba(255,255,255,0.9); border-radius: 12px; padding: 10px 14px; margin-bottom: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05);">
+                    <h4 style="margin: 0 0 8px 0; font-size: 11px; font-weight: 600; color: #86868b; letter-spacing: 0.5px; text-transform: uppercase;">👥 GJENDJA E ORTAKËVE</h4>
+                    <div class="summary">
+                        <div class="summary-card warning clickable" onclick="shfaqDetajePjesaNexha()" style="cursor: pointer;">
+                            <h3>SA I MBETET NEXHA</h3>
+                            <div class="amount" id="pjesa-nexha">0.00 MKD</div>
+                            <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                        </div>
+                        <div class="summary-card warning clickable" onclick="shfaqDetajePjesaGresa()" style="cursor: pointer;">
+                            <h3>SA I MBETET GRESA</h3>
+                            <div class="amount" id="pjesa-gresa">0.00 MKD</div>
+                            <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
+                        </div>
+                        <div class="summary-card purple clickable" onclick="shfaqDetajeTerheqje('Nexha')" style="cursor: pointer;">
+                            <h3>💸 TËRHEQJET NEXHA</h3>
+                            <div class="amount" id="terheqjet-nexha">0.00 MKD</div>
+                            <small style="font-size: 0.7em; opacity: 0.8;">Kliko për detaje</small>
+                        </div>
+                        <div class="summary-card purple clickable" onclick="shfaqDetajeTerheqje('Gresa')" style="cursor: pointer;">
+                            <h3>💸 TËRHEQJET GRESA</h3>
+                            <div class="amount" id="terheqjet-gresa">0.00 MKD</div>
+                            <small style="font-size: 0.7em; opacity: 0.8;">Kliko për detaje</small>
+                        </div>
                     </div>
                 </div>
 
@@ -1827,8 +1892,7 @@ body {
                                 </select>
                                 <select id="chart-year" onchange="updateChartView()">
                                     <option value="2025">2025</option>
-                                    <option value="2024">2024</option>
-                                    <option value="2026">2026</option>
+                                            <option value="2026">2026</option>
                                 </select>
                             </div>
                         </div>
@@ -1871,7 +1935,57 @@ body {
         </div>
     </div>
 
-    <!-- Modal për Shpenzime -->
+    <!-- Modal për Të Ardhura -->
+    <div id="modal-te-ardhura" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🏦 Regjistro Të Ardhura</h2>
+                <button class="close" onclick="mbyllModal('te-ardhura')">×</button>
+            </div>
+            <div class="form-group">
+                <label>Data:</label>
+                <input type="date" id="te-ardhura-data">
+                <small style="color: #86868b; font-size: 12px; margin-top: 5px; display: block;">
+                    Formati: DD-MM-YYYY
+                </small>
+            </div>
+            <div class="form-group">
+                <label>Përshkrimi:</label>
+                <input type="text" id="te-ardhura-pershkrimi" placeholder="p.sh. Interesa nga depoziti" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label>Shuma (MKD):</label>
+                <input type="number" id="te-ardhura-shuma" placeholder="0.00" step="0.01">
+            </div>
+            <button class="btn btn-success" onclick="shtoTeArdhura()">✅ Shto Të Ardhurat</button>
+        </div>
+    </div>
+
+    <!-- Modal Log Ndryshimesh -->
+    <div id="modal-log" class="modal">
+        <div class="modal-content" style="max-width: 750px;">
+            <div class="modal-header">
+                <h2>📋 Historiku i Ndryshimeve</h2>
+                <button class="close" onclick="document.getElementById('modal-log').style.display='none'">×</button>
+            </div>
+            <div style="overflow-x: auto; max-height: 450px; overflow-y: auto;">
+                <table style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: rgba(0,0,0,0.05);">
+                            <th style="padding:10px; text-align:left; font-size:13px;">Koha</th>
+                            <th style="padding:10px; text-align:left; font-size:13px;">Veprimi</th>
+                            <th style="padding:10px; text-align:left; font-size:13px;">Detaje</th>
+                        </tr>
+                    </thead>
+                    <tbody id="log-tbody"></tbody>
+                </table>
+            </div>
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <button onclick="fshijLogun()" style="background: #FF3B30; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px;">🗑️ Fshij Historikun</button>
+                <button onclick="document.getElementById('modal-log').style.display='none'" style="background: #86868b; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px;">Mbyll</button>
+            </div>
+        </div>
+    </div>
     <div id="modal-shpenzim" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -2089,7 +2203,19 @@ body {
                 <input type="number" id="edito-shuma" placeholder="0.00" step="0.01">
             </div>
             <input type="hidden" id="edito-id">
-            <input type="hidden" id="edito-tipi">
+            <div class="form-group">
+                <label>Tipi:</label>
+                <select id="edito-tipi" style="width:100%; padding:10px; border:1px solid rgba(0,0,0,0.1); border-radius:8px; background:rgba(255,255,255,0.9); font-size:14px;">
+                    <option value="Shitje">💰 Shitje</option>
+                    <option value="Të Ardhura">🏦 Të Ardhura</option>
+                    <option value="Shpenzim">🔋 Shpenzim</option>
+                    <option value="Tërheqje">💸 Tërheqje</option>
+                    <option value="Investim">💼 Investim</option>
+                    <option value="Huamarrje">🤝 Huamarrje</option>
+                    <option value="Kthim i Huasë">💳 Kthim i Huasë</option>
+                    <option value="Kapital">⚪ Kapital (Neutral)</option>
+                </select>
+            </div>
             <button class="btn btn-primary" onclick="ruajEditimin()">✅ Ruaj Ndryshimet</button>
         </div>
     </div>
@@ -2106,7 +2232,6 @@ body {
                 <label>Zgjidhni Vitin:</label>
                 <select id="viti-raport-mujor" onchange="ngarkoRaporteMujore()">
                     <option value="2025">2025</option>
-                    <option value="2024">2024</option>
                     <option value="2026">2026</option>
                 </select>
             </div>
@@ -2132,7 +2257,7 @@ body {
             </div>
             
             <!-- Tabela me Transaksione -->
-            <div style="max-height: 50vh; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 15px;">
+            <div style="max-height: 65vh; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 15px;">
                 <table class="main-table" style="margin: 0;">
                     <thead style="position: sticky; top: 0; background: #f2f2f2; z-index: 10;">
                         <tr>
@@ -2167,9 +2292,9 @@ body {
             <div class="form-group">
                 <label>Zgjidhni Vitin:</label>
                 <select id="viti-raporti">
+                    <option value="2026" selected>2026</option>
                     <option value="2025">2025</option>
-                    <option value="2024">2024</option>
-                    <option value="2026">2026</option>
+                    <option value="">Të gjitha vitet</option>
                 </select>
             </div>
             
@@ -2193,32 +2318,30 @@ body {
 
     <!-- Modal Universal për Detaje -->
     <div id="modal-detaje-universal" class="modal">
-        <div class="modal-content" style="max-width: 900px;">
-            <div class="modal-header">
+        <div style="background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);margin:3vh auto;padding:24px 28px;border-radius:16px;width:85vw;max-width:1000px;height:88vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.2);">
+            <div class="modal-header" style="flex-shrink:0;margin-bottom:10px;padding-bottom:10px;">
                 <h2 id="universal-title">📊 Detajet</h2>
-                <button class="close" onclick="mbyllModal('detaje-universal')">×</button>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <select id="universal-viti-selector" onchange="if(window.currentUniversalFunc) window.currentUniversalFunc(this.value)"
+                        style="padding:5px 10px;border-radius:8px;border:1px solid #e5e7eb;font-size:13px;font-weight:600;background:white;cursor:pointer;">
+                        <option value="">Të gjitha vitet</option>
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                    </select>
+                    <button class="close" onclick="mbyllModal('detaje-universal')">×</button>
+                </div>
             </div>
-            
-            <!-- Përmbledhja -->
-            <div id="universal-summary" style="padding: 20px; border-radius: 12px; margin-bottom: 20px;">
-                <!-- Do të plotësohet me JavaScript -->
+            <div id="universal-summary" style="padding:10px 14px;border-radius:10px;margin-bottom:10px;flex-shrink:0;">
             </div>
-            
-            <!-- Tabela me Detaje -->
-            <div style="max-height: 50vh; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 15px;">
-                <table class="main-table" style="margin: 0;">
-                    <thead style="position: sticky; top: 0; background: #f2f2f2; z-index: 10;">
-                        <tr id="universal-table-header">
-                            <!-- Do të plotësohet me JavaScript -->
-                        </tr>
+            <div style="flex:1;overflow-y:auto;border:1px solid #e5e7eb;border-radius:8px;min-height:0;">
+                <table class="main-table" style="margin:0;">
+                    <thead style="position:sticky;top:0;background:#f2f2f2;z-index:10;">
+                        <tr id="universal-table-header"></tr>
                     </thead>
-                    <tbody id="universal-tbody">
-                        <!-- Do të plotësohet me JavaScript -->
-                    </tbody>
+                    <tbody id="universal-tbody"></tbody>
                 </table>
             </div>
-            
-            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;flex-shrink:0;">
                 <button class="btn btn-primary" onclick="eksportoDetajetUniversal()">📄 Eksporto në CSV</button>
                 <button class="btn btn-secondary" onclick="mbyllModal('detaje-universal')">Mbyll</button>
             </div>
@@ -2227,47 +2350,48 @@ body {
 
     <!-- Modal për Detajet e Tërheqjeve -->
     <div id="modal-detaje-terheqje" class="modal">
-        <div class="modal-content" style="max-width: 900px;">
-            <div class="modal-header">
+        <div style="background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);margin:3vh auto;padding:20px 24px;border-radius:16px;width:85vw;max-width:1000px;height:88vh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.2);border:1px solid rgba(255,255,255,0.2);">
+            <div class="modal-header" style="flex-shrink:0;margin-bottom:10px;padding-bottom:10px;">
                 <h2 id="detaje-terheqje-title">💸 Detajet e Tërheqjeve</h2>
-                <button class="close" onclick="mbyllModal('detaje-terheqje')">×</button>
+                <div style="display:flex;align-items:center;gap:10px;">
+                    <select id="terheqje-viti-selector" onchange="shfaqDetajeTerheqje(window.currentOrtaku, this.value)"
+                        style="padding:5px 10px;border-radius:8px;border:1px solid #e5e7eb;font-size:13px;font-weight:600;background:white;cursor:pointer;">
+                        <option value="">Të gjitha vitet</option>
+                        <option value="2026">2026</option>
+                        <option value="2025">2025</option>
+                    </select>
+                    <button class="close" onclick="mbyllModal('detaje-terheqje')">×</button>
+                </div>
             </div>
-            
-            <!-- Përmbledhja -->
-            <div style="background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), rgba(168, 85, 247, 0.1)); padding: 20px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid #9333EA;">
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+            <div style="background:linear-gradient(135deg,rgba(147,51,234,0.1),rgba(168,85,247,0.1));padding:14px 20px;border-radius:12px;margin-bottom:12px;border-left:4px solid #9333EA;flex-shrink:0;">
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:15px;">
                     <div>
-                        <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">TOTALI I TËRHEQUR</div>
-                        <div style="font-size: 1.8em; font-weight: 700; color: #9333EA;" id="detaje-total">0.00 MKD</div>
+                        <div style="font-size:0.78em;color:#86868b;margin-bottom:3px;">TOTALI I TËRHEQUR</div>
+                        <div style="font-size:1.5em;font-weight:700;color:#9333EA;" id="detaje-total">0.00 MKD</div>
                     </div>
                     <div>
-                        <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">NUMRI I TËRHEQJEVE</div>
-                        <div style="font-size: 1.8em; font-weight: 700; color: #9333EA;" id="detaje-count">0</div>
+                        <div style="font-size:0.78em;color:#86868b;margin-bottom:3px;">NUMRI I TËRHEQJEVE</div>
+                        <div style="font-size:1.5em;font-weight:700;color:#9333EA;" id="detaje-count">0</div>
                     </div>
                     <div>
-                        <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">MESATARJA PËR TËRHEQJE</div>
-                        <div style="font-size: 1.8em; font-weight: 700; color: #9333EA;" id="detaje-average">0.00 MKD</div>
+                        <div style="font-size:0.78em;color:#86868b;margin-bottom:3px;">MESATARJA PËR TËRHEQJE</div>
+                        <div style="font-size:1.5em;font-weight:700;color:#9333EA;" id="detaje-average">0.00 MKD</div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Tabela me Detaje -->
-            <div style="max-height: 50vh; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 15px;">
-                <table class="main-table" style="margin: 0;">
-                    <thead style="position: sticky; top: 0; background: #f2f2f2; z-index: 10;">
+            <div style="flex:1;overflow-y:auto;border:1px solid #e5e7eb;border-radius:8px;min-height:0;">
+                <table class="main-table" style="margin:0;">
+                    <thead style="position:sticky;top:0;background:#f2f2f2;z-index:10;">
                         <tr>
                             <th>Data</th>
                             <th>Përshkrimi</th>
                             <th>Shuma</th>
                         </tr>
                     </thead>
-                    <tbody id="detaje-terheqje-tbody">
-                        <!-- Do të plotësohet me JavaScript -->
-                    </tbody>
+                    <tbody id="detaje-terheqje-tbody"></tbody>
                 </table>
             </div>
-            
-            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+            <div style="margin-top:14px;display:flex;gap:10px;justify-content:flex-end;flex-shrink:0;">
                 <button class="btn btn-primary" onclick="eksportoTerheqjet()">📄 Eksporto në CSV</button>
                 <button class="btn btn-secondary" onclick="mbyllModal('detaje-terheqje')">Mbyll</button>
             </div>
@@ -2289,15 +2413,15 @@ body {
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
                     <div>
                         <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">TOTALI</div>
-                        <div style="font-size: 1.8em; font-weight: 700; color: #667eea;" id="detaje-kategoria-total">0.00 MKD</div>
+                        <div style="font-size: 1.8em; font-weight: 700; color: #2d6a9f;" id="detaje-kategoria-total">0.00 MKD</div>
                     </div>
                     <div>
                         <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">NUMRI I TRANSAKSIONEVE</div>
-                        <div style="font-size: 1.8em; font-weight: 700; color: #667eea;" id="detaje-kategoria-count">0</div>
+                        <div style="font-size: 1.8em; font-weight: 700; color: #2d6a9f;" id="detaje-kategoria-count">0</div>
                     </div>
                     <div>
                         <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">MESATARJA</div>
-                        <div style="font-size: 1.8em; font-weight: 700; color: #667eea;" id="detaje-kategoria-average">0.00 MKD</div>
+                        <div style="font-size: 1.8em; font-weight: 700; color: #2d6a9f;" id="detaje-kategoria-average">0.00 MKD</div>
                     </div>
                 </div>
             </div>
@@ -2347,10 +2471,9 @@ body {
                     <div>
                         <label style="display: block; font-weight: 600; margin-bottom: 5px;">📅 Zgjedh Vitin:</label>
                         <select id="pasqyra-viti" style="padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-size: 1em;">
+                            <option value="2026" selected>2026</option>
                             <option value="2025">2025</option>
-                            <option value="2024">2024</option>
-                            <option value="2023">2023</option>
-                            <option value="2026">2026</option>
+                            <option value="">Të gjitha vitet</option>
                         </select>
                     </div>
                     <div>
@@ -2447,6 +2570,7 @@ body {
         let currentUser = null;
         let monthlyChart = null;
         let transaksionet = [];
+        let logNdryshimesh = JSON.parse(localStorage.getItem('sunenergy_log') || '[]');
         let showAllTransactions = false; // Kontroll për shfaqjen e transaksioneve
         const INITIAL_ROWS_TO_SHOW = 10; // Numri i rreshtave fillestare
         
@@ -2674,6 +2798,9 @@ body {
                     const result = await response.json();
                     if (result.success) {
                         console.log(`✅ Single op [${action}] sukses:`, transaksion.id);
+                        if (action === 'add') {
+                            shtoLog('➕ Shtim', `${transaksion.tipi} - ${transaksion.pershkrimi} - ${Math.abs(transaksion.shuma).toLocaleString('mk-MK')} MKD (${transaksion.data})`);
+                        }
                         saveDataToStorage();
                         showSyncIndicator('success');
                         return true;
@@ -3014,7 +3141,10 @@ body {
             
             // Default filtri: viti 2026
             document.getElementById('filter-viti').value = '2026';
+            const selectorGlobal = document.getElementById('selector-viti-global');
+            if (selectorGlobal) selectorGlobal.value = '2026';
             filtroTabelen();
+            llogaritPermbledhjen();
             
             console.log('Dashboard-i u inicializua me sukses!');
         }
@@ -3143,6 +3273,7 @@ body {
                 alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
                 return;
             }
+            if (!kontrolloDateParagjistrimit(data)) return;
 
             const transaksioni = {
                 id: generateId(),
@@ -3165,7 +3296,38 @@ body {
             mbyllModal('shitje');
         }
 
-        // Add expense
+        // Add Te Ardhura
+        async function shtoTeArdhura() {
+            const data = document.getElementById('te-ardhura-data').value;
+            const pershkrimi = document.getElementById('te-ardhura-pershkrimi').value;
+            const shuma = parseFloat(document.getElementById('te-ardhura-shuma').value);
+
+            if (!data || !pershkrimi || !shuma || isNaN(shuma)) {
+                alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
+                return;
+            }
+            if (!kontrolloDateParagjistrimit(data)) return;
+
+            const transaksioni = {
+                id: generateId(),
+                data: formatDateForDisplay(data),
+                tipi: 'Të Ardhura',
+                pershkrimi: pershkrimi,
+                kategoria: 'Të Ardhura',
+                shuma: shuma,
+                timestamp: new Date().toISOString()
+            };
+
+            transaksionet.push(transaksioni);
+            showSyncIndicator('syncing');
+            syncSingleOperation('add', transaksioni);
+            updateAutocompleteSuggestions();
+            ngarkoTabelen();
+            reapplyFilters();
+            llogaritPermbledhjen();
+            updateCharts();
+            mbyllModal('te-ardhura');
+        }
         async function shtoShpenzim() {
             const data = document.getElementById('shpenzim-data').value;
             const kategoria = document.getElementById('shpenzim-kategoria').value;
@@ -3176,6 +3338,7 @@ body {
                 alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
                 return;
             }
+            if (!kontrolloDateParagjistrimit(data)) return;
 
             const transaksioni = {
                 id: generateId(),
@@ -3208,6 +3371,7 @@ body {
                 alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
                 return;
             }
+            if (!kontrolloDateParagjistrimit(data)) return;
 
             const transaksioni = {
                 id: generateId(),
@@ -3242,6 +3406,7 @@ body {
                 alert('Ju lutem plotësoni fushat: Data, Ortaku dhe Shuma me vlera të sakta!');
                 return;
             }
+            if (!kontrolloDateParagjistrimit(data)) return;
 
             const transaksioni = {
                 id: generateId(),
@@ -3395,9 +3560,11 @@ function editoTransaksionin(id) {
                 ortakuGroup.style.display = 'block';
                 ortakuSelect.value = transaksioni.kategoria;
             }
+            // Të Ardhura, Shitje, Huamarrje, Kthim i Huasë, Kapital — nuk kanë kategori të veçantë
 
             // Update modal title
             const emoji = transaksioni.tipi === 'Shitje' ? '💰' : 
+                         transaksioni.tipi === 'Të Ardhura' ? '🏦' :
                          transaksioni.tipi === 'Shpenzim' ? '🔋' : 
                          transaksioni.tipi === 'Tërheqje' ? '💸' : 
                          transaksioni.tipi === 'Huamarrje' ? '🤝' : 
@@ -3410,6 +3577,60 @@ function editoTransaksionin(id) {
         }
 
         // Date formatting functions
+        function validoDate(dateInput) {
+            if (!dateInput) return { valid: false, mesazh: 'Data është e detyrueshme.' };
+            const date = new Date(dateInput);
+            const sot = new Date();
+            sot.setHours(23, 59, 59, 999);
+            const dyVjetMePare = new Date();
+            dyVjetMePare.setFullYear(sot.getFullYear() - 2);
+            
+            if (date > sot) {
+                return { valid: false, mesazh: `⚠️ Data është në të ardhmen. Je i sigurt që dëshiron ta regjistrosh?`, warning: true };
+            }
+            if (date < dyVjetMePare) {
+                return { valid: false, mesazh: `⚠️ Data është më shumë se 2 vjet e vjetër. Je i sigurt?`, warning: true };
+            }
+            return { valid: true };
+        }
+
+        function shtoLog(veprimi, detaje) {
+            const hyrja = {
+                koha: new Date().toLocaleString('sq-AL'),
+                veprimi: veprimi,
+                detaje: detaje
+            };
+            logNdryshimesh.unshift(hyrja);
+            if (logNdryshimesh.length > 100) logNdryshimesh = logNdryshimesh.slice(0, 100);
+            localStorage.setItem('sunenergy_log', JSON.stringify(logNdryshimesh));
+        }
+
+        function shfaqLogun() {
+            const modal = document.getElementById('modal-log');
+            if (!modal) return;
+            const tbody = document.getElementById('log-tbody');
+            if (!tbody) return;
+            tbody.innerHTML = logNdryshimesh.length === 0 
+                ? '<tr><td colspan="3" style="text-align:center; padding:20px; opacity:0.6">Nuk ka ndryshime të regjistruara.</td></tr>'
+                : logNdryshimesh.map(h => `<tr><td style="white-space:nowrap; padding:8px; font-size:13px">${h.koha}</td><td style="padding:8px; font-size:13px; font-weight:600">${h.veprimi}</td><td style="padding:8px; font-size:13px">${h.detaje}</td></tr>`).join('');
+            modal.style.display = 'block';
+        }
+
+        function fshijLogun() {
+            if (!confirm('Je i sigurt që dëshiron ta fshish të gjithë historikun?')) return;
+            logNdryshimesh = [];
+            localStorage.removeItem('sunenergy_log');
+            shfaqLogun();
+        }
+
+        function kontrolloDateParagjistrimit(dateInput) {
+            const rezultat = validoDate(dateInput);
+            if (!rezultat.valid && rezultat.warning) {
+                return confirm(rezultat.mesazh);
+            }
+            return rezultat.valid || rezultat.warning === undefined;
+        }
+
         function formatDateForDisplay(dateInput) {
             // Handle different input formats and always return DD-MM-YYYY
             
@@ -3494,6 +3715,7 @@ function editoTransaksionin(id) {
                 alert('Ju lutem plotësoni të gjitha fushat me vlera të sakta!');
                 return;
             }
+            if (!kontrolloDateParagjistrimit(data)) return;
 
             // Gjej transaksionin
             const transaksioni = transaksionet.find(t => t.id === id);
@@ -3502,16 +3724,27 @@ function editoTransaksionin(id) {
                 return;
             }
 
-            // Vendos kategoria sipas fushave të dukshme
-            let kategoria = transaksioni.kategoria || '';
+            // Vendos kategoria sipas tipit të ri
+            let kategoria = '';
             const kategoriGroup = document.getElementById('edito-kategoria-group');
             const ortakuGroup = document.getElementById('edito-ortaku-group');
-            if (kategoriGroup && kategoriGroup.style.display === 'block') {
+            
+            if (tipi === 'Shpenzim') {
                 const sel = document.getElementById('edito-kategoria');
                 if (sel) kategoria = sel.value;
-            } else if (ortakuGroup && ortakuGroup.style.display === 'block') {
+            } else if (tipi === 'Tërheqje' || tipi === 'Investim') {
                 const selO = document.getElementById('edito-ortaku');
                 if (selO) kategoria = selO.value;
+            } else if (tipi === 'Shitje') {
+                kategoria = 'Shitje';
+            } else if (tipi === 'Të Ardhura') {
+                kategoria = 'Të Ardhura';
+            } else if (tipi === 'Huamarrje') {
+                kategoria = transaksioni.kategoria || 'Huamarrje';
+            } else if (tipi === 'Kthim i Huasë') {
+                kategoria = transaksioni.kategoria || 'Kthim i Huasë';
+            } else if (tipi === 'Kapital') {
+                kategoria = 'Kapital';
             }
 
             // Përditëso fushat
@@ -3520,15 +3753,19 @@ function editoTransaksionin(id) {
             transaksioni.kategoria = kategoria;
 
             // Shenja e shumës sipas tipit
-            if (tipi === 'Shitje' || tipi === 'Investim' || tipi === 'Huamarrje') {
+            if (tipi === 'Shitje' || tipi === 'Të Ardhura' || tipi === 'Investim' || tipi === 'Huamarrje') {
                 transaksioni.shuma = shuma;
             } else if (tipi === 'Shpenzim' || tipi === 'Tërheqje' || tipi === 'Kthim i Huasë') {
                 transaksioni.shuma = -shuma;
+            } else if (tipi === 'Kapital') {
+                transaksioni.shuma = transaksioni.shuma; // mbetet ashtu si është
             }
+            transaksioni.tipi = tipi;
 
             // Ruaj në Google Sheets - single update
             showSyncIndicator('syncing');
             syncSingleOperation('update', transaksioni);
+            shtoLog('✏️ Editim', `${transaksioni.tipi} - ${transaksioni.pershkrimi} - ${Math.abs(transaksioni.shuma).toLocaleString('mk-MK')} MKD (${transaksioni.data})`);
             console.log('✅ Transaksioni u përditësua dhe u ruajt në Google Sheets');
             
             // Përditëso UI
@@ -3586,23 +3823,26 @@ function editoTransaksionin(id) {
                 
                 let klasa = '';
                 if (t.tipi === 'Shitje') klasa = 'tip-shitje';
+                else if (t.tipi === 'Të Ardhura') klasa = 'tip-te-ardhura';
                 else if (t.tipi === 'Shpenzim') klasa = 'tip-shpenzim';
                 else if (t.tipi === 'Tërheqje') klasa = 'tip-terheqje';
                 else if (t.tipi === 'Huamarrje') klasa = 'tip-huamarrje';
                 else if (t.tipi === 'Kthim i Huasë') klasa = 'tip-kthim-huase';
+                else if (t.tipi === 'Kapital') klasa = 'tip-kapital';
                 
                 rreshti.className = klasa;
                 
-                // Shfaq shumën me emoji dhe ngjyrë
                 const shumaText = t.shuma >= 0 ? 
                     `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` : 
                     `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
                 
                 const emoji = t.tipi === 'Shitje' ? '💰' : 
+                            t.tipi === 'Të Ardhura' ? '🏦' :
                             t.tipi === 'Shpenzim' ? '🔋' : 
                             t.tipi === 'Investim' ? '💼' : 
                             t.tipi === 'Huamarrje' ? '🤝' :
-                            t.tipi === 'Kthim i Huasë' ? '💳' : '💸';
+                            t.tipi === 'Kthim i Huasë' ? '💳' :
+                            t.tipi === 'Kapital' ? '⚪' : '💸';
                 
                 const shumaColor = t.shuma >= 0 ? '#34C759' : '#FF3B30';
                 
@@ -3667,7 +3907,7 @@ function editoTransaksionin(id) {
                 expandRow.id = 'expand-row';
                 expandRow.innerHTML = `
                     <td colspan="6" style="text-align: center; padding: 20px; background: rgba(102, 126, 234, 0.05);">
-                        <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">
+                        <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">
                             📊 Shfaq të gjitha transaksionet (${transaksionetRenditura.length - INITIAL_ROWS_TO_SHOW} të tjera)
                         </button>
                     </td>
@@ -3679,7 +3919,7 @@ function editoTransaksionin(id) {
                 collapseRow.id = 'collapse-row';
                 collapseRow.innerHTML = `
                     <td colspan="6" style="text-align: center; padding: 20px; background: rgba(102, 126, 234, 0.05);">
-                        <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">
+                        <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">
                             🔼 Fshih transaksionet e vjetra (shfaq vetëm ${INITIAL_ROWS_TO_SHOW})
                         </button>
                     </td>
@@ -3728,6 +3968,7 @@ function editoTransaksionin(id) {
                 showSyncIndicator('syncing');
                 if (transaksioni) {
                     syncSingleOperation('delete', transaksioni);
+                    shtoLog('🗑️ Fshirje', `${transaksioni.tipi} - ${transaksioni.pershkrimi} - ${Math.abs(transaksioni.shuma).toLocaleString('mk-MK')} MKD (${transaksioni.data})`);
                 } else {
                     saveDataToGoogleSheets();
                 }
@@ -3740,6 +3981,23 @@ function editoTransaksionin(id) {
         }
 
         // Calculate summary
+        function ndryshoVitin(viti) {
+            // Sinkronizo filter-viti te tabela
+            const filterViti = document.getElementById('filter-viti');
+            if (filterViti) filterViti.value = viti;
+            
+            // Përditëso labelën
+            const label = document.getElementById('label-viti-aktual');
+            if (label) {
+                label.textContent = viti ? `Duke shfaqur vitin ${viti}` : 'Duke shfaqur të gjitha vitet';
+            }
+            
+            // Rillogarit gjithçka
+            llogaritPermbledhjen();
+            filtroTabelen();
+            updateCharts();
+        }
+
         function llogaritPermbledhjen() {
             // Merr filtrin e vitit nëse ekziston
             const filterVitiElement = document.getElementById('filter-viti');
@@ -3755,6 +4013,7 @@ function editoTransaksionin(id) {
             }
             
             const shitjet = transaksionetPerdorur.filter(t => t.tipi === 'Shitje');
+            const teArdhurat = transaksionetPerdorur.filter(t => t.tipi === 'Të Ardhura');
             const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim');
             const huamarrjet = transaksionetPerdorur.filter(t => t.tipi === 'Huamarrje');
             const kthimeHuase = transaksionetPerdorur.filter(t => t.tipi === 'Kthim i Huasë');
@@ -3764,11 +4023,12 @@ function editoTransaksionin(id) {
             
             // TOTALET OPERATIVE
             const totalShitje = shitjet.reduce((s,t)=>s+t.shuma,0);
+            const totalTeArdhura = teArdhurat.reduce((s,t)=>s+t.shuma,0);
             const totalShpenzime = Math.abs(shpenzimet.reduce((s,t)=>s+t.shuma,0));
             const totalInvestime = investimet.reduce((s,t)=>s+t.shuma,0);
             
-            // Fitimi Bruto = Shitje - Shpenzime (pa investime, pa huamarrje)
-            const fitimiBruto = totalShitje - totalShpenzime;
+            // Fitimi Bruto = Shitje + Të Ardhura - Shpenzime
+            const fitimiBruto = totalShitje + totalTeArdhura - totalShpenzime;
             
             // PJESËT E ORTAKËVE (nga fitimi bruto)
             const totalTerheqje = Math.abs(terheqjet.reduce((s,t)=>s+t.shuma,0));
@@ -3782,10 +4042,39 @@ function editoTransaksionin(id) {
 
             // Përditëso kartat
             document.getElementById('total-shitje').textContent = `${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            if (document.getElementById('total-te-ardhura')) {
+                document.getElementById('total-te-ardhura').textContent = `${totalTeArdhura.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            }
             document.getElementById('total-shpenzime').textContent = `${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             document.getElementById('fitimi-bruto').textContent = `${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
-            document.getElementById('pjesa-nexha').textContent = `${pjesaNexha.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
-            document.getElementById('pjesa-gresa').textContent = `${pjesaGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            
+            // Nexha - ngjyrë dinamike
+            const elNexha = document.getElementById('pjesa-nexha');
+            if (elNexha) {
+                elNexha.textContent = `${pjesaNexha.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+                elNexha.style.color = pjesaNexha >= 0 ? '#16a34a' : '#FF3B30';
+                const cardNexha = elNexha.closest('.summary-card');
+                if (cardNexha) {
+                    cardNexha.style.background = pjesaNexha >= 0 
+                        ? 'linear-gradient(135deg, rgba(34,197,94,0.08), rgba(22,163,74,0.05))'
+                        : 'linear-gradient(135deg, rgba(255,59,48,0.08), rgba(220,38,38,0.05))';
+                    cardNexha.style.borderLeft = `4px solid ${pjesaNexha >= 0 ? '#22c55e' : '#FF3B30'}`;
+                }
+            }
+            
+            // Gresa - ngjyrë dinamike
+            const elGresa = document.getElementById('pjesa-gresa');
+            if (elGresa) {
+                elGresa.textContent = `${pjesaGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+                elGresa.style.color = pjesaGresa >= 0 ? '#16a34a' : '#FF3B30';
+                const cardGresa = elGresa.closest('.summary-card');
+                if (cardGresa) {
+                    cardGresa.style.background = pjesaGresa >= 0 
+                        ? 'linear-gradient(135deg, rgba(34,197,94,0.08), rgba(22,163,74,0.05))'
+                        : 'linear-gradient(135deg, rgba(255,59,48,0.08), rgba(220,38,38,0.05))';
+                    cardGresa.style.borderLeft = `4px solid ${pjesaGresa >= 0 ? '#22c55e' : '#FF3B30'}`;
+                }
+            }
             
             // Përditëso kartat e tërheqjeve
             if (document.getElementById('terheqjet-nexha')) {
@@ -3797,75 +4086,131 @@ function editoTransaksionin(id) {
         }
 
         // Funksioni për të shfaqur detajet e tërheqjeve
-        function shfaqDetajeTerheqje(ortaku) {
-            // Merr filtrin e vitit nëse ekziston
+        function shfaqDetajeTerheqje(ortaku, vitiParam) {
             const filterVitiElement = document.getElementById('filter-viti');
-            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            const vitiFilter = vitiParam !== undefined ? vitiParam : (filterVitiElement ? filterVitiElement.value : '');
             
-            // Filtro transaksionet sipas vitit nëse është zgjedhur
             let transaksionetPerdorur = transaksionet;
             if (vitiFilter) {
                 transaksionetPerdorur = transaksionet.filter(t => {
                     const dateParts = t.data.split('-');
-                    if (dateParts.length === 3) {
-                        const year = dateParts[2]; // DD-MM-YYYY format
-                        return year === vitiFilter;
-                    }
-                    return false;
+                    return dateParts.length === 3 && dateParts[2] === vitiFilter;
                 });
             }
             
             const terheqjet = transaksionetPerdorur.filter(t => 
                 t.tipi === 'Tërheqje' && t.kategoria === ortaku
-            );
+            ).sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
             
-            // Sort by date (newest first)
-            terheqjet.sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
-            
-            // Llogarit statistikat
             const total = terheqjet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
             const count = terheqjet.length;
             const average = count > 0 ? total / count : 0;
             
-            // Përditëso titullin
             document.getElementById('detaje-terheqje-title').textContent = `💸 Tërheqjet e ${ortaku}` + (vitiFilter ? ` - ${vitiFilter}` : '');
-            
-            // Përditëso statistikat
             document.getElementById('detaje-total').textContent = `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             document.getElementById('detaje-count').textContent = count;
             document.getElementById('detaje-average').textContent = `${average.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             
-            // Krijo tabelën
             const tbody = document.getElementById('detaje-terheqje-tbody');
             tbody.innerHTML = '';
             
             if (terheqjet.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="3" style="text-align: center; padding: 40px; color: #86868b;">
-                            <div style="font-size: 3em; margin-bottom: 10px;">📭</div>
-                            <div style="font-size: 1.2em;">Nuk ka tërheqje të regjistruara për ${ortaku}${vitiFilter ? ' në vitin ' + vitiFilter : ''}</div>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:40px;color:#86868b;"><div style="font-size:3em">📭</div><div>Nuk ka tërheqje për ${ortaku}</div></td></tr>`;
             } else {
+                // Grupo sipas fjalës së parë - min 3 herë = grup i veçantë
+                const fjalaPare = {};
                 terheqjet.forEach(t => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${t.data}</td>
-                        <td>${t.pershkrimi}</td>
-                        <td style="color: #9333EA; font-weight: 600;">
-                            ${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
-                        </td>
-                    `;
-                    tbody.appendChild(row);
+                    const key = (t.pershkrimi || 'Të tjera').split(' ')[0];
+                    if (!fjalaPare[key]) fjalaPare[key] = [];
+                    fjalaPare[key].push(t);
                 });
+                
+                const grupetKryesore = {};
+                const teTjera = [];
+                Object.entries(fjalaPare).forEach(([key, items]) => {
+                    if (items.length >= 3) grupetKryesore[key] = items;
+                    else items.forEach(t => teTjera.push(t));
+                });
+
+                const renderGrup = (emri, transakcionet) => {
+                    const subtotal = transakcionet.reduce((s,t) => s+Math.abs(t.shuma), 0);
+                    const gId = `gt_${emri.replace(/[^a-zA-Z0-9]/g,'_')}_${Date.now()}_${Math.random().toString(36).slice(2,5)}`;
+                    
+                    const headerRow = document.createElement('tr');
+                    headerRow.style.cssText = 'background:rgba(147,51,234,0.08);cursor:pointer;user-select:none;';
+                    headerRow.onclick = () => {
+                        const details = tbody.querySelectorAll(`.${gId}`);
+                        const isHidden = details[0]?.style.display === 'none';
+                        details.forEach(r => r.style.display = isHidden ? '' : 'none');
+                        const icon = headerRow.querySelector('.exp-icon');
+                        icon.textContent = isHidden ? '−' : '+';
+                        icon.style.background = isHidden ? '#6B21A8' : '#9333EA';
+                    };
+                    headerRow.innerHTML = `
+                        <td colspan="2" style="padding:10px 14px;font-weight:600;color:#1d1d1f;">
+                            <span class="exp-icon" style="display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:#9333EA;color:white;font-weight:700;font-size:14px;margin-right:8px;flex-shrink:0;">+</span>
+                            ${emri}
+                            <span style="font-size:11px;color:#86868b;margin-left:6px">(${transakcionet.length} transaksione)</span>
+                        </td>
+                        <td style="padding:10px 14px;font-weight:700;color:#9333EA;text-align:right;">
+                            ${subtotal.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
+                        </td>`;
+                    tbody.appendChild(headerRow);
+                    
+                    transakcionet.forEach(t => {
+                        const dr = document.createElement('tr');
+                        dr.className = gId;
+                        dr.style.display = 'none';
+                        dr.style.background = 'rgba(147,51,234,0.03)';
+                        dr.innerHTML = `
+                            <td style="padding:6px 14px 6px 40px;color:#86868b;font-size:12px;white-space:nowrap;">${t.data}</td>
+                            <td style="padding:6px 14px;color:#555;font-size:12px;">${t.pershkrimi}</td>
+                            <td style="padding:6px 14px;text-align:right;color:#9333EA;font-size:12px;font-weight:500;">
+                                ${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
+                            </td>`;
+                        tbody.appendChild(dr);
+                    });
+                    
+                    // Kumulativ i grupit
+                    const kumRow = document.createElement('tr');
+                    kumRow.className = gId;
+                    kumRow.style.display = 'none';
+                    kumRow.style.cssText = 'background:rgba(147,51,234,0.12);border-top:1px dashed #9333EA;';
+                    kumRow.innerHTML = `
+                        <td colspan="2" style="padding:7px 14px 7px 40px;font-size:12px;font-weight:600;color:#6B21A8;">
+                            📊 Totali kumulativ — ${emri}
+                        </td>
+                        <td style="padding:7px 14px;text-align:right;font-weight:700;color:#6B21A8;font-size:13px;">
+                            ${subtotal.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
+                        </td>`;
+                    tbody.appendChild(kumRow);
+                };
+
+                // Rendit grupet sipas shumës dhe shfaq
+                Object.entries(grupetKryesore)
+                    .sort((a,b) => b[1].reduce((s,t)=>s+Math.abs(t.shuma),0) - a[1].reduce((s,t)=>s+Math.abs(t.shuma),0))
+                    .forEach(([emri, items]) => renderGrup(emri, items));
+                
+                if (teTjera.length > 0) {
+                    teTjera.sort((a,b) => Math.abs(b.shuma) - Math.abs(a.shuma));
+                    renderGrup('Të tjera', teTjera);
+                }
+
+                // Total i përgjithshëm
+                const totalRow = document.createElement('tr');
+                totalRow.style.cssText = 'background:rgba(147,51,234,0.15);border-top:2px solid #9333EA;';
+                totalRow.innerHTML = `
+                    <td colspan="2" style="padding:12px 14px;font-weight:700;font-size:15px;">TOTALI I PËRGJITHSHËM</td>
+                    <td style="padding:12px 14px;font-weight:700;font-size:15px;color:#9333EA;text-align:right;">
+                        ${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
+                    </td>`;
+                tbody.appendChild(totalRow);
             }
             
-            // Ruaj ortakun për eksport
             window.currentOrtaku = ortaku;
-            
-            // Hap modalin
+            // Sinkronizo selector-in e vitit
+            const sel = document.getElementById('terheqje-viti-selector');
+            if (sel) sel.value = vitiFilter;
             document.getElementById('modal-detaje-terheqje').style.display = 'block';
         }
         
@@ -3915,10 +4260,11 @@ function editoTransaksionin(id) {
         window.currentCardData = { title: '', data: [] };
         
         // 1. DETAJET E SHITJEVE
-        function shfaqDetajeShitje() {
+        function shfaqDetajeShitje(vitiParam) {
+            window.currentUniversalFunc = (v) => shfaqDetajeShitje(v);
             // Merr filtrin e vitit nëse ekziston
             const filterVitiElement = document.getElementById('filter-viti');
-            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            const vitiFilter = vitiParam !== undefined ? vitiParam : (filterVitiElement ? filterVitiElement.value : '');
             
             // Filtro transaksionet sipas vitit nëse është zgjedhur
             let transaksionetPerdorur = transaksionet;
@@ -3954,95 +4300,197 @@ function editoTransaksionin(id) {
             );
         }
         
-        // 2. DETAJET E SHPENZIMEVE
-        function shfaqDetajeShpenzime() {
-            // Merr filtrin e vitit nëse ekziston
+        // DETAJET E TË ARDHURAVE
+        function shfaqDetajeTeArdhura(vitiParam) {
+            window.currentUniversalFunc = (v) => shfaqDetajeTeArdhura(v);
             const filterVitiElement = document.getElementById('filter-viti');
-            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            const vitiFilter = vitiParam !== undefined ? vitiParam : (filterVitiElement ? filterVitiElement.value : '');
             
-            // Filtro transaksionet sipas vitit nëse është zgjedhur
             let transaksionetPerdorur = transaksionet;
             if (vitiFilter) {
                 transaksionetPerdorur = transaksionet.filter(t => {
                     const dateParts = t.data.split('-');
-                    if (dateParts.length === 3) {
-                        const year = dateParts[2]; // DD-MM-YYYY format
-                        return year === vitiFilter;
-                    }
-                    return false;
+                    return dateParts.length === 3 && dateParts[2] === vitiFilter;
                 });
             }
             
-            const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim');
-            shpenzimet.sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
+            const teArdhurat = transaksionetPerdorur.filter(t => t.tipi === 'Të Ardhura');
+            teArdhurat.sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
+            
+            const total = teArdhurat.reduce((sum, t) => sum + t.shuma, 0);
+            const count = teArdhurat.length;
+            const average = count > 0 ? total / count : 0;
+            
+            shfaqModalUniversal(
+                '🏦 Të Ardhura Tjera' + (vitiFilter ? ` - ${vitiFilter}` : ''),
+                '#00C7BE',
+                [
+                    { label: 'TOTALI I TË ARDHURAVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'NUMRI I TRANSAKSIONEVE', value: count },
+                    { label: 'MESATARJA', value: `${average.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` }
+                ],
+                ['Data', 'Përshkrimi', 'Shuma'],
+                teArdhurat.map(t => [
+                    t.data,
+                    t.pershkrimi,
+                    `<span style="color: #00C7BE; font-weight: 600;">${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`
+                ]),
+                'Të Ardhurat'
+            );
+        }
+        
+        // 2. DETAJET E SHPENZIMEVE
+        function shfaqDetajeShpenzime(vitiParam) {
+            window.currentUniversalFunc = (v) => shfaqDetajeShpenzime(v);
+            const filterVitiElement = document.getElementById('filter-viti');
+            const vitiFilter = vitiParam !== undefined ? vitiParam : (filterVitiElement ? filterVitiElement.value : '');
+            
+            let transaksionetPerdorur = transaksionet;
+            if (vitiFilter) {
+                transaksionetPerdorur = transaksionet.filter(t => {
+                    const dateParts = t.data.split('-');
+                    return dateParts.length === 3 && dateParts[2] === vitiFilter;
+                });
+            }
+            
+            const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim')
+                .sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
             
             const total = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
             const count = shpenzimet.length;
             const average = count > 0 ? total / count : 0;
-            
+
+            // Grupo sipas kategorisë
+            const grupet = {};
+            shpenzimet.forEach(t => {
+                const key = t.kategoria || 'Të tjera';
+                if (!grupet[key]) grupet[key] = [];
+                grupet[key].push(t);
+            });
+
+            // Ndërto rows me grupime
+            const rows = [];
+            let groupIndex = 0;
+
+            Object.entries(grupet).sort((a,b) => {
+                const sumA = a[1].reduce((s,t) => s+Math.abs(t.shuma), 0);
+                const sumB = b[1].reduce((s,t) => s+Math.abs(t.shuma), 0);
+                return sumB - sumA;
+            }).forEach(([grupi, transakcionet]) => {
+                const subtotal = transakcionet.reduce((s,t) => s+Math.abs(t.shuma), 0);
+                const gId = `grp-shp-${groupIndex++}`;
+                
+                rows.push({type: 'group', grupi, subtotal, transakcionet, gId});
+            });
+
             shfaqModalUniversal(
                 '🔋 Detajet e Shpenzimeve' + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 '#FF3B30',
                 [
                     { label: 'TOTALI I SHPENZIMEVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
                     { label: 'NUMRI I SHPENZIMEVE', value: count },
-                    { label: 'MESATARJA PËR SHPENZIM', value: `${average.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` }
+                    { label: 'MESATARJA', value: `${average.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` }
                 ],
-                ['Data', 'Kategoria', 'Përshkrimi', 'Shuma'],
-                shpenzimet.map(t => [
-                    t.data,
-                    t.kategoria,
-                    t.pershkrimi,
-                    `<span style="color: #FF3B30; font-weight: 600;">${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`
-                ]),
+                ['Kategoria / Data', 'Përshkrimi', 'Shuma'],
+                [],
                 'Shpenzimet'
             );
+
+            // Pas shfaqjes së modalit, ndërto tabelën me grupime
+            const tbody = document.getElementById('universal-tbody');
+            tbody.innerHTML = '';
+
+            if (shpenzimet.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:40px;color:#86868b;"><div style="font-size:3em">📭</div><div>Nuk ka shpenzime</div></td></tr>`;
+            } else {
+                rows.forEach(({grupi, subtotal, transakcionet, gId}) => {
+                    // Header i grupit
+                    const headerRow = document.createElement('tr');
+                    headerRow.style.cssText = 'background:rgba(255,59,48,0.08);cursor:pointer;';
+                    headerRow.onclick = () => {
+                        const details = tbody.querySelectorAll(`.${gId}`);
+                        const isHidden = details[0]?.style.display === 'none';
+                        details.forEach(r => r.style.display = isHidden ? '' : 'none');
+                        headerRow.querySelector('.expand-icon').textContent = isHidden ? '▼' : '▶';
+                    };
+                    headerRow.innerHTML = `
+                        <td colspan="2" style="padding:10px 14px;font-weight:600;color:#1d1d1f;">
+                            <span class="expand-icon" style="margin-right:8px;color:#FF3B30;">▶</span>
+                            ${grupi}
+                            <span style="font-size:11px;color:#86868b;margin-left:6px">(${transakcionet.length} transaksione)</span>
+                        </td>
+                        <td style="padding:10px 14px;font-weight:700;color:#FF3B30;text-align:right;">
+                            ${subtotal.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
+                        </td>`;
+                    tbody.appendChild(headerRow);
+
+                    // Detajet
+                    transakcionet.forEach(t => {
+                        const detailRow = document.createElement('tr');
+                        detailRow.className = gId;
+                        detailRow.style.display = 'none';
+                        detailRow.style.background = 'rgba(255,59,48,0.03)';
+                        detailRow.innerHTML = `
+                            <td style="padding:7px 14px 7px 36px;color:#86868b;font-size:13px;">${t.data}</td>
+                            <td style="padding:7px 14px;color:#86868b;font-size:13px;">${t.pershkrimi}</td>
+                            <td style="padding:7px 14px;color:#FF3B30;font-size:13px;text-align:right;">
+                                ${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
+                            </td>`;
+                        tbody.appendChild(detailRow);
+                    });
+                });
+
+                // Total row
+                const totalRow = document.createElement('tr');
+                totalRow.style.cssText = 'background:rgba(255,59,48,0.12);border-top:2px solid #FF3B30;';
+                totalRow.innerHTML = `
+                    <td colspan="2" style="padding:12px 14px;font-weight:700;font-size:15px;">TOTALI</td>
+                    <td style="padding:12px 14px;font-weight:700;font-size:15px;color:#FF3B30;text-align:right;">
+                        ${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD
+                    </td>`;
+                tbody.appendChild(totalRow);
+            }
         }
         
         // 3. DETAJET E FITIMIT
-        function shfaqDetajeFitimi() {
-            // Merr filtrin e vitit nëse ekziston
+        function shfaqDetajeFitimi(vitiParam) {
+            window.currentUniversalFunc = (v) => shfaqDetajeFitimi(v);
             const filterVitiElement = document.getElementById('filter-viti');
-            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            const vitiFilter = vitiParam !== undefined ? vitiParam : (filterVitiElement ? filterVitiElement.value : '');
             
-            // Filtro transaksionet sipas vitit nëse është zgjedhur
             let transaksionetPerdorur = transaksionet;
             if (vitiFilter) {
                 transaksionetPerdorur = transaksionet.filter(t => {
                     const dateParts = t.data.split('-');
-                    if (dateParts.length === 3) {
-                        const year = dateParts[2]; // DD-MM-YYYY format
-                        return year === vitiFilter;
-                    }
-                    return false;
+                    return dateParts.length === 3 && dateParts[2] === vitiFilter;
                 });
             }
             
-            const shitjet = transaksionetPerdorur.filter(t => t.tipi === 'Shitje');
-            const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim');
-            
-            const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
-            const totalShpenzime = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
-            const fitimi = totalShitje - totalShpenzime;
-            const profitMargin = totalShitje > 0 ? (fitimi / totalShitje) * 100 : 0;
-            
-            // Përcaktimi i ngjyrës bazuar në fitim
-            const color = fitimi >= 0 ? '#3B82F6' : '#FF3B30';
+            const totalShitje = transaksionetPerdorur.filter(t => t.tipi === 'Shitje').reduce((s,t) => s+t.shuma, 0);
+            const totalTeArdhura = transaksionetPerdorur.filter(t => t.tipi === 'Të Ardhura').reduce((s,t) => s+t.shuma, 0);
+            const totalShpenzime = Math.abs(transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim').reduce((s,t) => s+t.shuma, 0));
+            const fitimiBruto = totalShitje + totalTeArdhura - totalShpenzime;
+            const profitMargin = (totalShitje + totalTeArdhura) > 0 ? (fitimiBruto / (totalShitje + totalTeArdhura)) * 100 : 0;
+            const color = fitimiBruto >= 0 ? '#3B82F6' : '#FF3B30';
             
             shfaqModalUniversal(
-                '📊 Analiza e Fitimit Bruto' + (vitiFilter ? ` - ${vitiFilter}` : ''),
+                '📊 Analiza e Fitimit Bruto' + (vitiFilter ? ` - ${vitiFilter}` : ' - Të gjitha vitet'),
                 color,
                 [
-                    { label: 'FITIMI BRUTO', value: `${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
-                    { label: 'TOTALI I SHITJEVE', value: `${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
-                    { label: 'TOTALI I SHPENZIMEVE', value: `${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'FITIMI BRUTO TOTAL', value: `${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
                     { label: 'PROFIT MARGIN', value: `${profitMargin.toFixed(2)}%` }
                 ],
-                ['Përshkrimi', 'Shuma'],
+                ['Zëri', 'Shuma'],
                 [
-                    ['Totali i Shitjeve', `<span style="color: #34C759; font-weight: 600;">+${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    ['Totali i Shpenzimeve', `<span style="color: #FF3B30; font-weight: 600;">-${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    ['Fitimi Bruto', `<span style="color: ${color}; font-weight: 700; font-size: 1.2em;">${fitimi >= 0 ? '+' : ''}${fitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
+                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">💰 Të Ardhurat</span>', ''],
+                    ['💰 Shitja e Rrymës (operative)', `<span style="color:#34C759;font-weight:600">+${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['🏦 Të Ardhura Bankare (depozit + interes)', `<span style="color:#00C7BE;font-weight:600">+${totalTeArdhura.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['📥 Totali i Hyrjeve', `<span style="color:#34C759;font-weight:700">+${(totalShitje+totalTeArdhura).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">🔋 Shpenzimet</span>', ''],
+                    ['🔋 Shpenzimet Operative', `<span style="color:#FF3B30;font-weight:600">-${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">📊 Rezultati</span>', ''],
+                    [`<strong>📊 FITIMI BRUTO</strong>`, `<span style="color:${color};font-weight:700;font-size:1.2em">${fitimiBruto >= 0 ? '+' : ''}${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    [`<strong>Secilës ortak i takon (50%)</strong>`, `<span style="color:${color};font-weight:600">${(fitimiBruto/2).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
                 ],
                 'Fitimi_Bruto'
             );
@@ -4058,56 +4506,192 @@ function editoTransaksionin(id) {
             shfaqDetajePjesaOrtaku('Gresa');
         }
         
-        function shfaqDetajePjesaOrtaku(ortaku) {
-            // Merr filtrin e vitit nëse ekziston
+        function shfaqDetajePjesaOrtaku(ortaku, vitiParam) {
             const filterVitiElement = document.getElementById('filter-viti');
-            const vitiFilter = filterVitiElement ? filterVitiElement.value : '';
+            const vitiFilter = vitiParam !== undefined ? vitiParam : (filterVitiElement ? filterVitiElement.value : '');
             
-            // Filtro transaksionet sipas vitit nëse është zgjedhur
             let transaksionetPerdorur = transaksionet;
             if (vitiFilter) {
                 transaksionetPerdorur = transaksionet.filter(t => {
                     const dateParts = t.data.split('-');
-                    if (dateParts.length === 3) {
-                        const year = dateParts[2]; // DD-MM-YYYY format
-                        return year === vitiFilter;
-                    }
-                    return false;
+                    return dateParts.length === 3 && dateParts[2] === vitiFilter;
                 });
             }
             
-            const shitjet = transaksionetPerdorur.filter(t => t.tipi === 'Shitje');
-            const shpenzimet = transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim');
-            const terheqjet = transaksionetPerdorur.filter(t => t.tipi === 'Tërheqje' && t.kategoria === ortaku);
-            const investimet = transaksionetPerdorur.filter(t => t.tipi === 'Investim' && t.kategoria === ortaku);
-            
-            const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
-            const totalShpenzime = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
-            const fitimiBruto = totalShitje - totalShpenzime;
+            const totalShitje = transaksionetPerdorur.filter(t => t.tipi === 'Shitje').reduce((s,t) => s+t.shuma, 0);
+            const totalTeArdhura = transaksionetPerdorur.filter(t => t.tipi === 'Të Ardhura').reduce((s,t) => s+t.shuma, 0);
+            const totalShpenzime = Math.abs(transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim').reduce((s,t) => s+t.shuma, 0));
+            const fitimiBruto = totalShitje + totalTeArdhura - totalShpenzime;
             const pjesaFitimi = fitimiBruto / 2;
-            const totalTerheqje = terheqjet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
-            const totalInvestime = investimet.reduce((sum, t) => sum + t.shuma, 0);
+            const totalTerheqje = Math.abs(transaksionetPerdorur.filter(t => t.tipi === 'Tërheqje' && t.kategoria === ortaku).reduce((s,t) => s+t.shuma, 0));
+            const totalInvestime = transaksionetPerdorur.filter(t => t.tipi === 'Investim' && t.kategoria === ortaku).reduce((s,t) => s+t.shuma, 0);
             const pjesaFinale = pjesaFitimi - totalTerheqje + totalInvestime;
-            
-            const color = pjesaFinale >= 0 ? '#3B82F6' : '#FF3B30';
-            
-            shfaqModalUniversal(
-                `💼 Sa i Mbetet ${ortaku}` + (vitiFilter ? ` - ${vitiFilter}` : ''),
-                color,
-                [
-                    { label: `SA I MBETET ${ortaku.toUpperCase()}`, value: `${pjesaFinale.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
-                    { label: 'STATUS', value: pjesaFinale >= 0 ? '✅ Ka për të marrë' : '⚠️ Ka marrë më shumë' }
-                ],
-                ['Përshkrimi', 'Shuma'],
-                [
-                    ['Fitimi Bruto (Total)', `${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`],
-                    [`Pjesa e ${ortaku} (50%)`, `<span style="color: #34C759; font-weight: 600;">+${pjesaFitimi.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    [`Investimet e ${ortaku}`, `<span style="color: #007AFF; font-weight: 600;">+${totalInvestime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    [`Tërheqjet e ${ortaku}`, `<span style="color: #FF3B30; font-weight: 600;">-${totalTerheqje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    [`<strong>SA I MBETET ${ortaku.toUpperCase()}</strong>`, `<span style="color: ${color}; font-weight: 700; font-size: 1.2em;">${pjesaFinale.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
-                ],
-                `Pjesa_${ortaku}`
-            );
+            const color = pjesaFinale >= 0 ? '#34C759' : '#FF3B30';
+            const periudha = vitiFilter || 'Të gjitha vitet';
+
+            const fmt = (n) => n.toLocaleString('mk-MK', {minimumFractionDigits: 2});
+            const pos = (n) => `<span style="color:#34C759;font-weight:600">+${fmt(n)} MKD</span>`;
+            const neg = (n) => `<span style="color:#FF3B30;font-weight:600">-${fmt(Math.abs(n))} MKD</span>`;
+            const neu = (n, bold) => `<span style="${bold?'font-weight:700;font-size:1.05em':'color:#1d1d1f'}">${fmt(n)} MKD</span>`;
+
+            // Krijo ose gjej modalin
+            let modal = document.getElementById('modal-ortaku-pasqyre');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'modal-ortaku-pasqyre';
+                modal.className = 'modal';
+                document.body.appendChild(modal);
+            }
+            modal.onclick = (e) => { if(e.target === modal) modal.style.display='none'; };
+
+            modal.innerHTML = `
+                <div style="background:#fff;margin:2vh auto;border-radius:16px;width:82vw;max-width:920px;
+                            box-shadow:0 24px 64px rgba(0,0,0,0.18);overflow:hidden;display:flex;flex-direction:column;max-height:96vh;">
+                    
+                    <!-- HEADER -->
+                    <div style="padding:18px 24px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+                        <div style="display:flex;align-items:center;gap:10px;">
+                            <span style="font-size:1.5em;">👤</span>
+                            <div>
+                                <div style="font-size:1.2em;font-weight:700;color:#1d1d1f;">${ortaku} — Pasqyra e Plotë</div>
+                                <div style="font-size:0.78em;color:#86868b;margin-top:1px;">${periudha}</div>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:12px;">
+                            <select onchange="shfaqDetajePjesaOrtaku('${ortaku}', this.value)"
+                                style="padding:5px 10px;border-radius:8px;border:1px solid #e5e7eb;font-size:13px;font-weight:600;background:white;cursor:pointer;">
+                                <option value="" ${!vitiFilter ? 'selected' : ''}>Të gjitha vitet</option>
+                                <option value="2026" ${vitiFilter==='2026' ? 'selected' : ''}>2026</option>
+                                <option value="2025" ${vitiFilter==='2025' ? 'selected' : ''}>2025</option>
+                                    </select>
+                            <div style="background:${color}15;border:1px solid ${color}40;border-radius:8px;padding:6px 14px;text-align:center;">
+                                <div style="font-size:0.7em;color:#86868b;text-transform:uppercase;letter-spacing:0.5px;">Bilanci Final</div>
+                                <div style="font-size:1.1em;font-weight:700;color:${color};">${pjesaFinale >= 0 ? '+' : ''}${fmt(pjesaFinale)} MKD</div>
+                            </div>
+                            <button onclick="document.getElementById('modal-ortaku-pasqyre').style.display='none'"
+                                style="width:32px;height:32px;border-radius:50%;border:none;background:#f5f5f5;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">×</button>
+                        </div>
+                    </div>
+
+                    <!-- BODY -->
+                    <div style="flex:1;overflow-y:auto;padding:0;">
+                        <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                            
+                            <!-- SEKSIONI 1: TË ARDHURAT -->
+                            <tr style="background:#f8fffe;">
+                                <td colspan="2" style="padding:10px 24px 6px;font-size:11px;font-weight:700;color:#00897B;letter-spacing:1px;text-transform:uppercase;">
+                                    💰 TË ARDHURAT E KOMPANISË
+                                </td>
+                            </tr>
+                            <tr style="cursor:pointer;" onclick="shfaqDetajeShitje()" title="Kliko për detaje">
+                                <td style="padding:10px 24px 10px 32px;color:#1d1d1f;">
+                                    💰 Shitja e Rrymës
+                                    <span style="font-size:11px;color:#86868b;margin-left:6px;">↗ kliko</span>
+                                </td>
+                                <td style="padding:10px 24px;text-align:right;">${pos(totalShitje)}</td>
+                            </tr>
+                            <tr style="cursor:pointer;" onclick="shfaqDetajeTeArdhura()" title="Kliko për detaje">
+                                <td style="padding:10px 24px 10px 32px;color:#1d1d1f;">
+                                    🏦 Të Ardhura Bankare
+                                    <span style="font-size:11px;color:#86868b;margin-left:6px;">↗ kliko</span>
+                                </td>
+                                <td style="padding:10px 24px;text-align:right;">${pos(totalTeArdhura)}</td>
+                            </tr>
+                            <tr style="background:#f0fdf4;border-top:1px solid #e5e7eb;">
+                                <td style="padding:10px 24px;font-weight:600;color:#1d1d1f;">📥 Totali i Hyrjeve</td>
+                                <td style="padding:10px 24px;text-align:right;font-weight:600;color:#34C759;">+${fmt(totalShitje + totalTeArdhura)} MKD</td>
+                            </tr>
+
+                            <!-- SEKSIONI 2: SHPENZIMET -->
+                            <tr style="background:#fff5f5;border-top:2px solid #f0f0f0;">
+                                <td colspan="2" style="padding:10px 24px 6px;font-size:11px;font-weight:700;color:#e53935;letter-spacing:1px;text-transform:uppercase;">
+                                    🔋 SHPENZIMET
+                                </td>
+                            </tr>
+                            <tr style="cursor:pointer;" onclick="shfaqDetajeShpenzime()" title="Kliko për detaje">
+                                <td style="padding:10px 24px 10px 32px;color:#1d1d1f;">
+                                    🔋 Shpenzimet Operative
+                                    <span style="font-size:11px;color:#86868b;margin-left:6px;">↗ kliko</span>
+                                </td>
+                                <td style="padding:10px 24px;text-align:right;">${neg(totalShpenzime)}</td>
+                            </tr>
+
+                            <!-- FITIMI BRUTO -->
+                            <tr style="background:#f0f4ff;border-top:2px solid #dbeafe;">
+                                <td style="padding:12px 24px;font-weight:700;color:#1d1d1f;font-size:1.05em;">📊 Fitimi Bruto</td>
+                                <td style="padding:12px 24px;text-align:right;font-weight:700;font-size:1.05em;color:#1d1d1f;">${fmt(fitimiBruto)} MKD</td>
+                            </tr>
+
+                            <!-- SEKSIONI 3: PJESA E ORTAKUT -->
+                            <tr style="background:#f5f3ff;border-top:2px solid #f0f0f0;">
+                                <td colspan="2" style="padding:10px 24px 6px;font-size:11px;font-weight:700;color:#7c3aed;letter-spacing:1px;text-transform:uppercase;">
+                                    👤 PJESA E ${ortaku.toUpperCase()} (50%)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding:10px 24px 10px 32px;color:#1d1d1f;">✅ I takon ${ortaku} (50% e Fitimit Bruto)</td>
+                                <td style="padding:10px 24px;text-align:right;">${pos(pjesaFitimi)}</td>
+                            </tr>
+                            <tr style="background:#f8f5ff;">
+                                <td style="padding:6px 24px 6px 40px;font-size:12px;color:#86868b;">
+                                    ↳ nga të cilat nga Shitja (50%)
+                                </td>
+                                <td style="padding:6px 24px;text-align:right;font-size:12px;color:#86868b;">+${fmt(totalShitje/2)} MKD</td>
+                            </tr>
+                            <tr style="background:#f8f5ff;">
+                                <td style="padding:6px 24px 10px 40px;font-size:12px;color:#86868b;">
+                                    ↳ nga të cilat nga Bankare (50%)
+                                </td>
+                                <td style="padding:6px 24px 10px;text-align:right;font-size:12px;color:#00C7BE;">+${fmt(totalTeArdhura/2)} MKD</td>
+                            </tr>
+
+                            <!-- SEKSIONI 4: MARRJET -->
+                            <tr style="background:#fff8f0;border-top:2px solid #f0f0f0;">
+                                <td colspan="2" style="padding:10px 24px 6px;font-size:11px;font-weight:700;color:#e65100;letter-spacing:1px;text-transform:uppercase;">
+                                    💸 MARRJET
+                                </td>
+                            </tr>
+                            <tr style="cursor:pointer;" onclick="shfaqDetajeTerheqje('${ortaku}')" title="Kliko për detaje">
+                                <td style="padding:10px 24px 10px 32px;color:#1d1d1f;">
+                                    💸 Tërheqjet e ${ortaku}
+                                    <span style="font-size:11px;color:#86868b;margin-left:6px;">↗ kliko</span>
+                                </td>
+                                <td style="padding:10px 24px;text-align:right;">${neg(totalTerheqje)}</td>
+                            </tr>
+                            <tr style="cursor:pointer;" title="Investime">
+                                <td style="padding:10px 24px 10px 32px;color:#1d1d1f;">
+                                    💼 + Investimi i ${ortaku} (kthim)
+                                </td>
+                                <td style="padding:10px 24px;text-align:right;"><span style="color:#007AFF;font-weight:600">+${fmt(totalInvestime)} MKD</span></td>
+                            </tr>
+
+                            <!-- BILANCI FINAL -->
+                            <tr style="background:${color}12;border-top:2px solid ${color}40;">
+                                <td style="padding:14px 24px;font-weight:700;font-size:1.1em;color:#1d1d1f;">
+                                    📋 BILANCI FINAL — ${ortaku.toUpperCase()}
+                                </td>
+                                <td style="padding:14px 24px;text-align:right;font-weight:700;font-size:1.2em;color:${color};">
+                                    ${pjesaFinale >= 0 ? '+' : ''}${fmt(pjesaFinale)} MKD
+                                </td>
+                            </tr>
+                            <tr style="background:${color}08;">
+                                <td colspan="2" style="padding:8px 24px;font-size:12px;color:${color};text-align:center;font-weight:500;">
+                                    ${pjesaFinale >= 0 
+                                        ? `✅ ${ortaku} ka për të marrë edhe ${fmt(pjesaFinale)} MKD`
+                                        : `⚠️ ${ortaku} ka marrë ${fmt(Math.abs(pjesaFinale))} MKD më shumë se fitimi i saj`}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- FOOTER -->
+                    <div style="padding:12px 24px;border-top:1px solid #f0f0f0;display:flex;justify-content:flex-end;gap:10px;flex-shrink:0;">
+                        <button onclick="document.getElementById('modal-ortaku-pasqyre').style.display='none'"
+                            style="padding:8px 20px;background:#f5f5f5;border:none;border-radius:8px;cursor:pointer;font-size:14px;">Mbyll</button>
+                    </div>
+                </div>`;
+
+            modal.style.display = 'block';
         }
         
         // FUNKSIONI UNIVERSAL PËR TË SHFAQUR MODALIN
@@ -4118,17 +4702,25 @@ function editoTransaksionin(id) {
             // Përditëso titullin
             document.getElementById('universal-title').textContent = title;
             
+            // Sinkronizo selector-in e vitit
+            const sel = document.getElementById('universal-viti-selector');
+            if (sel) {
+                // Merr vitin nga titulli nëse ka
+                const matchViti = title.match(/\b(2023|2024|2025|2026)\b/);
+                sel.value = matchViti ? matchViti[1] : '';
+            }
+            
             // Krijo përmbledhjen
             const summaryDiv = document.getElementById('universal-summary');
             summaryDiv.style.background = `linear-gradient(135deg, ${color}15, ${color}25)`;
             summaryDiv.style.borderLeft = `4px solid ${color}`;
             
-            let summaryHTML = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">';
+            let summaryHTML = '<div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap;">';
             summary.forEach(item => {
                 summaryHTML += `
-                    <div>
-                        <div style="font-size: 0.85em; color: #86868b; margin-bottom: 5px;">${item.label}</div>
-                        <div style="font-size: 1.8em; font-weight: 700; color: ${color};">${item.value}</div>
+                    <div style="display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-size:0.75em;color:#86868b;white-space:nowrap;">${item.label}:</span>
+                        <span style="font-size:1.1em;font-weight:700;color:${color};white-space:nowrap;">${item.value}</span>
                     </div>
                 `;
             });
@@ -4155,6 +4747,10 @@ function editoTransaksionin(id) {
             } else {
                 rows.forEach(rowData => {
                     const row = document.createElement('tr');
+                    // Nëse rreshti i parë është seksion (ka border-bottom style), apliko background
+                    if (rowData[0] && rowData[0].includes('letter-spacing')) {
+                        row.style.cssText = 'background:rgba(0,0,0,0.02);';
+                    }
                     row.innerHTML = rowData.map(cell => `<td>${cell}</td>`).join('');
                     tbody.appendChild(row);
                 });
@@ -4234,10 +4830,12 @@ function editoTransaksionin(id) {
                 
                 // Llogarit statistikat
                 const shitjet = monthTransactions.filter(t => t.tipi === 'Shitje');
+                const teArdhurat = monthTransactions.filter(t => t.tipi === 'Të Ardhura');
                 const shpenzimet = monthTransactions.filter(t => t.tipi === 'Shpenzim');
                 const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
+                const totalTeArdhura = teArdhurat.reduce((sum, t) => sum + t.shuma, 0);
                 const totalShpenzime = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
-                const fitimi = totalShitje - totalShpenzime;
+                const fitimi = totalShitje + totalTeArdhura - totalShpenzime;
                 
                 const isEmpty = monthTransactions.length === 0;
                 
@@ -4291,16 +4889,18 @@ function editoTransaksionin(id) {
             
             // Llogarit statistikat
             const shitjet = monthTransactions.filter(t => t.tipi === 'Shitje');
+            const teArdhurat = monthTransactions.filter(t => t.tipi === 'Të Ardhura');
             const shpenzimet = monthTransactions.filter(t => t.tipi === 'Shpenzim');
             const terheqjet = monthTransactions.filter(t => t.tipi === 'Tërheqje');
             const investimet = monthTransactions.filter(t => t.tipi === 'Investim');
             
             const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
+            const totalTeArdhura = teArdhurat.reduce((sum, t) => sum + t.shuma, 0);
             const totalShpenzime = shpenzimet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
             const totalTerheqje = terheqjet.reduce((sum, t) => sum + Math.abs(t.shuma), 0);
             const totalInvestime = investimet.reduce((sum, t) => sum + t.shuma, 0);
-            const fitimi = totalShitje - totalShpenzime;
-            const cashFlow = totalShitje + totalInvestime - totalShpenzime - totalTerheqje;
+            const fitimi = totalShitje + totalTeArdhura - totalShpenzime;
+            const cashFlow = totalShitje + totalTeArdhura + totalInvestime - totalShpenzime - totalTerheqje;
             
             // Ruaj për eksport
             window.currentMonthData = { 
@@ -4599,16 +5199,18 @@ function editoTransaksionin(id) {
                     const rreshti = document.createElement('tr');
                     let klasa = '';
                     if (t.tipi === 'Shitje') klasa = 'tip-shitje';
+                    else if (t.tipi === 'Të Ardhura') klasa = 'tip-te-ardhura';
                     else if (t.tipi === 'Shpenzim') klasa = 'tip-shpenzim';
                     else if (t.tipi === 'Tërheqje') klasa = 'tip-terheqje';
                     else if (t.tipi === 'Huamarrje') klasa = 'tip-huamarrje';
                     else if (t.tipi === 'Kthim i Huasë') klasa = 'tip-kthim-huase';
+                    else if (t.tipi === 'Kapital') klasa = 'tip-kapital';
                     rreshti.className = klasa;
 
                     const shumaText = t.shuma >= 0 ?
                         `+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` :
                         `-${Math.abs(t.shuma).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
-                    const emoji = t.tipi === 'Shitje' ? '💰' : t.tipi === 'Shpenzim' ? '🔋' : t.tipi === 'Investim' ? '💼' : t.tipi === 'Huamarrje' ? '🤝' : t.tipi === 'Kthim i Huasë' ? '💳' : '💸';
+                    const emoji = t.tipi === 'Shitje' ? '💰' : t.tipi === 'Të Ardhura' ? '🏦' : t.tipi === 'Shpenzim' ? '🔋' : t.tipi === 'Investim' ? '💼' : t.tipi === 'Huamarrje' ? '🤝' : t.tipi === 'Kthim i Huasë' ? '💳' : t.tipi === 'Kapital' ? '⚪' : '💸';
                     const shumaColor = t.shuma >= 0 ? '#34C759' : '#FF3B30';
 
                     let displayDate = t.data;
@@ -4644,7 +5246,7 @@ function editoTransaksionin(id) {
                     expandRow.id = 'expand-row';
                     expandRow.innerHTML = `
                         <td colspan="6" style="text-align: center; padding: 20px; background: rgba(102, 126, 234, 0.05);">
-                            <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer;">
+                            <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer;">
                                 📊 Shfaq të gjitha transaksionet (${filtered.length - INITIAL_ROWS_TO_SHOW} të tjera)
                             </button>
                         </td>`;
@@ -4654,7 +5256,7 @@ function editoTransaksionin(id) {
                     collapseRow.id = 'collapse-row';
                     collapseRow.innerHTML = `
                         <td colspan="6" style="text-align: center; padding: 20px; background: rgba(102, 126, 234, 0.05);">
-                            <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer;">
+                            <button onclick="toggleShowAllTransactions()" style="padding: 12px 24px; background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%); color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer;">
                                 🔼 Fshih transaksionet e vjetra (shfaq vetëm ${INITIAL_ROWS_TO_SHOW})
                             </button>
                         </td>`;
@@ -4829,6 +5431,8 @@ function editoTransaksionin(id) {
                     if (transactionYear === year && month >= 0 && month < 12) {
                         if (t.tipi === 'Shitje') {
                             monthlyData.sales[month] += t.shuma;
+                        } else if (t.tipi === 'Të Ardhura') {
+                            monthlyData.sales[month] += t.shuma;
                         } else if (t.tipi === 'Shpenzim') {
                             monthlyData.expenses[month] += Math.abs(t.shuma);
                         }
@@ -4911,7 +5515,7 @@ function editoTransaksionin(id) {
                     <title>SUNENERGY - Raport ${monthName}</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 20px; }
-                        h1 { color: #667eea; text-align: center; }
+                        h1 { color: #2d6a9f; text-align: center; }
                         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
                         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
                         th { background-color: #f2f2f2; }
@@ -5198,13 +5802,15 @@ body {
             
             // Calculate yearly summary
             const shitjet = yearlyTransactions.filter(t => t.tipi === 'Shitje');
+            const teArdhurat = yearlyTransactions.filter(t => t.tipi === 'Të Ardhura');
             const shpenzimet = yearlyTransactions.filter(t => t.tipi === 'Shpenzim');
             const terheqjet = yearlyTransactions.filter(t => t.tipi === 'Tërheqje');
             
             const totalShitje = shitjet.reduce((s,t)=>s+t.shuma,0);
+            const totalTeArdhura = teArdhurat.reduce((s,t)=>s+t.shuma,0);
             const totalShpenzime = Math.abs(shpenzimet.reduce((s,t)=>s+t.shuma,0));
             const totalInvestime = investimet.reduce((s,t)=>s+t.shuma,0);
-            const fitimiBruto = totalShitje - totalShpenzime;
+            const fitimiBruto = totalShitje + totalTeArdhura - totalShpenzime;
             
             // Display yearly summary
             document.getElementById('permbledhja-vjetore').innerHTML = `
@@ -5281,7 +5887,7 @@ const totalShitje = shitjet.reduce((sum, t) => sum + t.shuma, 0);
                     <title>SUNENERGY - Raport Vjetor ${year}</title>
                     <style>
                         body { font-family: Arial, sans-serif; margin: 20px; }
-                        h1 { color: #667eea; text-align: center; }
+                        h1 { color: #2d6a9f; text-align: center; }
                         table { width: 100%; border-collapse: collapse; margin: 20px 0; }
                         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
                         th { background-color: #f2f2f2; }
@@ -5504,6 +6110,47 @@ body {
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Aplikacioni u ngarkua...');
             
+            // Backup automatik çdo ditë
+            function autoBackupDitor() {
+                const sot = new Date().toISOString().split('T')[0];
+                const lastBackup = localStorage.getItem('sunenergy_last_auto_backup');
+                if (lastBackup === sot) return;
+                
+                try {
+                    const backupData = {
+                        version: typeof STORAGE_VERSION !== 'undefined' ? STORAGE_VERSION : '2.0',
+                        timestamp: new Date().toISOString(),
+                        transactions: transaksionet
+                    };
+                    localStorage.setItem(`sunenergy_auto_backup_${sot}`, JSON.stringify(backupData));
+                    localStorage.setItem('sunenergy_last_auto_backup', sot);
+                    
+                    // Mbaj vetëm 7 ditët e fundit
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key && key.startsWith('sunenergy_auto_backup_')) {
+                            const dateStr = key.replace('sunenergy_auto_backup_', '');
+                            const backupDate = new Date(dateStr);
+                            const diteDallim = (new Date() - backupDate) / (1000 * 60 * 60 * 24);
+                            if (diteDallim > 7) {
+                                localStorage.removeItem(key);
+                                i--;
+                            }
+                        }
+                    }
+                    console.log(`✅ Auto backup u krye për datën ${sot}`);
+                } catch(e) {
+                    console.warn('Auto backup dështoi:', e);
+                }
+            }
+            
+            // Thirr backup pas ngarkimit të të dhënave (1 sekondë vonesë)
+            setTimeout(() => {
+                if (typeof transaksionet !== 'undefined' && transaksionet.length > 0) {
+                    autoBackupDitor();
+                }
+            }, 3000);
+            
             // Detect Safari
             const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
             const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -5710,7 +6357,7 @@ function ngarkoRaportinVjetor(year) {
                 onmouseover="this.style.background='#f0f9ff'" 
                 onmouseout="this.style.background='white'">
                 <td style="padding: 10px 12px; border: 1px solid #ddd;">
-                    <span style="color: #667eea;">📂</span> ${kategoria}
+                    <span style="color: #2d6a9f;">📂</span> ${kategoria}
                 </td>
                 <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; font-weight: 600;">${shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
                 <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; color: #666; font-size: 0.95em;">${perqindja}%</td>
@@ -5835,7 +6482,7 @@ function ngarkoRaportinVjetor(year) {
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead>
-                            <tr style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                            <tr style="background: linear-gradient(135deg, #1e3a5f 0%, #2d6a9f 100%); color: white;">
                                 <th style="padding: 14px; border: 1px solid #ddd; text-align: left; font-weight: 600;">Muaji</th>
                                 <th style="padding: 14px; border: 1px solid #ddd; text-align: right; font-weight: 600;">Shitjet (Hyrjet)</th>
                                 <th style="padding: 14px; border: 1px solid #ddd; text-align: right; font-weight: 600;">Harxhimet</th>
@@ -5909,7 +6556,7 @@ function ngarkoRaportinMujor(year, month) {
                 onmouseover="this.style.background='#f0f9ff'" 
                 onmouseout="this.style.background='white'">
                 <td style="padding: 10px 12px; border: 1px solid #ddd;">
-                    <span style="color: #667eea;">📂</span> ${kategoria}
+                    <span style="color: #2d6a9f;">📂</span> ${kategoria}
                 </td>
                 <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; font-weight: 600;">${shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</td>
                 <td style="padding: 10px 12px; border: 1px solid #ddd; text-align: right; color: #666; font-size: 0.95em;">${perqindja}%</td>
@@ -6328,19 +6975,38 @@ function shfaqListenEKategorive() {
     const lista = document.getElementById('kategorite-lista');
     let html = '';
     
-    shpenzimKategorite.forEach((kat, index) => {
-        const isLastCategory = shpenzimKategorite.length === 1;
+    // "Të tjera" gjithmonë e fundit
+    const teTjera = 'Të tjera';
+    const kategoriteNormal = shpenzimKategorite.filter(k => k !== teTjera);
+    const kaTeTjera = shpenzimKategorite.includes(teTjera);
+    const renditura = kaTeTjera ? [...kategoriteNormal, teTjera] : kategoriteNormal;
+    
+    // Sinkronizo array-in
+    shpenzimKategorite = renditura;
+    
+    renditura.forEach((kat, index) => {
+        const isLast = index === renditura.length - 1;
+        const isFirst = index === 0;
+        const isTeTjera = kat === teTjera;
+        const isOnlyOne = renditura.length === 1;
+        
         html += `
-            <div style="display: flex; align-items: center; justify-content: space-between; padding: 15px; border-bottom: 1px solid #f3f4f6;">
-                <div style="flex: 1; display: flex; align-items: center; gap: 10px;">
-                    <span style="font-size: 1.2em;">📁</span>
-                    <input type="text" value="${kat}" onchange="editoKategorine(${index}, this.value)" 
-                           style="flex: 1; padding: 8px 12px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 14px;">
+            <div style="display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid #f3f4f6;${isTeTjera ? 'background:#f9f9f9;' : ''}">
+                <div style="display:flex;flex-direction:column;gap:2px;flex-shrink:0;">
+                    <button onclick="levizKategorine(${index}, -1)" 
+                        ${isFirst || isTeTjera ? 'disabled' : ''}
+                        style="width:24px;height:20px;border:1px solid #e5e7eb;border-radius:4px;background:white;cursor:${isFirst || isTeTjera ? 'default' : 'pointer'};opacity:${isFirst || isTeTjera ? '0.3' : '1'};font-size:10px;padding:0;line-height:1;">▲</button>
+                    <button onclick="levizKategorine(${index}, 1)" 
+                        ${isLast || isTeTjera ? 'disabled' : ''}
+                        style="width:24px;height:20px;border:1px solid #e5e7eb;border-radius:4px;background:white;cursor:${isLast || isTeTjera ? 'default' : 'pointer'};opacity:${isLast || isTeTjera ? '0.3' : '1'};font-size:10px;padding:0;line-height:1;">▼</button>
                 </div>
+                <span style="font-size:1.1em;flex-shrink:0;">📁</span>
+                <input type="text" value="${kat}" 
+                    ${isTeTjera ? 'disabled title="Kjo kategori është e rezervuar"' : `onchange="editoKategorine(${index}, this.value)"`}
+                    style="flex:1;padding:7px 10px;border:1px solid #e5e7eb;border-radius:6px;font-size:14px;${isTeTjera ? 'color:#86868b;background:#f5f5f5;' : ''}">
                 <button onclick="fshiKategorine(${index})" 
-                        ${isLastCategory ? 'disabled title="Nuk mund të fshish kategorinë e fundit"' : ''}
-                        class="btn btn-danger" 
-                        style="padding: 8px 12px; margin-left: 10px; ${isLastCategory ? 'opacity: 0.5; cursor: not-allowed;' : ''}">
+                    ${isOnlyOne || isTeTjera ? 'disabled' : ''}
+                    style="padding:7px 12px;border:none;border-radius:6px;background:${isOnlyOne || isTeTjera ? '#f5f5f5' : '#FF3B30'};color:${isOnlyOne || isTeTjera ? '#86868b' : 'white'};cursor:${isOnlyOne || isTeTjera ? 'not-allowed' : 'pointer'};font-size:13px;white-space:nowrap;flex-shrink:0;">
                     🗑️ Fshi
                 </button>
             </div>
@@ -6348,6 +7014,20 @@ function shfaqListenEKategorive() {
     });
     
     lista.innerHTML = html;
+}
+
+function levizKategorine(index, drejtimi) {
+    const teTjera = 'Të tjera';
+    if (shpenzimKategorite[index] === teTjera) return;
+    
+    const newIndex = index + drejtimi;
+    if (newIndex < 0 || newIndex >= shpenzimKategorite.length) return;
+    if (shpenzimKategorite[newIndex] === teTjera) return;
+    
+    // Swap
+    [shpenzimKategorite[index], shpenzimKategorite[newIndex]] = [shpenzimKategorite[newIndex], shpenzimKategorite[index]];
+    ruajKategorite();
+    shfaqListenEKategorive();
 }
 
 // Shto kategori të re
