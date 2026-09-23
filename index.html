@@ -1871,6 +1871,16 @@ body {
                             <div class="amount" id="terheqjet-gresa">0.00 MKD</div>
                             <small style="font-size: 0.7em; opacity: 0.8;">Kliko për detaje</small>
                         </div>
+                        <div class="summary-card info" style="cursor: default;">
+                            <h3>💼 INVESTIMI NEXHA</h3>
+                            <div class="amount" id="investimet-nexha">0.00 MKD</div>
+                            <small style="font-size: 0.7em; opacity: 0.8;">Para të sjella nga jashtë</small>
+                        </div>
+                        <div class="summary-card info" style="cursor: default;">
+                            <h3>💼 INVESTIMI GRESA</h3>
+                            <div class="amount" id="investimet-gresa">0.00 MKD</div>
+                            <small style="font-size: 0.7em; opacity: 0.8;">Para të sjella nga jashtë</small>
+                        </div>
                     </div>
                 </div>
 
@@ -4095,6 +4105,13 @@ function editoTransaksionin(id) {
             if (document.getElementById('terheqjet-gresa')) {
                 document.getElementById('terheqjet-gresa').textContent = `${terheqjeGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
             }
+            // Përditëso kartat e investimeve
+            if (document.getElementById('investimet-nexha')) {
+                document.getElementById('investimet-nexha').textContent = `${investimeNexha.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            }
+            if (document.getElementById('investimet-gresa')) {
+                document.getElementById('investimet-gresa').textContent = `${investimeGresa.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD`;
+            }
         }
 
         // Funksioni për të shfaqur detajet e tërheqjeve
@@ -4481,30 +4498,34 @@ function editoTransaksionin(id) {
             const totalShitje = transaksionetPerdorur.filter(t => t.tipi === 'Shitje').reduce((s,t) => s+t.shuma, 0);
             const totalTeArdhura = transaksionetPerdorur.filter(t => t.tipi === 'Të Ardhura').reduce((s,t) => s+t.shuma, 0);
             const totalShpenzime = Math.abs(transaksionetPerdorur.filter(t => t.tipi === 'Shpenzim').reduce((s,t) => s+t.shuma, 0));
-            const fitimiBruto = totalShitje + totalTeArdhura - totalShpenzime;
-            const profitMargin = (totalShitje + totalTeArdhura) > 0 ? (fitimiBruto / (totalShitje + totalTeArdhura)) * 100 : 0;
-            const color = fitimiBruto >= 0 ? '#3B82F6' : '#FF3B30';
+            
+            // Fitimi Neto Operativ = Shitje - Shpenzime
+            const fitimiNeto = totalShitje - totalShpenzime;
+            // Totali për ndarje = Fitimi Neto + Të Ardhura Bankare
+            const totalPerNdarje = fitimiNeto + totalTeArdhura;
+            const profitMargin = totalShitje > 0 ? (fitimiNeto / totalShitje) * 100 : 0;
+            const color = fitimiNeto >= 0 ? '#3B82F6' : '#FF3B30';
             
             shfaqModalUniversal(
-                '📊 Analiza e Fitimit Bruto' + (vitiFilter ? ` - ${vitiFilter}` : ' - Të gjitha vitet'),
+                '📊 Analiza e Fitimit' + (vitiFilter ? ` - ${vitiFilter}` : ' - Të gjitha vitet'),
                 color,
                 [
-                    { label: 'FITIMI BRUTO TOTAL', value: `${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
-                    { label: 'PROFIT MARGIN', value: `${profitMargin.toFixed(2)}%` }
+                    { label: 'FITIMI NETO OPERATIV', value: `${fitimiNeto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'MARZHI I FITIMIT', value: `${profitMargin.toFixed(2)}%` }
                 ],
                 ['Zëri', 'Shuma'],
                 [
-                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">💰 Të Ardhurat</span>', ''],
-                    ['💰 Shitja e Rrymës (operative)', `<span style="color:#34C759;font-weight:600">+${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    ['🏦 Të Ardhura Bankare (depozit + interes)', `<span style="color:#00C7BE;font-weight:600">+${totalTeArdhura.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    ['📥 Totali i Hyrjeve', `<span style="color:#34C759;font-weight:700">+${(totalShitje+totalTeArdhura).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">🔋 Shpenzimet</span>', ''],
-                    ['🔋 Shpenzimet Operative', `<span style="color:#FF3B30;font-weight:600">-${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">📊 Rezultati</span>', ''],
-                    [`<strong>📊 FITIMI BRUTO</strong>`, `<span style="color:${color};font-weight:700;font-size:1.2em">${fitimiBruto >= 0 ? '+' : ''}${fitimiBruto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
-                    [`<strong>Secilës ortak i takon (50%)</strong>`, `<span style="color:${color};font-weight:600">${(fitimiBruto/2).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
+                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">☀️ Fitimi Operativ (nga biznesi)</span>', ''],
+                    ['💰 Shitja e Rrymës', `<span style="color:#34C759;font-weight:600">+${totalShitje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['🔋 - Shpenzimet Operative', `<span style="color:#FF3B30;font-weight:600">-${totalShpenzime.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    [`<strong>📊 Fitimi Neto Operativ</strong>`, `<span style="color:${color};font-weight:700;font-size:1.15em">${fitimiNeto >= 0 ? '+' : ''}${fitimiNeto.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">🏦 Të Ardhura Bankare</span>', ''],
+                    ['🏦 Depozit + Interes', `<span style="color:#0891b2;font-weight:600">+${totalTeArdhura.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`],
+                    ['<span style="display:block;padding:8px 0 4px;font-size:11px;font-weight:700;color:#86868b;letter-spacing:1.5px;text-transform:uppercase;border-bottom:1px solid #e5e7eb;">📋 Totali për Ndarje</span>', ''],
+                    [`<strong>Fitimi Neto + Të Ardhura Bankare</strong>`, `<strong style="font-size:1.1em">${totalPerNdarje.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</strong>`],
+                    [`<strong>✅ Secilës ortak i takon (50%)</strong>`, `<span style="color:#34C759;font-weight:700;font-size:1.15em">${(totalPerNdarje/2).toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`]
                 ],
-                'Fitimi_Bruto'
+                'Fitimi'
             );
         }
         
