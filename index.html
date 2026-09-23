@@ -2588,6 +2588,14 @@ body {
             'Sigurimi i objektit',
             'Telekom internet',
             'Tatim mbi pronen',
+            'Mirembajtje i fotovoltaikeve Martin (mujore)',
+            'Servisim i fotovoltaikeve (Martin)',
+            'Starlink internet mujor',
+            'Sterpikje sezonale per barin',
+            'Blerje pjese rezerve',
+            'Mirembajtja e fotovolltaikeve',
+            'Firmarina (harxhim per kompanin) 1 her ne vit',
+            'Avokat dhe Noter',
             'Te tjera'
         ];
         
@@ -2783,7 +2791,7 @@ body {
         async function syncSingleOperation(action, transaksion) {
             try {
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 8000);
+                const timeoutId = setTimeout(() => controller.abort(), 15000);
 
                 const response = await fetch(GOOGLE_SHEETS_CONFIG.webAppUrl, {
                     method: 'POST',
@@ -6905,12 +6913,32 @@ function toggleSubmenu(menuId) {
 // Ngarko kategoritë nga localStorage
 function ngarkoKategorite() {
     const saved = localStorage.getItem(CATEGORIES_STORAGE_KEY);
+    
+    // Normalize: zëvendëso 'Të tjera' me 'Te tjera' kudo
+    const normalize = (arr) => arr.map(k => k === 'Të tjera' ? 'Te tjera' : k);
+    
     if (saved) {
         try {
-            shpenzimKategorite = JSON.parse(saved);
+            let savedKategorite = normalize(JSON.parse(saved));
+            const teTjera = 'Te tjera';
+            const savedWithoutTeTjera = savedKategorite.filter(k => k !== teTjera);
+            const staticWithoutTeTjera = shpenzimKategorite.filter(k => k !== teTjera);
+            
+            // Shto kategoritë statike të reja që nuk janë në localStorage
+            staticWithoutTeTjera.forEach(k => {
+                if (!savedWithoutTeTjera.includes(k)) {
+                    savedWithoutTeTjera.push(k);
+                }
+            });
+            
+            // 'Te tjera' gjithmonë e fundit
+            shpenzimKategorite = [...savedWithoutTeTjera, teTjera];
+            localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(shpenzimKategorite));
         } catch (e) {
             console.error('Error loading categories:', e);
         }
+    } else {
+        localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(shpenzimKategorite));
     }
 }
 
