@@ -1871,15 +1871,15 @@ body {
                             <div class="amount" id="terheqjet-gresa">0.00 MKD</div>
                             <small style="font-size: 0.7em; opacity: 0.8;">Kliko për detaje</small>
                         </div>
-                        <div class="summary-card info" style="cursor: default;">
+                        <div class="summary-card info clickable" onclick="shfaqDetajeInvestime('Nexha')" style="cursor: pointer;">
                             <h3>💼 INVESTIMI NEXHA</h3>
                             <div class="amount" id="investimet-nexha">0.00 MKD</div>
-                            <small style="font-size: 0.7em; opacity: 0.8;">Para të sjella nga jashtë</small>
+                            <small style="font-size: 0.7em; opacity: 0.8;">Kliko për detaje</small>
                         </div>
-                        <div class="summary-card info" style="cursor: default;">
+                        <div class="summary-card info clickable" onclick="shfaqDetajeInvestime('Gresa')" style="cursor: pointer;">
                             <h3>💼 INVESTIMI GRESA</h3>
                             <div class="amount" id="investimet-gresa">0.00 MKD</div>
-                            <small style="font-size: 0.7em; opacity: 0.8;">Para të sjella nga jashtë</small>
+                            <small style="font-size: 0.7em; opacity: 0.8;">Kliko për detaje</small>
                         </div>
                     </div>
                 </div>
@@ -4529,6 +4529,48 @@ function editoTransaksionin(id) {
             );
         }
         
+        // DETAJET E INVESTIMEVE
+        function shfaqDetajeInvestime(ortaku, vitiParam) {
+            window.currentUniversalFunc = (v) => shfaqDetajeInvestime(ortaku, v);
+            const filterVitiElement = document.getElementById('filter-viti');
+            const vitiFilter = vitiParam !== undefined ? vitiParam : (filterVitiElement ? filterVitiElement.value : '');
+            
+            let transaksionetPerdorur = transaksionet;
+            if (vitiFilter) {
+                transaksionetPerdorur = transaksionet.filter(t => {
+                    const dateParts = t.data.split('-');
+                    return dateParts.length === 3 && dateParts[2] === vitiFilter;
+                });
+            }
+            
+            const investimet = transaksionetPerdorur.filter(t => t.tipi === 'Investim' && t.kategoria === ortaku);
+            investimet.sort((a, b) => parseDisplayDate(b.data) - parseDisplayDate(a.data));
+            
+            const total = investimet.reduce((sum, t) => sum + t.shuma, 0);
+            const count = investimet.length;
+            const average = count > 0 ? total / count : 0;
+            
+            shfaqModalUniversal(
+                `💼 Investimet e ${ortaku}` + (vitiFilter ? ` - ${vitiFilter}` : ''),
+                '#0891b2',
+                [
+                    { label: 'TOTALI I INVESTUAR', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
+                    { label: 'NUMRI I INVESTIMEVE', value: count },
+                    { label: 'MESATARJA', value: `${average.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` }
+                ],
+                ['Data', 'Përshkrimi', 'Shuma'],
+                investimet.length === 0 ? [] : [
+                    ...investimet.map(t => [
+                        t.data,
+                        t.pershkrimi || '-',
+                        `<span style="color:#0891b2;font-weight:600">+${t.shuma.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</span>`
+                    ]),
+                    ['<strong>📋 TOTALI</strong>', '', `<strong style="color:#0891b2;font-size:1.1em">+${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD</strong>`]
+                ],
+                `Investimet_${ortaku}`
+            );
+        }
+        
         // 7. DETAJET E PJESËS SË NEXHA
         function shfaqDetajePjesaNexha() {
             shfaqDetajePjesaOrtaku('Nexha');
@@ -4690,9 +4732,10 @@ function editoTransaksionin(id) {
                                 </td>
                                 <td style="padding:10px 24px;text-align:right;">${neg(totalTerheqje)}</td>
                             </tr>
-                            <tr>
+                            <tr style="cursor:pointer;" onclick="shfaqDetajeInvestime('${ortaku}')" title="Kliko për detaje">
                                 <td style="padding:10px 24px 10px 32px;color:#1d1d1f;">
                                     💼 + Investimi i ${ortaku} (kthim)
+                                    <span style="font-size:11px;color:#86868b;margin-left:6px;">↗ kliko</span>
                                 </td>
                                 <td style="padding:10px 24px;text-align:right;"><span style="color:#007AFF;font-weight:600">+${fmt(totalInvestime)} MKD</span></td>
                             </tr>
