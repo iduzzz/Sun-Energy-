@@ -2,8 +2,17 @@
 <html lang="sq">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>SUNENERGY - Dashboard v2.0</title>
+    <!-- PWA / iPhone -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1e3a5f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SunEnergy">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
@@ -1574,6 +1583,17 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+
+/* iPhone PWA — safe area (notch / home indicator) */
+@media all and (display-mode: standalone) {
+    body {
+        padding-top: env(safe-area-inset-top);
+        padding-bottom: env(safe-area-inset-bottom);
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+    }
+    .storage-indicator { top: calc(env(safe-area-inset-top) + 10px); }
+}
 </style>
 </head>
 <body>
@@ -1710,7 +1730,7 @@ body {
                 <li class="menu-item">
                     <button class="menu-button" onclick="forcFullSync()" style="color: #FF9500;">
                         <span class="icon">🔄</span>
-                        Rifresko Sheets
+                        Rifresko Firebase
                     </button>
                 </li>
                 <li class="menu-item">
@@ -2570,6 +2590,8 @@ body {
     <!-- Hidden file input for import -->
     <input type="file" id="import-file-input" accept=".json" style="display: none;" onchange="handleFileImport(event)">
 
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script>
         // Authentication System
@@ -2617,217 +2639,146 @@ body {
             kategoria: ''
         };
 
-        // Google Sheets Configuration
-        const GOOGLE_SHEETS_CONFIG = {
-            webAppUrl: 'https://script.google.com/macros/s/AKfycbxLP1Z7dpy04IfTMqP2xdh2NXO1dKRrywk_5bti7qJ5ieYc9Gq4-RMS-jvAmzD1yEmE/exec',
-            enabled: true // Set to false to use localStorage only
+        // === FIREBASE CONFIGURATION ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkswebpHfdpECbsem_uqkIdtockv6I3Es",
+            authDomain: "sun-energy-solution.firebaseapp.com",
+            projectId: "sun-energy-solution",
+            storageBucket: "sun-energy-solution.firebasestorage.app",
+            messagingSenderId: "139180338088",
+            appId: "1:139180338088:web:71f39a40073f14fe324b9d"
         };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const COLLECTION_TRANSAKSIONET = 'transaksionet';
+        const COLLECTION_KATEGORITE = 'kategorite';
 
         // Local Storage Management (Backup fallback)
         const STORAGE_KEY = 'sunenergy_transactions';
         const CATEGORIES_STORAGE_KEY = 'sunenergy_kategorite';
         const STORAGE_VERSION = '1.0';
 
-        // === GOOGLE SHEETS FUNCTIONS ===
+        // === FIREBASE FUNCTIONS ===
         
-        // Load data from Google Sheets
-        async function loadDataFromGoogleSheets() {
-            if (!GOOGLE_SHEETS_CONFIG.enabled) {
-                console.log('Google Sheets integration disabled');
-                return false;
-            }
-
+        // Load data from Firebase
+        async function loadDataFromFirebase() {
             try {
-                showStorageIndicator('info', '☁️ Duke ngarkuar nga Google Sheets...');
+                showStorageIndicator('info', '🔥 Duke ngarkuar nga Firebase...');
                 
-                const response = await fetch(GOOGLE_SHEETS_CONFIG.webAppUrl);
+                const snapshot = await db.collection(COLLECTION_TRANSAKSIONET).get();
                 
-                if (!response.ok) {
-                    throw new Error(`Apps Script error: ${response.status}`);
-                }
-                
-                const result = await response.json();
-                
-                if (!result.success) {
-                    throw new Error('Failed to load data from Apps Script');
-                }
-                
-                if (!result.data || result.data.length === 0) {
-                    console.log('No data in Google Sheets');
+                if (snapshot.empty) {
+                    console.log('Nuk ka të dhëna në Firebase');
                     transaksionet = [];
-                    showStorageIndicator('info', 'ℹ️ Nuk ka të dhëna në Google Sheets');
+                    showStorageIndicator('info', 'ℹ️ Nuk ka të dhëna në Firebase');
+                    ngarkoKategorite();
+                    perdiEsoKategoriteDropdowns();
                     return true;
                 }
                 
-                // Convert sheet rows to transactions
-                transaksionet = result.data.map(row => {
-                    let dataValue = row[1] || '';
-                    
-                    // Fix date if it's a full date string from Sheets (e.g. "Sat Jun 02 2026 00:00:00 GMT+0100...")
-                    if (dataValue && dataValue.includes('GMT')) {
-                        // Parse duke marrë datën direkt nga stringu pa u ndikuar nga timezone
-                        const parts = dataValue.split(' ');
-                        // parts[0]=DayName, parts[1]=MonthName, parts[2]=Day, parts[3]=Year
-                        const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                        const monthIndex = monthNames.indexOf(parts[1]);
-                        if (monthIndex !== -1) {
-                            const day = String(parseInt(parts[2])).padStart(2, '0');
-                            const month = String(monthIndex + 1).padStart(2, '0');
-                            const year = parts[3];
-                            dataValue = `${day}-${month}-${year}`;
-                            console.log(`🔧 Fixed GMT date: ${row[1].substring(0,30)} -> ${dataValue}`);
-                        }
-                    }
-                    // Fix date if it's a ISO timestamp
-                    else if (dataValue && dataValue.includes('T')) {
-                        const dateObj = new Date(dataValue);
-                        const day = String(dateObj.getDate()).padStart(2, '0');
-                        const month = String(dateObj.getMonth() + 1).padStart(2, '0');
-                        const year = dateObj.getFullYear();
-                        dataValue = `${day}-${month}-${year}`;
-                        console.log(`🔧 Fixed timestamp: ${row[1]} -> ${dataValue}`);
-                    }
-                    // Check if it's in YYYY-MM-DD format and convert to DD-MM-YYYY
-                    else if (dataValue && dataValue.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                        const parts = dataValue.split('-');
-                        dataValue = `${parts[2]}-${parts[1]}-${parts[0]}`;
-                        console.log(`🔧 Converted YYYY-MM-DD to DD-MM-YYYY: ${row[1]} -> ${dataValue}`);
-                    }
-                    // Fix dates ONLY if second part > 12 (clearly MM-DD-YYYY)
-                    else if (dataValue && dataValue.match(/^\d{2}-\d{2}-\d{4}$/)) {
-                        const parts = dataValue.split('-');
-                        const first = parseInt(parts[0]);
-                        const second = parseInt(parts[1]);
-                        if (second > 12) {
-                            dataValue = `${parts[1]}-${parts[0]}-${parts[2]}`;
-                            console.log(`🔧 Fixed MM-DD (month>12): ${row[1]} -> ${dataValue}`);
-                        } else {
-                            console.log(`✅ Already DD-MM-YYYY: ${dataValue}`);
-                        }
-                    }
-                    
-                    return {
-                        id: String(row[0] || generateId()),
-                        data: dataValue,
-                        tipi: row[2] || '',
-                        pershkrimi: row[3] || '',
-                        kategoria: row[4] || '',
-                        shuma: parseFloat(row[5]) || 0,
-                        timestamp: row[6] || new Date().toISOString()
-                    };
+                transaksionet = [];
+                snapshot.forEach(doc => {
+                    const d = doc.data();
+                    transaksionet.push({
+                        id: doc.id,
+                        data: d.data || '',
+                        tipi: d.tipi || '',
+                        pershkrimi: d.pershkrimi || '',
+                        kategoria: d.kategoria || '',
+                        shuma: parseFloat(d.shuma) || 0,
+                        timestamp: d.timestamp || new Date().toISOString()
+                    });
                 });
                 
-                console.log('✅ Loaded from Google Sheets:', transaksionet.length, 'transactions');
-                showStorageIndicator('success', `✅ ${transaksionet.length} transaksione nga Google Sheets`);
+                console.log('✅ Loaded from Firebase:', transaksionet.length, 'transactions');
+                showStorageIndicator('success', `✅ ${transaksionet.length} transaksione nga Firebase`);
                 
-                // Also save to localStorage as backup
                 saveDataToStorage();
-                
-                // Ngarko kategoritë
                 ngarkoKategorite();
                 perdiEsoKategoriteDropdowns();
                 
                 return true;
             } catch (error) {
-                console.error('❌ Error loading from Google Sheets:', error);
-                showStorageIndicator('error', '⚠️ Gabim në ngarkimin nga Google Sheets');
-                
-                // Fallback to localStorage
+                console.error('❌ Error loading from Firebase:', error);
+                showStorageIndicator('error', '⚠️ Gabim në ngarkimin nga Firebase');
                 return loadDataFromStorage();
             }
         }
-        
-        // Save data to Google Sheets
-        async function saveDataToGoogleSheets() {
-            if (!GOOGLE_SHEETS_CONFIG.enabled) {
-                console.log('Google Sheets integration disabled');
-                return false;
-            }
 
+        // Full sync to Firebase (batch write)
+        async function saveDataToFirebase() {
             try {
-                // Shfaq indikator të vogël
                 showSyncIndicator('syncing');
                 
-                // Prepare data to send
-                const dataToSend = {
-                    transactions: transaksionet.map(t => ({
-                        id: t.id || generateId(),
-                        data: t.data || '',
-                        tipi: t.tipi || '',
-                        pershkrimi: t.pershkrimi || '',
-                        kategoria: t.kategoria || '',
-                        shuma: t.shuma || 0,
-                        timestamp: t.timestamp || new Date().toISOString()
-                    }))
-                };
+                const batchSize = 450;
+                const total = transaksionet.length;
                 
-                // PRIT për response (me timeout)
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 45000); // 45 sekonda timeout
-                
-                const response = await fetch(GOOGLE_SHEETS_CONFIG.webAppUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'text/plain',
-                    },
-                    body: JSON.stringify(dataToSend),
-                    signal: controller.signal
-                });
-                
-                clearTimeout(timeoutId);
-                
-                if (response.ok) {
-                    console.log('✅ Synced to Google Sheets:', transaksionet.length, 'transactions');
-                    showSyncIndicator('success');
+                for (let i = 0; i < total; i += batchSize) {
+                    const batch = db.batch();
+                    const chunk = transaksionet.slice(i, i + batchSize);
                     
-                    // Save to localStorage as backup
-                    saveDataToStorage();
-                    return true;
-                } else {
-                    throw new Error('Server returned: ' + response.status);
+                    chunk.forEach(t => {
+                        const docRef = db.collection(COLLECTION_TRANSAKSIONET).doc(String(t.id));
+                        batch.set(docRef, {
+                            data: t.data || '',
+                            tipi: t.tipi || '',
+                            pershkrimi: t.pershkrimi || '',
+                            kategoria: t.kategoria || '',
+                            shuma: t.shuma || 0,
+                            timestamp: t.timestamp || new Date().toISOString()
+                        });
+                    });
+                    
+                    await batch.commit();
+                    console.log(`✅ Batch ${Math.floor(i/batchSize)+1} u ruajt (${chunk.length} transaksione)`);
                 }
                 
-            } catch (error) {
-                console.error('❌ Error syncing to Google Sheets:', error);
-                showSyncIndicator('error');
+                console.log('✅ Synced to Firebase:', total, 'transactions');
+                showSyncIndicator('success');
+                saveDataToStorage();
+                return true;
                 
-                // Fallback to localStorage
+            } catch (error) {
+                console.error('❌ Error syncing to Firebase:', error);
+                showSyncIndicator('error');
                 saveDataToStorage();
                 return false;
             }
         }
         
-        // FAST SINGLE OPERATION SYNC
+        // FIREBASE SINGLE OPERATION
         async function syncSingleOperation(action, transaksion) {
             try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-                const response = await fetch(GOOGLE_SHEETS_CONFIG.webAppUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify({ action: action, transaksion: transaksion }),
-                    signal: controller.signal
-                });
-
-                clearTimeout(timeoutId);
-
-                if (response.ok) {
-                    const result = await response.json();
-                    if (result.success) {
-                        console.log(`✅ Single op [${action}] sukses:`, transaksion.id);
-                        if (action === 'add') {
-                            shtoLog('➕ Shtim', `${transaksion.tipi} - ${transaksion.pershkrimi} - ${Math.abs(transaksion.shuma).toLocaleString('mk-MK')} MKD (${transaksion.data})`);
-                        }
-                        saveDataToStorage();
-                        showSyncIndicator('success');
-                        return true;
-                    }
+                const docRef = db.collection(COLLECTION_TRANSAKSIONET).doc(String(transaksion.id));
+                
+                if (action === 'add' || action === 'update') {
+                    await docRef.set({
+                        data: transaksion.data || '',
+                        tipi: transaksion.tipi || '',
+                        pershkrimi: transaksion.pershkrimi || '',
+                        kategoria: transaksion.kategoria || '',
+                        shuma: transaksion.shuma || 0,
+                        timestamp: transaksion.timestamp || new Date().toISOString()
+                    });
+                } else if (action === 'delete') {
+                    await docRef.delete();
                 }
-                throw new Error('Single op failed');
+                
+                console.log(`✅ Firebase [${action}] sukses:`, transaksion.id);
+                if (action === 'add') {
+                    shtoLog('➕ Shtim', `${transaksion.tipi} - ${transaksion.pershkrimi} - ${Math.abs(transaksion.shuma).toLocaleString('mk-MK')} MKD (${transaksion.data})`);
+                }
+                saveDataToStorage();
+                showSyncIndicator('success');
+                return true;
+                
             } catch(err) {
-                console.warn(`⚠️ Single op [${action}] dështoi, fallback full sync:`, err.message);
-                return await saveDataToGoogleSheets();
+                console.error(`❌ Firebase [${action}] dështoi:`, err.message);
+                showSyncIndicator('error');
+                saveDataToStorage();
+                return false;
             }
         }
 
@@ -2911,7 +2862,7 @@ body {
                         });
                         
                         // Save the converted data back to storage
-                        saveDataToGoogleSheets();
+                        saveDataToFirebase();
                         
                         // Ngarko kategoritë
                         ngarkoKategorite();
@@ -2954,9 +2905,9 @@ body {
         }
 
         async function forcFullSync() {
-            if (!confirm('Ky veprim do të rishkruajë të gjitha ' + transaksionet.length + ' transaksionet në Google Sheets me format të ri. Vazhdo?')) return;
+            if (!confirm('Ky veprim do të rishkruajë të gjitha ' + transaksionet.length + ' transaksionet në Firebase me format të ri. Vazhdo?')) return;
             showStorageIndicator('info', '🔄 Duke bërë full sync...');
-            const result = await saveDataToGoogleSheets();
+            const result = await saveDataToFirebase();
             if (result) {
                 showStorageIndicator('success', '✅ Full sync u krye me sukses!');
                 alert('✅ Të gjitha ' + transaksionet.length + ' transaksionet u sinkronizuan me format të ri!');
@@ -3038,15 +2989,15 @@ body {
                         console.log('  First 5 transactions dates:', transaksionet.slice(0, 5).map(t => t.data));
                         
                         // Wait for save to complete
-                        showStorageIndicator('info', '⏳ Duke ruajtur në Google Sheets...');
-                        const saved = await saveDataToGoogleSheets();
+                        showStorageIndicator('info', '⏳ Duke ruajtur në Firebase...');
+                        const saved = await saveDataToFirebase();
                         
                         if (saved) {
-                            console.log('✅ Ruajtur në Google Sheets me sukses!');
-                            console.log('📅 Dates that were sent to Google Sheets:');
+                            console.log('✅ Ruajtur në Firebase me sukses!');
+                            console.log('📅 Dates sent to Firebase:');
                             console.log('  First 5:', transaksionet.slice(0, 5).map(t => t.data));
                         } else {
-                            console.warn('⚠️ Gabim në ruajtje në Google Sheets, por u ruajt në localStorage');
+                            console.warn('⚠️ Gabim në ruajtje në Firebase, por u ruajt në localStorage');
                         }
                         
                         updateAutocompleteSuggestions(); // Përditëso suggestions
@@ -3140,9 +3091,9 @@ body {
             console.log('Duke inicializuar dashboard-in...');
             
             // Try to load data from Google Sheets first, fallback to localStorage
-            const loadedFromSheets = await loadDataFromGoogleSheets();
+            const loadedFromFirebase = await loadDataFromFirebase();
             
-            if (!loadedFromSheets) {
+            if (!loadedFromFirebase) {
                 console.log('Falling back to localStorage');
                 loadDataFromStorage();
             }
@@ -3784,7 +3735,7 @@ function editoTransaksionin(id) {
             showSyncIndicator('syncing');
             syncSingleOperation('update', transaksioni);
             shtoLog('✏️ Editim', `${transaksioni.tipi} - ${transaksioni.pershkrimi} - ${Math.abs(transaksioni.shuma).toLocaleString('mk-MK')} MKD (${transaksioni.data})`);
-            console.log('✅ Transaksioni u përditësua dhe u ruajt në Google Sheets');
+            console.log('✅ Transaksioni u përditësua dhe u ruajt në Firebase');
             
             // Përditëso UI
             ngarkoTabelen();
@@ -3988,7 +3939,7 @@ function editoTransaksionin(id) {
                     syncSingleOperation('delete', transaksioni);
                     shtoLog('🗑️ Fshirje', `${transaksioni.tipi} - ${transaksioni.pershkrimi} - ${Math.abs(transaksioni.shuma).toLocaleString('mk-MK')} MKD (${transaksioni.data})`);
                 } else {
-                    saveDataToGoogleSheets();
+                    saveDataToFirebase();
                 }
                 console.log('✅ Transaksioni u fshi');
                 
@@ -7182,7 +7133,7 @@ function editoKategorine(index, vlereERe) {
     perdiEsoKategoriteDropdowns();
     
     if (numriIPerditesuar > 0) {
-        saveDataToGoogleSheets();
+        saveDataToFirebase();
         console.log(`✅ ${numriIPerditesuar} transaksione u përditësuan me kategorinë e re`);
     }
     
@@ -7219,6 +7170,15 @@ function fshiKategorine(index) {
     console.log('✅ Kategoria "' + kategoria + '" u fshi');
 }
 
+</script>
+<script>
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+            .then(r => console.log('✅ Service Worker u regjistrua'))
+            .catch(e => console.warn('SW dështoi:', e));
+    });
+}
 </script>
 </body>
 </html>
