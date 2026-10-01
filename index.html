@@ -7398,13 +7398,13 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
 
         years() {
             const set = new Set([String(new Date().getFullYear())]);
-            (window.transaksionet || []).forEach(t => { const p = String(t.data || '').split('-'); if (p.length === 3) set.add(p[2]); });
+            (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || [])).forEach(t => { const p = String(t.data || '').split('-'); if (p.length === 3) set.add(p[2]); });
             return Array.from(set).sort().reverse();
         },
 
         // same formulas as llogaritPermbledhjen
         stats(year) {
-            const ts = (window.transaksionet || []).filter(t => { const p = String(t.data || '').split('-'); return p.length === 3 && p[2] === year; });
+            const ts = (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || [])).filter(t => { const p = String(t.data || '').split('-'); return p.length === 3 && p[2] === year; });
             const sum = (tip) => ts.filter(t => t.tipi === tip).reduce((s, t) => s + t.shuma, 0);
             const shitje = sum('Shitje'), teArdhura = sum('Të Ardhura');
             const shpenzime = Math.abs(sum('Shpenzim'));
@@ -7471,7 +7471,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
 
         filtered() {
             const q = this.search.toLowerCase();
-            let list = (window.transaksionet || []).filter(t => {
+            let list = (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || [])).filter(t => {
                 const p = String(t.data || '').split('-');
                 if (p.length !== 3 || p[2] !== this.year) return false;
                 if (this.month && p[1] !== this.month) return false;
