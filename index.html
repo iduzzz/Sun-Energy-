@@ -7398,7 +7398,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
 
         years() {
             const nowY = new Date().getFullYear();
-            const set = new Set([String(nowY), String(nowY + 1), String(nowY + 2)]);
+            const set = new Set([String(nowY)]);
             (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || [])).forEach(t => { const p = String(t.data || '').split('-'); if (p.length === 3) set.add(p[2]); });
             return Array.from(set).sort().reverse();
         },
