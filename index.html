@@ -7514,11 +7514,18 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
                     .map(m => '<option value="' + m.slice(0, 2) + '"' + (this.month === m.slice(0, 2) ? ' selected' : '') + '>' + m.slice(3) + '</option>').join('') + '</select>' +
                 '<input type="search" placeholder="🔍 Kërko..." value="' + esc(this.search) + '" oninput="MB.setSearch(this.value)">' +
                 '</div>';
-            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:1px;margin:0 2px 8px">' + list.length + ' TRANSAKSIONE</div>';
-            if (!list.length) return h + '<div class="mb-empty">Nuk ka transaksione për këtë periudhë.</div>';
-            h += list.slice(0, this.limit).map(t => this.txCard(t)).join('');
-            if (list.length > this.limit) h += '<button class="mb-more" onclick="MB.more()">Shfaq më shumë (' + (list.length - this.limit) + ' të tjera)</button>';
+            h += '<div id="mb-count" style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:1px;margin:0 2px 8px">' + list.length + ' TRANSAKSIONE</div>';
+            h += '<div id="mb-list"></div>';
             return h;
+        },
+
+        renderTransList() {
+            const list = this.filtered();
+            document.getElementById('mb-count').textContent = list.length + ' TRANSAKSIONE';
+            document.getElementById('mb-list').innerHTML = (list.length
+                ? list.slice(0, this.limit).map(t => this.txCard(t)).join('')
+                : '<div class="mb-empty">Nuk ka transaksione për këtë periudhë.</div>')
+                + (list.length > this.limit ? '<button class="mb-more" onclick="MB.more()">Shfaq më shumë (' + (list.length - this.limit) + ' të tjera)</button>' : '');
         },
 
         more() { this.limit += 30; this.render(); },
@@ -7526,12 +7533,8 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
         setMonth(v) { this.month = v; this.limit = 30; this.render(); },
         setSearch(v) {
             this.search = v; this.limit = 30;
-            const list = this.filtered();
-            const rest = list.length > this.limit ? '<button class="mb-more" onclick="MB.more()">Shfaq më shumë (' + (list.length - this.limit) + ' të tjera)</button>' : '';
+            this.renderTransList();
             const head = document.querySelector('.mb-filters');
-            const count = document.getElementById('mb-count');
-            document.getElementById('mb-list').innerHTML = (list.length ? list.slice(0, this.limit).map(t => this.txCard(t)).join('') : '<div class="mb-empty">Nuk ka transaksione për këtë periudhë.</div>') + rest;
-            if (count) count.textContent = list.length + ' TRANSAKSIONE';
             if (head) { const i = head.querySelector('input'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
         },
 
@@ -7576,12 +7579,8 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
                 else if (this.tab === 'trans') html = this.renderTrans(st);
                 else if (this.tab === 'gjendja') html = this.renderGjendja(st);
                 else html = this.renderMenu();
-                if (this.tab === 'trans') html = html.replace('TRANSAKSIONE</div>', 'TRANSAKSIONE</div><div id="mb-list"></div><div id="mb-count" style="display:none"></div>');
                 document.getElementById('mb-main').innerHTML = html;
-                if (this.tab === 'trans') {
-                    const list = this.filtered();
-                    document.getElementById('mb-list').innerHTML = (list.length ? list.slice(0, this.limit).map(t => this.txCard(t)).join('') : '<div class="mb-empty">Nuk ka transaksione për këtë periudhë.</div>') + (list.length > this.limit ? '<button class="mb-more" onclick="MB.more()">Shfaq më shumë (' + (list.length - this.limit) + ' të tjera)</button>' : '');
-                }
+                if (this.tab === 'trans') this.renderTransList();
                 if (this.tab === 'paneli') this.drawChart(this.year);
             } catch (e) { console.warn('MB render:', e); }
         }
