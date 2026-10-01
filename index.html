@@ -7613,6 +7613,82 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
     } catch (e) { console.warn('MB patch:', e); }
 })();
 </script>
+<style>
+    #mb-ptr { display: none; }
+    @media (max-width: 768px) {
+        #mb-ptr { display: block; position: fixed; top: 10px; left: 50%; transform: translate(-50%, -60px);
+                  z-index: 850; background: #fff; border-radius: 20px; padding: 8px 16px; font-size: 12px;
+                  font-weight: 700; color: #0b7c56; box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+                  transition: transform 0.25s ease, opacity 0.25s ease; opacity: 0; pointer-events: none; }
+        #mb-ptr.pull { transition: none; opacity: 1; }
+        #mb-ptr .mb-ptr-ic { display: inline-block; margin-right: 6px; }
+        #mb-ptr.spin .mb-ptr-ic { animation: mbptrspin 0.8s linear infinite; }
+        @keyframes mbptrspin { to { transform: rotate(360deg); } }
+    }
+</style>
+<div id="mb-ptr"><span class="mb-ptr-ic">↻</span><span id="mb-ptr-tx">Tërhiq për rifreskim</span></div>
+<script>
+// ============ MOBILE PULL-TO-REFRESH — mobile only, triggers the same Firebase re-sync ============
+(function () {
+    'use strict';
+    if (window.MBPTR) return;
+    const ptr = document.getElementById('mb-ptr');
+    const tx = document.getElementById('mb-ptr-tx');
+    const THRESHOLD = 65;
+    let startY = null, pulling = false, busy = false, dist = 0;
+
+    const active = () => window.innerWidth <= 768 && document.body.classList.contains('mb-on') && !busy;
+    const modalOpen = () => Array.from(document.querySelectorAll('.modal')).some(m => m.style.display === 'block');
+    const ignored = (t) => t.closest && (t.closest('.modal') || t.closest('.mb-sheet') || t.closest('select') || t.closest('input') || t.closest('.mb-tabbar') || t.closest('textarea'));
+
+    function setPull(d) {
+        ptr.classList.add('pull');
+        ptr.classList.remove('spin');
+        tx.textContent = d >= THRESHOLD ? 'Lësho për rifreskim' : 'Tërhiq për rifreskim';
+        ptr.style.transform = 'translate(-50%, ' + (-60 + d) + 'px)';
+    }
+    function reset() {
+        pulling = false; startY = null; dist = 0;
+        ptr.classList.remove('pull', 'spin');
+        ptr.style.transform = 'translate(-50%, -60px)';
+        ptr.style.opacity = '';
+    }
+    async function doRefresh() {
+        busy = true;
+        ptr.classList.add('pull', 'spin');
+        tx.textContent = 'Duke rifreskuar...';
+        ptr.style.transform = 'translate(-50%, 0)';
+        ptr.style.opacity = '1';
+        try { if (typeof forcFullSync === 'function') await forcFullSync(); } catch (e) {}
+        try { ngarkoTabelen(); } catch (e) {}
+        setTimeout(function () { reset(); busy = false; }, 600);
+    }
+    document.addEventListener('touchstart', function (e) {
+        if (!active() || modalOpen() || e.touches.length !== 1) return;
+        if (window.scrollY > 2) return;
+        if (ignored(e.target)) return;
+        startY = e.touches[0].clientY; pulling = false; dist = 0;
+    }, { passive: true });
+    document.addEventListener('touchmove', function (e) {
+        if (startY === null || busy || e.touches.length !== 1) return;
+        if (modalOpen()) { startY = null; return; }
+        if (window.scrollY > 2) { if (pulling) reset(); else startY = null; return; }
+        const dy = e.touches[0].clientY - startY;
+        if (dy <= 0) { if (pulling) setPull(0); return; }
+        pulling = true;
+        dist = Math.min(120, dy * 0.45);
+        setPull(dist);
+    }, { passive: true });
+    document.addEventListener('touchend', function () {
+        if (startY === null) return;
+        const fire = pulling && dist >= THRESHOLD;
+        startY = null; pulling = false; dist = 0;
+        if (fire && !busy) doRefresh(); else reset();
+    }, { passive: true });
+    window.MBPTR = true;
+})();
+</script>
 </body>
+
 
 </html>
