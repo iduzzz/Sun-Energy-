@@ -7578,7 +7578,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
                 item('📥', 'Importo të Dhëna', "document.getElementById('import-file-input').click()") +
                 item('🗂️', 'Menaxho Kategoritë', 'hapModalMenaxhoKategorite()') +
                 item('🕘', 'Historiku i Ndryshimeve', 'shfaqLogun()') +
-                item('🔄', 'Rifresko Firebase', 'forcFullSync()') +
+                item('🔄', 'Rifresko të Dhënat', 'loadDataFromFirebase()') +
                 item('🚪', 'Dil nga Sistemi', 'logout()', true) +
                 '</div></div>';
         },
@@ -7659,7 +7659,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
         tx.textContent = 'Duke rifreskuar...';
         ptr.style.transform = 'translate(-50%, 0)';
         ptr.style.opacity = '1';
-        try { if (typeof forcFullSync === 'function') await forcFullSync(); } catch (e) {}
+        try { if (typeof loadDataFromFirebase === 'function') await loadDataFromFirebase(); } catch (e) {}
         try { ngarkoTabelen(); } catch (e) {}
         setTimeout(function () { reset(); busy = false; }, 600);
     }
