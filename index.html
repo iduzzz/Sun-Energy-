@@ -1597,6 +1597,88 @@ body {
     }
     .storage-indicator { top: calc(env(safe-area-inset-top) + 10px); }
 }
+
+/* ===== RREGULLIME MOBILE / iPhone ===== */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+* { 
+    -webkit-text-size-adjust: 100%; 
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr !important;
+        padding: 10px !important;
+        gap: 12px !important;
+    }
+    .sidebar {
+        position: static !important;
+        order: 2;
+    }
+    .main-content {
+        order: 1;
+        padding: 14px !important;
+    }
+    /* Menu si rrjetë 2 kolonash në mobile */
+    .menu {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+    .menu-item-parent { grid-column: 1 / -1; }
+    /* Kartat 2 për rresht */
+    .summary {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 8px !important;
+    }
+    .summary-card .amount { font-size: 1em !important; }
+    .summary-card h3 { font-size: 0.62em !important; }
+    /* Tabela scroll horizontal brenda vetes, jo faqja */
+    .table-wrapper, .table-container {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .main-table { min-width: 560px; }
+    /* Filtrat vertikal */
+    .table-filters {
+        flex-direction: column;
+        gap: 8px !important;
+    }
+    .table-filters select,
+    .table-filters input {
+        width: 100%;
+    }
+    /* Modalet full width me scroll */
+    .modal-content {
+        width: 95% !important;
+        max-width: 95% !important;
+        margin: 4% auto !important;
+        padding: 16px !important;
+    }
+    /* Modalet e reja (ortaku, universal, terheqje) */
+    #modal-detaje-universal > div,
+    #modal-detaje-terheqje > div,
+    #modal-ortaku-pasqyre > div {
+        width: 96vw !important;
+        max-width: 96vw !important;
+        margin: 2vh auto !important;
+        padding: 14px 10px !important;
+    }
+    /* Chart më i vogël */
+    .chart-wrapper { height: 200px !important; }
+    .chart-header { flex-direction: column; gap: 10px; }
+    .chart-filters { width: 100%; flex-wrap: wrap; }
+    /* Header */
+    .header h1 { font-size: 1.4em !important; }
+}
+
+@media (max-width: 420px) {
+    .summary { grid-template-columns: 1fr !important; }
+    .menu { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -6268,12 +6350,7 @@ body {
                 document.head.appendChild(viewport);
             }
             
-            // Safari-specific viewport settings
-            if (isSafari || isIOS) {
-                viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';
-            } else {
-                viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
-            }
+            // Viewport mbetet ai nga head (viewport-fit=cover) — mos e mbishkruaj
             
             // Focus removed since no input fields needed
             console.log('Sistemi i hyrjes është gati!');
