@@ -7397,14 +7397,15 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
         add(t) { this.closeSheet(); hapModal(t); },
 
         years() {
-            const set = new Set([String(new Date().getFullYear())]);
+            const nowY = new Date().getFullYear();
+            const set = new Set([String(nowY), String(nowY + 1), String(nowY + 2)]);
             (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || [])).forEach(t => { const p = String(t.data || '').split('-'); if (p.length === 3) set.add(p[2]); });
             return Array.from(set).sort().reverse();
         },
 
         // same formulas as llogaritPermbledhjen
         stats(year) {
-            const ts = (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || [])).filter(t => { const p = String(t.data || '').split('-'); return p.length === 3 && p[2] === year; });
+            const ts = (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || [])).filter(t => { const p = String(t.data || '').split('-'); return p.length === 3 && (!year || p[2] === year); });
             const sum = (tip) => ts.filter(t => t.tipi === tip).reduce((s, t) => s + t.shuma, 0);
             const shitje = sum('Shitje'), teArdhura = sum('Të Ardhura');
             const shpenzime = Math.abs(sum('Shpenzim'));
@@ -7419,7 +7420,8 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
 
         fillYears() {
             const sel = document.getElementById('mb-year');
-            sel.innerHTML = this.years().map(y => '<option value="' + y + '"' + (y === this.year ? ' selected' : '') + '>' + y + '</option>').join('');
+            sel.innerHTML = '<option value=""' + (this.year === '' ? ' selected' : '') + '>Të gjitha vitet</option>' +
+                this.years().map(y => '<option value="' + y + '"' + (y === this.year ? ' selected' : '') + '>' + y + '</option>').join('');
         },
 
         card(lbl, val, color) {
@@ -7435,7 +7437,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
         },
 
         renderPaneli(st) {
-            let h = '<div class="mb-sec"><div class="mb-periudha">📅 Periudha: ' + esc(this.year) + '</div>';
+            let h = '<div class="mb-sec"><div class="mb-periudha">📅 Periudha: ' + esc(this.year || 'Të gjitha vitet') + '</div>';
             h += '<div class="mb-grid2">';
             h += this.card('SHITJET', st.shitje, st.shitje >= 0 ? '#0b7c56' : '#dc2626');
             h += this.card('TË ARDHURA TJERA', st.teArdhura, '#0b7c56');
@@ -7454,7 +7456,20 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
             const cv = document.getElementById('mb-chart');
             if (!cv || typeof Chart === 'undefined') return;
             let md = { sales: new Array(12).fill(0), expenses: new Array(12).fill(0) };
-            try { md = prepareMonthlyData(year); } catch (e) {}
+            try {
+                if (year) { md = prepareMonthlyData(year); }
+                else {
+                    const all = (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || []));
+                    all.forEach(t => {
+                        const p = String(t.data || '').split('-');
+                        if (p.length !== 3) return;
+                        const m = parseInt(p[1], 10) - 1;
+                        if (!(m >= 0 && m < 12)) return;
+                        if (t.tipi === 'Shitje' || t.tipi === 'Të Ardhura') md.sales[m] += t.shuma;
+                        else if (t.tipi === 'Shpenzim') md.expenses[m] += Math.abs(t.shuma);
+                    });
+                }
+            } catch (e) {}
             if (this.chart) { try { this.chart.destroy(); } catch (e) {} this.chart = null; }
             this.chart = new Chart(cv.getContext('2d'), {
                 type: 'line',
@@ -7473,7 +7488,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
             const q = this.search.toLowerCase();
             let list = (typeof transaksionet !== 'undefined' ? transaksionet : (window.transaksionet || [])).filter(t => {
                 const p = String(t.data || '').split('-');
-                if (p.length !== 3 || p[2] !== this.year) return false;
+                if (p.length !== 3 || (this.year && p[2] !== this.year)) return false;
                 if (this.month && p[1] !== this.month) return false;
                 if (this.type && t.tipi !== this.type) return false;
                 if (q) { const hay = ((t.pershkrimi || '') + ' ' + (t.kategoria || '')).toLowerCase(); if (!hay.includes(q)) return false; }
