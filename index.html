@@ -87,6 +87,9 @@
         }
         
         .login-input {
+            -webkit-user-select: text;
+            user-select: text;
+            -webkit-touch-callout: default;
             width: 100%;
             padding: 16px 18px;
             margin-bottom: 18px;
@@ -1595,6 +1598,7 @@ body {
     .storage-indicator { top: calc(env(safe-area-inset-top) + 10px); }
 }
 </style>
+
 </head>
 <body>
     <!-- Storage Indicator -->
@@ -1611,14 +1615,12 @@ body {
             </div>
             
             <form class="login-form" onsubmit="handleLogin(event)">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <p style="color: #86868b; font-size: 0.95em;">
-                        Klikoni butonin për të hyrë në dashboard
-                    </p>
-                </div>
+                <input type="email" id="login-email" class="login-input" placeholder="Email" autocomplete="username" required>
+                <input type="password" id="login-password" class="login-input" placeholder="Fjalëkalimi" autocomplete="current-password" required>
                 <button type="submit" class="login-btn">
-                    🚀 Hyr në Dashboard
+                    Hyr
                 </button>
+                <div id="login-error" class="login-error"></div>
             </form>
         </div>
     </div>
@@ -2592,12 +2594,10 @@ body {
 
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <script>
         // Authentication System
-        const validUsers = {
-            'admin': 'Zudienuz2025'
-        };
 
         let currentUser = null;
         let monthlyChart = null;
@@ -2652,6 +2652,7 @@ body {
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const auth = firebase.auth();
         const COLLECTION_TRANSAKSIONET = 'transaksionet';
         const COLLECTION_KATEGORITE = 'kategorite';
 
@@ -3023,69 +3024,98 @@ body {
             event.target.value = '';
         }
 
+        function showAppUI() {
+            const loginContainer = document.getElementById('login-container');
+            loginContainer.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            loginContainer.style.opacity = '0';
+            loginContainer.style.transform = 'scale(0.97)';
+            document.body.classList.remove('login-active');
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            document.body.style.height = '';
+            setTimeout(() => {
+                loginContainer.classList.add('hidden');
+                loginContainer.style.display = 'none';
+                const dashboard = document.getElementById('main-dashboard');
+                dashboard.classList.remove('hidden');
+                dashboard.style.display = 'grid';
+                updateWelcomeMessage();
+                if (!window.dashboardInitialized) {
+                    window.dashboardInitialized = true;
+                    initializeDashboard();
+                }
+            }, 400);
+        }
+
+        function showLoginUI() {
+            const loginContainer = document.getElementById('login-container');
+            loginContainer.classList.remove('hidden');
+            loginContainer.style.display = 'flex';
+            loginContainer.style.opacity = '1';
+            loginContainer.style.transform = 'scale(1)';
+            document.getElementById('main-dashboard').classList.add('hidden');
+            window.dashboardInitialized = false;
+        }
+
         function handleLogin(event) {
             event.preventDefault();
-            
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const errorDiv = document.getElementById('login-error');
             const submitBtn = event.target.querySelector('.login-btn');
-            
-            // Add loading state to button
+            errorDiv.textContent = '';
+
             const originalText = submitBtn.textContent;
-            submitBtn.textContent = '🔄 Duke u kyqur...';
+            submitBtn.textContent = 'Duke u kyçur...';
             submitBtn.disabled = true;
-            
-            // Direct login without credentials
-            setTimeout(() => {
-                currentUser = 'admin';
-                
-                // Safari-compatible login success
-                const loginContainer = document.getElementById('login-container');
-                
-                // Safari transition
-                loginContainer.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                loginContainer.style.opacity = '0';
-                loginContainer.style.transform = 'scale(0.95)';
-                
-                // Remove body scroll lock for Safari
-                document.body.classList.remove('login-active');
-                document.body.style.overflow = '';
-                document.body.style.position = '';
-                document.body.style.width = '';
-                document.body.style.height = '';
-                
-                setTimeout(() => {
-                    loginContainer.classList.add('hidden');
-                    loginContainer.style.display = 'none'; // Force hide for Safari
-                    
-                    const dashboard = document.getElementById('main-dashboard');
-                    dashboard.classList.remove('hidden');
-                    dashboard.style.display = 'grid'; // Force show for Safari
-                    
-                    // Update welcome message
-                    updateWelcomeMessage();
-                    
-                    // Initialize dashboard
-                    initializeDashboard();
-                }, 500);
-            }, 300);
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then(cred => {
+                    currentUser = cred.user.email;
+                    // onAuthStateChanged do ta shfaqë dashboard-in
+                })
+                .catch(err => {
+                    console.warn('Login error:', err.code);
+                    let msg = 'Email ose fjalëkalim i gabuar.';
+                    if (err.code === 'auth/invalid-email') msg = 'Email-i nuk është valid.';
+                    else if (err.code === 'auth/too-many-requests') msg = 'Shumë tentativa. Provo më vonë.';
+                    else if (err.code === 'auth/network-request-failed') msg = 'Nuk ka internet.';
+                    errorDiv.textContent = '⚠️ ' + msg;
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
         }
 
         function updateWelcomeMessage() {
             const headerTitle = document.querySelector('.header h1');
             const headerSubtitle = document.querySelector('.header p');
-            
-            headerTitle.textContent = `Mirë se erdhe, Admin!`;
+            headerTitle.textContent = `Mirë se erdhe!`;
             headerSubtitle.textContent = `SUNENERGY Dashboard - ${new Date().toLocaleDateString('sq-AL')}`;
         }
 
         function logout() {
             if (confirm('Jeni të sigurt që doni të dilni?')) {
-                currentUser = null;
-                document.getElementById('main-dashboard').classList.add('hidden');
-                document.getElementById('login-container').classList.remove('hidden');
-                document.getElementById('login-container').style.opacity = '1';
-                document.getElementById('login-container').style.transform = 'scale(1)';
+                auth.signOut().then(() => {
+                    currentUser = null;
+                    const btn = document.querySelector('.login-btn');
+                    if (btn) { btn.textContent = 'Hyr'; btn.disabled = false; }
+                    const pw = document.getElementById('login-password');
+                    if (pw) pw.value = '';
+                    showLoginUI();
+                });
             }
         }
+
+        // Dëgjuesi i gjendjes së autentifikimit — vendos çfarë shfaqet
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                currentUser = user.email;
+                showAppUI();
+            } else {
+                showLoginUI();
+            }
+        });
 
         async function initializeDashboard() {
             console.log('Duke inicializuar dashboard-in...');
