@@ -1624,6 +1624,90 @@ body {
         .modal div[style*="display:flex"]:not([style*="flex-direction"]) { flex-wrap: wrap; row-gap: 8px; }
     }
     </style>
+    <!-- MOBILE APP LAYER (E-Volt style) — CSS, visible only ≤768px. PC untouched. -->
+    <style>
+    #mobile-app { display: none; }
+    @media (max-width: 768px) {
+        #main-dashboard { display: none !important; }
+        body.mb-on #mobile-app { display: block; }
+        #mobile-app { padding-bottom: 84px; background: #f4f6f5; min-height: 100vh; font-family: inherit; }
+        .mb-header { position: sticky; top: 0; z-index: 500; background: rgba(244,246,245,0.95); backdrop-filter: blur(12px);
+                     display: flex; align-items: center; gap: 12px; padding: 14px 16px 10px; }
+        .mb-hd-ic { width: 44px; height: 44px; border-radius: 14px; background: linear-gradient(135deg,#0e9f6e,#0b7c56);
+                    color:#fff; display:flex; align-items:center; justify-content:center; font-size: 20px; flex-shrink: 0; }
+        .mb-hd-tx { flex: 1; min-width: 0; }
+        .mb-hd-tx h1 { margin: 0; font-size: 20px; font-weight: 800; color: #111827; }
+        .mb-hd-tx p { margin: 2px 0 0; font-size: 12px; color: #6b7280; }
+        .mb-year { padding: 8px 12px; border-radius: 12px; border: 1px solid #e5e7eb; background: #fff; font-size: 14px; font-weight: 600; }
+        .mb-body { padding: 0 16px; }
+        .mb-sec { margin: 0 0 14px; }
+        .mb-periudha { display:flex; align-items:center; gap:8px; font-size: 13px; font-weight: 700; color:#374151; margin: 6px 0 10px; }
+        .mb-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .mb-card { background: #fff; border-radius: 16px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .mb-stat { border: 1px solid #eef1ef; }
+        .mb-stat .lbl { font-size: 12px; color: #6b7280; font-weight: 600; }
+        .mb-stat .val { font-size: 16px; font-weight: 800; margin-top: 4px; word-break: break-word; }
+        .mb-partner-row { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 16px;
+                          padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                          border: none; width: 100%; text-align: left; cursor: pointer; }
+        .mb-p-ic { width: 40px; height: 40px; border-radius: 12px; background: #eef2ff; display: flex; align-items: center;
+                   justify-content: center; font-size: 18px; flex-shrink: 0; }
+        .mb-p-tx { flex: 1; min-width: 0; }
+        .mb-p-tx b { display: block; font-size: 14px; color: #111827; }
+        .mb-p-tx span { font-size: 12px; color: #6b7280; }
+        .mb-p-val { font-size: 14px; font-weight: 800; }
+        .mb-chart-card { background:#fff; border-radius: 16px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .mb-chart-card h3 { margin: 0 0 4px; font-size: 15px; color: #111827; }
+        .mb-chart-card p { margin: 0 0 8px; font-size: 12px; color: #6b7280; }
+        .mb-chart-box { height: 220px; position: relative; }
+        .mb-tabbar { position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 900;
+                     background: #fff; border-radius: 18px; box-shadow: 0 6px 24px rgba(0,0,0,0.16);
+                     display: flex; align-items: center; justify-content: space-around; padding: 6px 4px; }
+        .mb-tabbar button { border: none; background: none; font-size: 11px; font-weight: 700; color: #9ca3af;
+                            display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 8px;
+                            border-radius: 12px; min-width: 56px; font-family: inherit; }
+        .mb-tabbar button .ic { font-size: 19px; font-style: normal; }
+        .mb-tabbar button.act { color: #0b7c56; background: #e6f6f0; }
+        .mb-tabbar .mb-add { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg,#0e9f6e,#0b7c56);
+                             color: #fff; font-size: 26px; font-weight: 300; display: flex; align-items: center; justify-content: center;
+                             margin-top: -22px; box-shadow: 0 6px 16px rgba(14,159,110,0.45); }
+        .mb-sheet-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 950; }
+        .mb-sheet { display: none; position: fixed; left: 12px; right: 12px; bottom: 12px; z-index: 960;
+                    background: #fff; border-radius: 20px; padding: 16px; box-shadow: 0 -6px 30px rgba(0,0,0,0.2); }
+        .mb-sheet.open, .mb-sheet-bg.open { display: block; }
+        .mb-sheet h3 { margin: 0 0 10px; font-size: 15px; color: #111827; }
+        .mb-sheet .mb-add-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .mb-sheet .mb-add-grid button { display: flex; align-items: center; gap: 8px; padding: 11px 12px; border-radius: 12px;
+                     border: 1px solid #e5e7eb; background: #f9fafb; font-size: 13px; font-weight: 700; color: #374151; font-family: inherit; }
+        .mb-filters { background:#fff; border-radius: 16px; padding: 10px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+                      display: flex; flex-wrap: wrap; gap: 8px; }
+        .mb-filters select, .mb-filters input { flex: 1 1 44%; min-width: 0; padding: 9px 10px; border-radius: 10px;
+                      border: 1px solid #e5e7eb; font-size: 13px; background: #f9fafb; font-family: inherit; }
+        .mb-filters input { flex: 1 1 100%; }
+        .mb-tx-card { display: flex; align-items: center; gap: 12px; background: #fff; border-radius: 16px;
+                      padding: 12px 14px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .mb-tx-ic { width: 42px; height: 42px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 19px; flex-shrink: 0; }
+        .mb-tx-tx { flex: 1; min-width: 0; }
+        .mb-tx-tx b { display: block; font-size: 14px; color: #111827; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .mb-tx-meta { font-size: 11.5px; color: #6b7280; margin-top: 2px; }
+        .mb-chip { display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+        .mb-tx-val { font-size: 14px; font-weight: 800; white-space: nowrap; }
+        .mb-tx-actions { display: none; gap: 8px; }
+        .mb-tx-card.open .mb-tx-actions { display: flex; }
+        .mb-tx-actions button { width: 40px; height: 40px; border-radius: 12px; border: none; font-size: 16px; cursor: pointer; }
+        .mb-tx-actions .ed { background: #e8f1ff; }
+        .mb-tx-actions .de { background: #fdecec; }
+        .mb-more { display: block; width: 100%; margin: 12px auto; padding: 11px; border-radius: 12px; border: none;
+                   background: #0b7c56; color: #fff; font-size: 13px; font-weight: 700; font-family: inherit; }
+        .mb-empty { text-align: center; color: #6b7280; font-size: 13px; padding: 30px 10px; }
+        .mb-menu-list { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .mb-menu-list button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; background: none;
+                               border: none; border-bottom: 1px solid #f3f4f6; padding: 14px 16px; font-size: 14px; font-weight: 600;
+                               color: #374151; font-family: inherit; }
+        .mb-menu-list button:last-child { border-bottom: none; }
+        .mb-menu-list button.danger { color: #dc2626; }
+    }
+    </style>
 </head>
 <body>
     <!-- Storage Indicator -->
@@ -7235,5 +7319,286 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
     });
 }
 </script>
+
+<!-- ============ MOBILE APP LAYER — shown only ≤768px, reuses ALL existing logic ============ -->
+<div id="mobile-app">
+    <header class="mb-header">
+        <div class="mb-hd-ic" id="mb-hd-icon">📊</div>
+        <div class="mb-hd-tx"><h1 id="mb-hd-title">Paneli</h1><p id="mb-hd-sub">Pasqyra financiare</p></div>
+        <select id="mb-year" class="mb-year" onchange="MB.setYear(this.value)"></select>
+    </header>
+    <div class="mb-body" id="mb-main"></div>
+
+    <div class="mb-sheet-bg" id="mb-sheet-bg" onclick="MB.closeSheet()"></div>
+    <div class="mb-sheet" id="mb-sheet">
+        <h3>Regjistro transaksion</h3>
+        <div class="mb-add-grid">
+            <button onclick="MB.add('shitje')">💰 Shitje</button>
+            <button onclick="MB.add('te-ardhura')">🏦 Të Ardhura</button>
+            <button onclick="MB.add('shpenzim')">🔋 Shpenzim</button>
+            <button onclick="MB.add('terheqje')">💸 Tërheqje</button>
+            <button onclick="MB.add('investim')">💼 Investim</button>
+            <button onclick="MB.add('huamarrje')">🤝 Huamarrje</button>
+            <button onclick="MB.add('kthim-huase')">💳 Kthim i Huasë</button>
+        </div>
+    </div>
+
+    <nav class="mb-tabbar">
+        <button data-tab="paneli" onclick="MB.go('paneli')"><i class="ic">▦</i>Paneli</button>
+        <button data-tab="trans" onclick="MB.go('trans')"><i class="ic">📄</i>Trans.</button>
+        <button class="mb-add" onclick="MB.openSheet()" aria-label="Regjistro">＋</button>
+        <button data-tab="gjendja" onclick="MB.go('gjendja')"><i class="ic">👥</i>Gjendja</button>
+        <button data-tab="menu" onclick="MB.go('menu')"><i class="ic">☰</i>Më shumë</button>
+    </nav>
+</div>
+
+<script>
+// ============ MOBILE APP GLUE — additive only; wraps existing global functions ============
+(function () {
+    'use strict';
+    if (window.MB) return; // guard against double init
+
+    const TIP = {
+        'Shitje':        { e: '💰', c: '#0b7c56', bg: '#e6f6f0' },
+        'Të Ardhura':    { e: '🏦', c: '#0b7c56', bg: '#e6f6f0' },
+        'Shpenzim':      { e: '🔋', c: '#dc2626', bg: '#fdecec' },
+        'Tërheqje':      { e: '💸', c: '#7c3aed', bg: '#f3e8ff' },
+        'Investim':      { e: '💼', c: '#0891b2', bg: '#e0f2fe' },
+        'Huamarrje':     { e: '🤝', c: '#d97706', bg: '#fef3c7' },
+        'Kthim i Huasë': { e: '💳', c: '#d97706', bg: '#fef3c7' },
+        'Kapital':       { e: '⚪', c: '#6b7280', bg: '#f3f4f6' }
+    };
+    const TABS = {
+        paneli:  { t: 'Paneli',        s: 'Pasqyra financiare',   ic: '📊' },
+        trans:   { t: 'Transaksionet', s: 'Të gjitha lëvizjet',   ic: '📄' },
+        gjendja: { t: 'Gjendja',       s: 'Ortakët Nexha & Gresa', ic: '👥' },
+        menu:    { t: 'Më shumë',      s: 'Vegla dhe raporte',    ic: '☰' }
+    };
+    const fmt = n => (n || 0).toLocaleString('mk-MK', { minimumFractionDigits: 2 });
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+    const MB = {
+        tab: 'paneli', year: String(new Date().getFullYear()), month: '', type: '', search: '', limit: 30, chart: null,
+
+        setYear(v) { this.year = v; this.limit = 30; this.render(); },
+        go(tab) {
+            this.tab = tab; this.limit = 30; this.closeSheet();
+            document.querySelectorAll('.mb-tabbar button[data-tab]').forEach(b => b.classList.toggle('act', b.dataset.tab === tab));
+            const meta = TABS[tab];
+            document.getElementById('mb-hd-title').textContent = meta.t;
+            document.getElementById('mb-hd-sub').textContent = meta.s;
+            document.getElementById('mb-hd-icon').textContent = meta.ic;
+            document.getElementById('mb-year').style.display = (tab === 'menu') ? 'none' : '';
+            this.render();
+            window.scrollTo(0, 0);
+        },
+        openSheet() { document.getElementById('mb-sheet').classList.add('open'); document.getElementById('mb-sheet-bg').classList.add('open'); },
+        closeSheet() { document.getElementById('mb-sheet').classList.remove('open'); document.getElementById('mb-sheet-bg').classList.remove('open'); },
+        add(t) { this.closeSheet(); hapModal(t); },
+
+        years() {
+            const set = new Set([String(new Date().getFullYear())]);
+            (window.transaksionet || []).forEach(t => { const p = String(t.data || '').split('-'); if (p.length === 3) set.add(p[2]); });
+            return Array.from(set).sort().reverse();
+        },
+
+        // same formulas as llogaritPermbledhjen
+        stats(year) {
+            const ts = (window.transaksionet || []).filter(t => { const p = String(t.data || '').split('-'); return p.length === 3 && p[2] === year; });
+            const sum = (tip) => ts.filter(t => t.tipi === tip).reduce((s, t) => s + t.shuma, 0);
+            const shitje = sum('Shitje'), teArdhura = sum('Të Ardhura');
+            const shpenzime = Math.abs(sum('Shpenzim'));
+            const fitimi = shitje - shpenzime;
+            const thN = Math.abs(ts.filter(t => t.tipi === 'Tërheqje' && t.kategoria === 'Nexha').reduce((s, t) => s + t.shuma, 0));
+            const thG = Math.abs(ts.filter(t => t.tipi === 'Tërheqje' && t.kategoria === 'Gresa').reduce((s, t) => s + t.shuma, 0));
+            const inN = ts.filter(t => t.tipi === 'Investim' && t.kategoria === 'Nexha').reduce((s, t) => s + t.shuma, 0);
+            const inG = ts.filter(t => t.tipi === 'Investim' && t.kategoria === 'Gresa').reduce((s, t) => s + t.shuma, 0);
+            const pjesa = (th, inv) => (fitimi / 2) + (teArdhura / 2) - th + inv;
+            return { ts, shitje, teArdhura, shpenzime, fitimi, thN, thG, inN, inG, pN: pjesa(thN, inN), pG: pjesa(thG, inG) };
+        },
+
+        fillYears() {
+            const sel = document.getElementById('mb-year');
+            sel.innerHTML = this.years().map(y => '<option value="' + y + '"' + (y === this.year ? ' selected' : '') + '>' + y + '</option>').join('');
+        },
+
+        card(lbl, val, color) {
+            return '<div class="mb-card mb-stat"><div class="lbl">' + lbl + '</div><div class="val" style="color:' + color + '">' + fmt(val) + ' MKD</div></div>';
+        },
+
+        partnerRow(name, val, sub) {
+            const color = val >= 0 ? '#0b7c56' : '#dc2626';
+            return '<button class="mb-partner-row" onclick="shfaqDetajePjesaOrtaku(\'' + name + '\')">' +
+                '<div class="mb-p-ic">👩</div>' +
+                '<div class="mb-p-tx"><b>' + name + '</b><span>' + sub + '</span></div>' +
+                '<div class="mb-p-val" style="color:' + color + '">' + fmt(val) + ' MKD</div></button>';
+        },
+
+        renderPaneli(st) {
+            let h = '<div class="mb-sec"><div class="mb-periudha">📅 Periudha: ' + esc(this.year) + '</div>';
+            h += '<div class="mb-grid2">';
+            h += this.card('SHITJET', st.shitje, st.shitje >= 0 ? '#0b7c56' : '#dc2626');
+            h += this.card('TË ARDHURA TJERA', st.teArdhura, '#0b7c56');
+            h += this.card('SHPENZIMET', st.shpenzime, '#dc2626');
+            h += this.card('FITIMI NETO', st.fitimi, st.fitimi >= 0 ? '#0b7c56' : '#dc2626');
+            h += '</div></div>';
+            h += '<div class="mb-sec"><div class="mb-periudha">👥 GJENDJA E ORTAKËVE</div>';
+            h += this.partnerRow('Nexha', st.pN, '50% partneritet');
+            h += this.partnerRow('Gresa', st.pG, '50% partneritet');
+            h += '</div>';
+            h += '<div class="mb-sec"><div class="mb-chart-card"><h3>Hyrje vs Dalje</h3><p>' + esc(this.year) + '</p><div class="mb-chart-box"><canvas id="mb-chart"></canvas></div></div></div>';
+            return h;
+        },
+
+        drawChart(year) {
+            const cv = document.getElementById('mb-chart');
+            if (!cv || typeof Chart === 'undefined') return;
+            let md = { sales: new Array(12).fill(0), expenses: new Array(12).fill(0) };
+            try { md = prepareMonthlyData(year); } catch (e) {}
+            if (this.chart) { try { this.chart.destroy(); } catch (e) {} this.chart = null; }
+            this.chart = new Chart(cv.getContext('2d'), {
+                type: 'line',
+                data: { labels: ['Jan', 'Shk', 'Mar', 'Pri', 'Maj', 'Qer', 'Kor', 'Gus', 'Sht', 'Tet', 'Nën', 'Dhj'],
+                        datasets: [
+                            { label: 'Hyrje', data: md.sales, borderColor: '#0e9f6e', backgroundColor: 'rgba(14,159,110,0.10)', fill: true, tension: 0.35, pointRadius: 2 },
+                            { label: 'Dalje', data: md.expenses, borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.08)', fill: true, tension: 0.35, pointRadius: 2 }
+                        ] },
+                options: { responsive: true, maintainAspectRatio: false,
+                           plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } } },
+                           scales: { y: { beginAtZero: true, ticks: { font: { size: 10 } } }, x: { ticks: { font: { size: 10 } } } } }
+            });
+        },
+
+        filtered() {
+            const q = this.search.toLowerCase();
+            let list = (window.transaksionet || []).filter(t => {
+                const p = String(t.data || '').split('-');
+                if (p.length !== 3 || p[2] !== this.year) return false;
+                if (this.month && p[1] !== this.month) return false;
+                if (this.type && t.tipi !== this.type) return false;
+                if (q) { const hay = ((t.pershkrimi || '') + ' ' + (t.kategoria || '')).toLowerCase(); if (!hay.includes(q)) return false; }
+                return true;
+            });
+            list.sort((a, b) => { try { return parseDisplayDate(b.data) - parseDisplayDate(a.data); } catch (e) { return 0; } });
+            return list;
+        },
+
+        txCard(t) {
+            const meta = TIP[t.tipi] || { e: '💸', c: '#374151', bg: '#f3f4f6' };
+            const amt = t.shuma >= 0 ? '+' + fmt(t.shuma) : '-' + fmt(Math.abs(t.shuma));
+            const id = String(t.id).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+            return '<div class="mb-tx-card" onclick="MB.toggleTx(this)">' +
+                '<div class="mb-tx-ic" style="background:' + meta.bg + '">' + meta.e + '</div>' +
+                '<div class="mb-tx-tx"><b>' + esc(t.pershkrimi || t.tipi) + '</b>' +
+                '<div class="mb-tx-meta">' + esc(t.data) +
+                '<span class="mb-chip" style="background:' + meta.bg + ';color:' + meta.c + '">' + esc(t.kategoria || t.tipi) + '</span></div></div>' +
+                '<div class="mb-tx-val" style="color:' + (t.shuma >= 0 ? '#0b7c56' : '#dc2626') + '">' + amt + ' MKD</div>' +
+                '<div class="mb-tx-actions">' +
+                '<button class="ed" onclick="event.stopPropagation(); editoTransaksionin(\'' + id + '\')">✏️</button>' +
+                '<button class="de" onclick="event.stopPropagation(); fshijTransaksionin(\'' + id + '\')">🗑️</button>' +
+                '</div></div>';
+        },
+
+        toggleTx(el) {
+            document.querySelectorAll('.mb-tx-card.open').forEach(c => { if (c !== el) c.classList.remove('open'); });
+            el.classList.toggle('open');
+        },
+
+        renderTrans() {
+            const list = this.filtered();
+            let h = '<div class="mb-filters">' +
+                '<select onchange="MB.setType(this.value)"><option value="">Të gjitha tipet</option>' +
+                Object.keys(TIP).map(t => '<option value="' + esc(t) + '"' + (this.type === t ? ' selected' : '') + '>' + esc(t) + '</option>').join('') + '</select>' +
+                '<select onchange="MB.setMonth(this.value)"><option value="">Të gjithë muajt</option>' +
+                ['01 Janar', '02 Shkurt', '03 Mars', '04 Prill', '05 Maj', '06 Qershor', '07 Korrik', '08 Gusht', '09 Shtator', '10 Tetor', '11 Nëntor', '12 Dhjetor']
+                    .map(m => '<option value="' + m.slice(0, 2) + '"' + (this.month === m.slice(0, 2) ? ' selected' : '') + '>' + m.slice(3) + '</option>').join('') + '</select>' +
+                '<input type="search" placeholder="🔍 Kërko..." value="' + esc(this.search) + '" oninput="MB.setSearch(this.value)">' +
+                '</div>';
+            h += '<div style="font-size:11px;font-weight:700;color:#6b7280;letter-spacing:1px;margin:0 2px 8px">' + list.length + ' TRANSAKSIONE</div>';
+            if (!list.length) return h + '<div class="mb-empty">Nuk ka transaksione për këtë periudhë.</div>';
+            h += list.slice(0, this.limit).map(t => this.txCard(t)).join('');
+            if (list.length > this.limit) h += '<button class="mb-more" onclick="MB.more()">Shfaq më shumë (' + (list.length - this.limit) + ' të tjera)</button>';
+            return h;
+        },
+
+        more() { this.limit += 30; this.render(); },
+        setType(v) { this.type = v; this.limit = 30; this.render(); },
+        setMonth(v) { this.month = v; this.limit = 30; this.render(); },
+        setSearch(v) {
+            this.search = v; this.limit = 30;
+            const list = this.filtered();
+            const rest = list.length > this.limit ? '<button class="mb-more" onclick="MB.more()">Shfaq më shumë (' + (list.length - this.limit) + ' të tjera)</button>' : '';
+            const head = document.querySelector('.mb-filters');
+            const count = document.getElementById('mb-count');
+            document.getElementById('mb-list').innerHTML = (list.length ? list.slice(0, this.limit).map(t => this.txCard(t)).join('') : '<div class="mb-empty">Nuk ka transaksione për këtë periudhë.</div>') + rest;
+            if (count) count.textContent = list.length + ' TRANSAKSIONE';
+            if (head) { const i = head.querySelector('input'); if (i) { i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
+        },
+
+        renderGjendja(st) {
+            let h = '<div class="mb-sec"><div class="mb-grid2">';
+            h += this.card('TËRHEQJET NEXHA', st.thN, '#7c3aed');
+            h += this.card('TËRHEQJET GRESA', st.thG, '#7c3aed');
+            h += this.card('INVESTIMI NEXHA', st.inN, '#0891b2');
+            h += this.card('INVESTIMI GRESA', st.inG, '#0891b2');
+            h += '</div></div>';
+            h += '<div class="mb-sec"><div class="mb-periudha">Kliko për pasqyrën e plotë</div>';
+            h += this.partnerRow('Nexha', st.pN, 'Sa i mbetet');
+            h += this.partnerRow('Gresa', st.pG, 'Sa i mbetet');
+            h += '</div>';
+            return h;
+        },
+
+        renderMenu() {
+            const item = (ic, lbl, fn, danger) => '<button' + (danger ? ' class="danger"' : '') + ' onclick="' + fn + '"><span>' + ic + '</span>' + lbl + '</button>';
+            return '<div class="mb-sec"><div class="mb-menu-list">' +
+                item('📅', 'Raporte Mujore', "hapModal('raport')") +
+                item('📈', 'Raporti Vjetor', "hapModal('vjetor')") +
+                item('📊', 'Pasqyra Financiare', "hapModal('pasqyra-financiare')") +
+                item('📁', 'Eksporto Excel', 'eksportoNeExcel()') +
+                item('💾', 'Backup të Dhënave', 'backupData()') +
+                item('📥', 'Importo të Dhëna', "document.getElementById('import-file-input').click()") +
+                item('🗂️', 'Menaxho Kategoritë', 'hapModalMenaxhoKategorite()') +
+                item('🕘', 'Historiku i Ndryshimeve', 'shfaqLogun()') +
+                item('🔄', 'Rifresko Firebase', 'forcFullSync()') +
+                item('🚪', 'Dil nga Sistemi', 'logout()', true) +
+                '</div></div>';
+        },
+
+        render() {
+            try {
+                const app = document.getElementById('mobile-app');
+                if (!app || !document.body.classList.contains('mb-on')) return;
+                this.fillYears();
+                const st = this.stats(this.year);
+                let html = '';
+                if (this.tab === 'paneli') html = this.renderPaneli(st);
+                else if (this.tab === 'trans') html = this.renderTrans(st);
+                else if (this.tab === 'gjendja') html = this.renderGjendja(st);
+                else html = this.renderMenu();
+                if (this.tab === 'trans') html = html.replace('TRANSAKSIONE</div>', 'TRANSAKSIONE</div><div id="mb-list"></div><div id="mb-count" style="display:none"></div>');
+                document.getElementById('mb-main').innerHTML = html;
+                if (this.tab === 'trans') {
+                    const list = this.filtered();
+                    document.getElementById('mb-list').innerHTML = (list.length ? list.slice(0, this.limit).map(t => this.txCard(t)).join('') : '<div class="mb-empty">Nuk ka transaksione për këtë periudhë.</div>') + (list.length > this.limit ? '<button class="mb-more" onclick="MB.more()">Shfaq më shumë (' + (list.length - this.limit) + ' të tjera)</button>' : '');
+                }
+                if (this.tab === 'paneli') this.drawChart(this.year);
+            } catch (e) { console.warn('MB render:', e); }
+        }
+    };
+    window.MB = MB;
+
+    // Wrap existing globals (additive): the mobile layer reacts to the same events as the desktop UI
+    try {
+        const origNgarko = window.ngarkoTabelen;
+        window.ngarkoTabelen = function () { if (origNgarko) origNgarko(); try { MB.render(); } catch (e) {} };
+        const origShowApp = window.showAppUI;
+        window.showAppUI = function () { document.body.classList.add('mb-on'); if (origShowApp) origShowApp(); try { MB.render(); } catch (e) {} };
+        const origShowLogin = window.showLoginUI;
+        window.showLoginUI = function () { document.body.classList.remove('mb-on'); try { MB.closeSheet(); } catch (e) {} if (origShowLogin) origShowLogin(); };
+    } catch (e) { console.warn('MB patch:', e); }
+})();
+</script>
 </body>
+
 </html>
