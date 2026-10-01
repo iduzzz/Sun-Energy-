@@ -1599,6 +1599,31 @@ body {
 }
 </style>
 
+    <!-- MOBILE (iPhone) LAYOUT FIXES — CSS only, applies at 768px and below. Zero effect on PC. -->
+    <style>
+    @media (max-width: 768px) {
+        html, body { overflow-x: hidden; }
+        .container { grid-template-columns: 1fr; padding: 8px; gap: 12px; }
+        .container > * { min-width: 0; max-width: 100%; }
+        .sidebar { position: static; padding: 16px 12px; }
+        .logo { margin-bottom: 16px; padding-bottom: 12px; }
+        .logo h1 { font-size: 1.5em; }
+        .main-content { padding: 12px; }
+        .header { margin-bottom: 16px; }
+        .header h1 { font-size: 1.5em; }
+        .table-container { overflow: hidden; }
+        .table-wrapper { margin: 10px 4px; max-width: 100%; }
+        .table-header { padding: 10px; flex-direction: column; align-items: stretch; gap: 12px; }
+        .table-filters { flex-wrap: wrap; gap: 6px; max-width: 100%; }
+        .table-filters select, .table-filters input { flex: 1 1 44%; min-width: 0; }
+        .table-filters input { flex: 1 1 100%; }
+        .dashboard-analytics, .charts-container, .chart-card, .summary { min-width: 0; max-width: 100%; }
+        .chart-header { flex-wrap: wrap; gap: 8px; }
+        #universal-summary { flex-wrap: wrap !important; }
+        #universal-summary span { white-space: normal !important; }
+        .modal div[style*="display:flex"]:not([style*="flex-direction"]) { flex-wrap: wrap; row-gap: 8px; }
+    }
+    </style>
 </head>
 <body>
     <!-- Storage Indicator -->
