@@ -3,7 +3,7 @@
 // Cache përdoret vetëm kur nuk ka internet.
 // Firebase/Firestore NUK kalon kurrë përmes cache-it.
 
-const CACHE_VERSION = 'sunenergy-v1';
+const CACHE_VERSION = 'sunenergy-v2';
 const APP_SHELL = [
   './',
   './index.html',
@@ -38,7 +38,7 @@ self.addEventListener('fetch', event => {
   if (url.origin !== self.location.origin) return;
 
   event.respondWith(
-    fetch(req)
+    fetch(req, { cache: 'no-store' })
       .then(res => {
         const copy = res.clone();
         caches.open(CACHE_VERSION).then(cache => cache.put(req, copy)).catch(() => {});
