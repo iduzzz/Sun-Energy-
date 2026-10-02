@@ -1623,6 +1623,16 @@ body {
         #universal-summary span { white-space: normal !important; }
         .modal div[style*="display:flex"]:not([style*="flex-direction"]) { flex-wrap: wrap; row-gap: 8px; }
 
+        /* Report modals: sticky header so the X is always tappable without scrolling */
+        .modal .modal-header, .modal div.mb-sticky-hd {
+            position: sticky; top: 0; z-index: 20;
+            background: #ffffff;
+            margin: -12px -14px 12px !important;
+            padding: 12px 14px !important;
+            border-bottom: 1px solid #ececec;
+        }
+        .modal-content { padding: 12px 14px !important; }
+
         /* Report modals: keep below the iPhone status bar and inside the screen */
         .modal { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; }
         .modal-content, .modal > div > div {
@@ -4748,7 +4758,7 @@ function editoTransaksionin(id) {
                             box-shadow:0 24px 64px rgba(0,0,0,0.18);overflow:hidden;display:flex;flex-direction:column;max-height:96vh;">
                     
                     <!-- HEADER -->
-                    <div style="padding:18px 24px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
+                    <div class="mb-sticky-hd" style="padding:18px 24px;border-bottom:1px solid #f0f0f0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;">
                         <div style="display:flex;align-items:center;gap:10px;">
                             <span style="font-size:1.5em;">👤</span>
                             <div>
