@@ -1959,7 +1959,7 @@ body {
                             <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
                         </div>
                         <div class="summary-card info clickable" onclick="shfaqDetajeTeArdhura()" style="cursor: pointer;">
-                            <h3>🏦 TË ARDHURA TJERA</h3>
+                            <h3>🏦 TË ARDHURA NGA DEPOZITI BANKAR</h3>
                             <div class="amount" id="total-te-ardhura">0.00 MKD</div>
                             <small style="font-size: 0.7em; opacity: 0.8; margin-top: 5px; display: block;">Kliko për detaje</small>
                         </div>
@@ -4135,9 +4135,9 @@ function editoTransaksionin(id) {
             const totalShpenzime = Math.abs(shpenzimet.reduce((s,t)=>s+t.shuma,0));
             const totalInvestime = investimet.reduce((s,t)=>s+t.shuma,0);
             
-            // Fitimi Neto = Shitje - Shpenzime (pa Të Ardhura Tjera)
+            // Fitimi Neto = Shitje - Shpenzime (pa Të Ardhura nga Depoziti Bankar)
             const fitimiNeto = totalShitje - totalShpenzime;
-            // Fitimi Bruto total = Neto + Të Ardhura Tjera (për llogaritjen e pjesëve)
+            // Fitimi Bruto total = Neto + Të Ardhura nga Depoziti Bankar (për llogaritjen e pjesëve)
             const fitimiBruto = fitimiNeto + totalTeArdhura;
             
             // PJESËT E ORTAKËVE
@@ -4147,7 +4147,7 @@ function editoTransaksionin(id) {
             const investimeNexha = investimet.filter(t => t.kategoria === 'Nexha').reduce((sum,t)=>sum+t.shuma,0);
             const investimeGresa = investimet.filter(t => t.kategoria === 'Gresa').reduce((sum,t)=>sum+t.shuma,0);
             
-            // Secilës ortak i takon: 50% Fitimi Neto + 50% Të Ardhura Tjera + Investim - Tërheqje
+            // Secilës ortak i takon: 50% Fitimi Neto + 50% Të Ardhura nga Depoziti Bankar + Investim - Tërheqje
             const pjesaNexha = (fitimiNeto/2) + (totalTeArdhura/2) - terheqjeNexha + investimeNexha;
             const pjesaGresa = (fitimiNeto/2) + (totalTeArdhura/2) - terheqjeGresa + investimeGresa;
 
@@ -4441,7 +4441,7 @@ function editoTransaksionin(id) {
             const average = count > 0 ? total / count : 0;
             
             shfaqModalUniversal(
-                '🏦 Të Ardhura Tjera' + (vitiFilter ? ` - ${vitiFilter}` : ''),
+                '🏦 Të Ardhura nga Depoziti Bankar' + (vitiFilter ? ` - ${vitiFilter}` : ''),
                 '#00C7BE',
                 [
                     { label: 'TOTALI I TË ARDHURAVE', value: `${total.toLocaleString('mk-MK', {minimumFractionDigits: 2})} MKD` },
@@ -4689,13 +4689,13 @@ function editoTransaksionin(id) {
             
             // Fitimi Neto = vetëm Shitje - Shpenzime
             const fitimiNeto = totalShitje - totalShpenzime;
-            // Fitimi Total = Neto + Të Ardhura Tjera (për llogaritjen e pjesëve)
+            // Fitimi Total = Neto + Të Ardhura nga Depoziti Bankar (për llogaritjen e pjesëve)
             const fitimiBruto = fitimiNeto + totalTeArdhura;
             
             const totalTerheqje = Math.abs(transaksionetPerdorur.filter(t => t.tipi === 'Tërheqje' && t.kategoria === ortaku).reduce((s,t) => s+t.shuma, 0));
             const totalInvestime = transaksionetPerdorur.filter(t => t.tipi === 'Investim' && t.kategoria === ortaku).reduce((s,t) => s+t.shuma, 0);
             
-            // Pjesa = 50% Fitimi Neto + 50% Të Ardhura Tjera + Investim - Tërheqje
+            // Pjesa = 50% Fitimi Neto + 50% Të Ardhura nga Depoziti Bankar + Investim - Tërheqje
             const pjesaFitimiNeto = fitimiNeto / 2;
             const pjesaTeArdhura = totalTeArdhura / 2;
             const pjesaFitimi = pjesaFitimiNeto + pjesaTeArdhura;
