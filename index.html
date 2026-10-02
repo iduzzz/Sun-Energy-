@@ -1622,6 +1622,29 @@ body {
         #universal-summary { flex-wrap: wrap !important; }
         #universal-summary span { white-space: normal !important; }
         .modal div[style*="display:flex"]:not([style*="flex-direction"]) { flex-wrap: wrap; row-gap: 8px; }
+
+        /* Report modals: keep below the iPhone status bar and inside the screen */
+        .modal { padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom); box-sizing: border-box; }
+        .modal-content, .modal > div > div {
+            margin: 10px auto !important;
+            width: 96% !important;
+            max-width: 96vw !important;
+            max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+            max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        .modal .close { width: 38px; height: 38px; font-size: 18px; flex-shrink: 0; }
+
+        /* Report content built for desktop: compress for phone screens */
+        .modal div[style*="repeat(5, 1fr)"], .modal div[style*="repeat(4, 1fr)"], .modal div[style*="repeat(3, 1fr)"] {
+            grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important;
+        }
+        .modal div[style*="overflow-y"] { overflow: auto !important; -webkit-overflow-scrolling: touch; }
+        .modal td, .modal th { padding: 7px 9px !important; }
+        .modal table { font-size: 12.5px !important; }
+        .modal td span, .modal td div { max-width: 100%; }
+        .modal h3[style*="1.8em"] { font-size: 1.25em !important; }
     }
     </style>
     <!-- MOBILE APP LAYER (E-Volt style) — CSS, visible only ≤768px. PC untouched. -->
