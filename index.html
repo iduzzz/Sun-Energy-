@@ -7440,7 +7440,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
             let h = '<div class="mb-sec"><div class="mb-periudha">📅 Periudha: ' + esc(this.year || 'Të gjitha vitet') + '</div>';
             h += '<div class="mb-grid2">';
             h += this.card('SHITJET', st.shitje, st.shitje >= 0 ? '#0b7c56' : '#dc2626');
-            h += this.card('TË ARDHURA TJERA', st.teArdhura, '#0b7c56');
+            h += this.card('TË ARDHURA NGA DEPOZITI BANKAR', st.teArdhura, '#0b7c56');
             h += this.card('SHPENZIMET', st.shpenzime, '#dc2626');
             h += this.card('FITIMI NETO', st.fitimi, st.fitimi >= 0 ? '#0b7c56' : '#dc2626');
             h += '</div></div>';
@@ -7610,6 +7610,10 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
         window.showAppUI = function () { document.body.classList.add('mb-on'); if (origShowApp) origShowApp(); try { MB.render(); } catch (e) {} };
         const origShowLogin = window.showLoginUI;
         window.showLoginUI = function () { document.body.classList.remove('mb-on'); try { MB.closeSheet(); } catch (e) {} if (origShowLogin) origShowLogin(); };
+        const origLoadFB = window.loadDataFromFirebase;
+        window.loadDataFromFirebase = async function () { const r = await origLoadFB.apply(this, arguments); try { MB.render(); } catch (e) {} return r; };
+        const origLoadLS = window.loadDataFromStorage;
+        window.loadDataFromStorage = function () { const r = origLoadLS.apply(this, arguments); try { MB.render(); } catch (e) {} return r; };
     } catch (e) { console.warn('MB patch:', e); }
 })();
 </script>
