@@ -5988,13 +5988,14 @@ body {
             const year = document.getElementById('viti-raporti').value;
             
             // Filter transactions for the selected year
-            const yearlyTransactions = transaksionet.filter(t => isDateInYear(t.data, year));
+            const yearlyTransactions = transaksionet.filter(t => !year || isDateInYear(t.data, year));
             
             // Calculate yearly summary
             const shitjet = yearlyTransactions.filter(t => t.tipi === 'Shitje');
             const teArdhurat = yearlyTransactions.filter(t => t.tipi === 'Të Ardhura');
             const shpenzimet = yearlyTransactions.filter(t => t.tipi === 'Shpenzim');
             const terheqjet = yearlyTransactions.filter(t => t.tipi === 'Tërheqje');
+            const investimet = yearlyTransactions.filter(t => t.tipi === 'Investim');
             
             const totalShitje = shitjet.reduce((s,t)=>s+t.shuma,0);
             const totalTeArdhura = teArdhurat.reduce((s,t)=>s+t.shuma,0);
